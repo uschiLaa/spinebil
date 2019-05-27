@@ -2,7 +2,8 @@
 #'
 #' Over an interpolated tour path between the planes specified
 #' by basis vectors listed in x, y we calculate the index value
-#' obtained for the data d in each projection.
+#' obtained for the data d in each projection. All index functions
+#' must take the data in 2-d matrix format and return the index value.
 #'
 #' @param d data
 #' @param m list of projection matrices for the planned tour
@@ -39,4 +40,24 @@ getTrace <- function(d, m, indexList, indexLabels){
     resMat[i,] <- c(res, i)
   }
   resMat
+}
+
+#' Plot traces of indexes obtained with getTrace.
+#'
+#' @param resMat data (result of getTrace)
+#' @return ggplot visualisation of the tracing data
+#' @export
+plotTrace <- function(resMat, rescY=TRUE){
+  PPI <- colnames(resMat)
+  PPI <- PPI[PPI != "t"] # columns are index names or time counter
+  resMelt <- tibble::as_tibble(resMat) %>%
+    tidyr::gather(PPI, value, -t) %>%
+    ggplot2::ggplot(ggplot2::aes(x=t, y=value)) +
+    ggplot2::geom_line() +
+    ggplot2::facet_grid(PPI~.) +
+    ggplot2::theme(legend.position="none") +
+    ggplot2::xlab("Sequence of projections (t)") +
+    ggplot2::ylab("PPI value")
+  if (rescY) resMelt <- resMelt + ggplot2::ylim(c(0,1)) # usually we want index values between 0 and 1
+  resMelt
 }

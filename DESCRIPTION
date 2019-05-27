@@ -14,7 +14,8 @@ Imports:
     ggplot2,
     tibble,
     stats,
-    dplyr
+    dplyr,
+    tidyr
 Suggests:
     minerva,
     binostics,
