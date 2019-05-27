@@ -48,7 +48,7 @@ mineIndexE <- function(indexName){
 }
 
 
-#' @describeIn scagIndex rescaling tourr holes index
+#' @describeIn scagIndex rescaling the tourr holes index
 #' @export
 holesR <- function(){
   function(mat){
@@ -59,7 +59,7 @@ holesR <- function(){
   }
 }
 
-#' @describeIn scagIndex rescaling tourr cmass index
+#' @describeIn scagIndex rescaling the tourr cmass index
 #' @export
 cmassR <- function(){
   function(mat){

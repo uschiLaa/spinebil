@@ -21,3 +21,4 @@ Suggests:
     minerva,
     binostics,
     mbgraphic
+RoxygenNote: 6.1.1
