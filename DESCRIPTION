@@ -15,7 +15,8 @@ Imports:
     tibble,
     stats,
     dplyr,
-    tidyr
+    tidyr,
+    tictoc
 Suggests:
     minerva,
     binostics,
