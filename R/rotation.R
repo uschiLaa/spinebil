@@ -10,6 +10,13 @@
 #' @param n number of steps in the rotation (default = 200)
 #' @return index values for each rotation step
 #' @export
+#' @examples \dontrun{
+#' d <- as.matrix(sinData(2, 1000))
+#' indexList <- list(tourr::holes(), scagIndex("Skinny"), splineIndex())
+#' indexLabels <- c("holes", "skinny", "splines2d")
+#' pRot <- profileRotation(d, indexList, indexLabels)
+#' plotRotation(pRot)
+#' }
 profileRotation <- function(d, indexList, indexLabels, n=200){
   # initialise results storage
   resMat <- matrix(ncol = length(indexLabels)+1, nrow = n+1)

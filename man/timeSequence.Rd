@@ -4,7 +4,7 @@
 \alias{timeSequence}
 \title{Time each index evaluation for projections in the tour path.}
 \usage{
-timeSequence(d, t, idx, pmax, n, idxName)
+timeSequence(d, t, idx, pmax)
 }
 \arguments{
 \item{d}{Input data in matrix format}
@@ -22,4 +22,12 @@ numeric vector containing all distances
 Index evaluation timing may depend on the data distribution, we
 evaluate the computing time for a set of different projections to
 get an overview of the distribution of computing times.
+}
+\examples{
+\dontrun{
+d <- spiralData(4, 1000)
+t <- plyr::rlply(10, tourr::basis_random(4))
+idx <- scagIndex("Skinny")
+timeSequence(d, t, idx, 10)
+}
 }

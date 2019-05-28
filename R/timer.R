@@ -10,7 +10,13 @@
 #' @param pmax Maximum number of projections to evaluate (cut t if longer than pmax)
 #' @return numeric vector containing all distances
 #' @export
-timeSequence <- function(d, t, idx, pmax, n, idxName){
+#' @examples \dontrun{
+#' d <- spiralData(4, 1000)
+#' t <- plyr::rlply(10, tourr::basis_random(4))
+#' idx <- scagIndex("Skinny")
+#' timeSequence(d, t, idx, 10)
+#' }
+timeSequence <- function(d, t, idx, pmax){
   i <- 1
   dfTimer = data.frame(t= numeric(), i=numeric())
   for(pMatrix in t){

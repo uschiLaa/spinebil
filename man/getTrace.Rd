@@ -24,3 +24,11 @@ by basis vectors listed in x, y we calculate the index value
 obtained for the data d in each projection. All index functions
 must take the data in 2-d matrix format and return the index value.
 }
+\examples{
+d <- spiralData(4, 100)
+m <- list(basisMatrix(1,2,4), basisMatrix(3,4,4))
+indexList <- list(tourr::holes(), tourr::cmass())
+indexLabels <- c("holes", "cmass")
+trace <- getTrace(d, m, indexList, indexLabels)
+plotTrace(trace)
+}

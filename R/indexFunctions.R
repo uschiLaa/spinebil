@@ -43,7 +43,7 @@ mineIndex <- function(indexName){
 #' @export
 mineIndexE <- function(indexName){
   function(mat){
-    return(mine(mat[,1], mat[,2], est = "mic_e")[[indexName]])
+    return(minerva::mine(mat[,1], mat[,2], est = "mic_e")[[indexName]])
   }
 }
 

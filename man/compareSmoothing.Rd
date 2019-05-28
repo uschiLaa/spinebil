@@ -16,12 +16,20 @@ compareSmoothing(d, tPath, idx, alphaV = c(0.01, 0.05, 0.1), n = 10)
 \item{alphaV}{Jitter amounts to compare (for jittering angle or points)}
 
 \item{n}{Number of evaluations entering mean value calculation}
-
-\item{method}{Select between "jitterAngle" (default) and "jitterPoints"}
 }
 \value{
 Mean index value
 }
 \description{
 Compare trace with different smoothing options.
+}
+\examples{
+\dontrun{
+d <- spiralData(4, 100)
+tPath <- tourr::save_history(d, max_bases=2)
+tPath <- as.list(tourr::interpolate(tPath))
+idx <- scagIndex("Skinny")
+compS <- compareSmoothing(d, tPath, idx, n=5)
+plotSmoothingComparison(compS)
+}
 }

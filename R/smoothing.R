@@ -53,10 +53,17 @@ getIndexMean <- function(proj, d, alpha, idx, method="jitterAngle", n=10){
 #' @param tPath Interpolated tour path (as list of projections)
 #' @param idx Index function
 #' @param alphaV Jitter amounts to compare (for jittering angle or points)
-#' @param method Select between "jitterAngle" (default) and "jitterPoints"
 #' @param n Number of evaluations entering mean value calculation
 #' @return Mean index value
 #' @export
+#' @examples \dontrun{
+#' d <- spiralData(4, 100)
+#' tPath <- tourr::save_history(d, max_bases=2)
+#' tPath <- as.list(tourr::interpolate(tPath))
+#' idx <- scagIndex("Skinny")
+#' compS <- compareSmoothing(d, tPath, idx, n=5)
+#' plotSmoothingComparison(compS)
+#' }
 compareSmoothing <- function(d, tPath, idx, alphaV=c(0.01, 0.05, 0.1), n=10){
   sc <- tibble::tibble(
     indexMean=numeric(),

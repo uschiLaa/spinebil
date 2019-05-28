@@ -18,3 +18,9 @@ numeric vector containing all distances
 If the optimal view is known, we can use the distance between a given plane
 and the optimal one as a proxy to diagnose the performance of the guided tour.
 }
+\examples{
+planes <- plyr::rlply(10, tourr::basis_random(5))
+specialPlane <- basisMatrix(1,2,5)
+d <- distanceToSp(planes, specialPlane)
+plot(d)
+}

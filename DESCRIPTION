@@ -16,9 +16,12 @@ Imports:
     stats,
     dplyr,
     tidyr,
-    tictoc
+    tictoc,
+    magrittr,
+    plyr
 Suggests:
     minerva,
     binostics,
-    mbgraphic
+    mbgraphic,
+    testthat
 RoxygenNote: 6.1.1

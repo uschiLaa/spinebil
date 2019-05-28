@@ -22,3 +22,7 @@ the points in the final direction are calculated as the sine of the
 values of direction n-1 with additional jittering controled by
 the jitter factor f.
 }
+\examples{
+sinData(4, 100)
+sinData(2, 100, 200)
+}

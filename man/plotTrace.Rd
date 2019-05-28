@@ -2,16 +2,18 @@
 % Please edit documentation in R/tracing.R
 \name{plotTrace}
 \alias{plotTrace}
-\title{Plot traces of indexes obtained with getTrace.}
+\title{Plot traces of indexes obtained with \code{\link{getTrace}}.}
 \usage{
 plotTrace(resMat, rescY = TRUE)
 }
 \arguments{
 \item{resMat}{data (result of getTrace)}
+
+\item{rescY}{bool to fix y axis range to [0,1]}
 }
 \value{
 ggplot visualisation of the tracing data
 }
 \description{
-Plot traces of indexes obtained with getTrace.
+Plot traces of indexes obtained with \code{\link{getTrace}}.
 }

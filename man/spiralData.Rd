@@ -20,3 +20,6 @@ the points in the final two direction are sampled along a spiral
 by samping the angle from a normal distribution with mean=0, sd=2*pi
 (absolute values are used to fix the orientation of the spiral).
 }
+\examples{
+spiralData(4, 100)
+}

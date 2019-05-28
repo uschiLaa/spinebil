@@ -9,12 +9,15 @@
 #' @param t thickness of circle, default=0.1
 #' @return sample points in tibble format
 #' @export
+#' @examples
+#' pipeData(4, 100)
+#' pipeData(2, 100, 0.5)
 pipeData <- function(n, p, t=0.1){
   i <- 1
   dRet <- NULL
   while(i <= p){
     v <- stats::runif(n, -1, 1)
-    if(abs(v[n-1]*v[n-1] + v[n]*v[n] - 1) < 0.1){
+    if(abs(v[n-1]*v[n-1] + v[n]*v[n] - 1) < t){
       dRet <- rbind(dRet, v)
       i <- i+1
     }
@@ -34,6 +37,9 @@ pipeData <- function(n, p, t=0.1){
 #' @param f jitter factor, default=1
 #' @return sample points in tibble format
 #' @export
+#' @examples
+#' sinData(4, 100)
+#' sinData(2, 100, 200)
 sinData <- function(n, p, f=1){
   vName <- paste0("V",n)
   vNameM1 <- paste0("V",n-1)
@@ -41,7 +47,7 @@ sinData <- function(n, p, f=1){
   dRet <- tibble::as_tibble(matrix(stats::rnorm((n-1)*p), ncol=(n-1))) #generate normal distributed n-1 dim data
   dRet <- dplyr::mutate_(dRet, expr) #string evaluation calculates var(n) as sin(var(n-1))
   colnames(dRet)[n] <- vName #correct name of new variable
-  dRet[vName] <- jitter(dRet[[vName]]) #adding noise
+  dRet[vName] <- jitter(dRet[[vName]], factor = f) #adding noise
   return(dRet)
 }
 
@@ -56,6 +62,8 @@ sinData <- function(n, p, f=1){
 #' @param p number of sample points to generate
 #' @return sample points in matrix format
 #' @export
+#' @examples
+#' spiralData(4, 100)
 spiralData <- function(n, p){
   i <- 1
   a <- 0.1

@@ -11,6 +11,13 @@
 #' @param indexLabels labels used in the output
 #' @return index values for each interpolation step
 #' @export
+#' @examples
+#' d <- spiralData(4, 100)
+#' m <- list(basisMatrix(1,2,4), basisMatrix(3,4,4))
+#' indexList <- list(tourr::holes(), tourr::cmass())
+#' indexLabels <- c("holes", "cmass")
+#' trace <- getTrace(d, m, indexList, indexLabels)
+#' plotTrace(trace)
 getTrace <- function(d, m, indexList, indexLabels){
   mX <- m[[1]]
   if(ncol(mX) != 2){
@@ -42,9 +49,10 @@ getTrace <- function(d, m, indexList, indexLabels){
   resMat
 }
 
-#' Plot traces of indexes obtained with getTrace.
+#' Plot traces of indexes obtained with \code{\link{getTrace}}.
 #'
 #' @param resMat data (result of getTrace)
+#' @param rescY bool to fix y axis range to [0,1]
 #' @return ggplot visualisation of the tracing data
 #' @export
 plotTrace <- function(resMat, rescY=TRUE){

@@ -9,6 +9,13 @@
 #' @param nn Set true to only consider nearest neighbour distances (dummy, need to add this functionality)
 #' @return numeric vector containing all distances
 #' @export
+#' @examples
+#' planes1 <- plyr::rlply(10, tourr::basis_random(5))
+#' planes2 <- plyr::rlply(10, tourr::basis_random(10))
+#' d1 <- distanceDist(planes1)
+#' d2 <- distanceDist(planes2)
+#' d <- tibble::tibble(dist=c(d1, d2), dim=c(rep(5,length(d1)),rep(10,length(d2))))
+#' ggplot2::ggplot(d) + ggplot2::geom_boxplot(ggplot2::aes(factor(dim), dist))
 distanceDist <- function(planes, nn=F){
   #nn could be used to turn on only distance to nearest neighbour?
   planes <- as.list(planes)
@@ -38,8 +45,12 @@ distanceDist <- function(planes, nn=F){
 #' @param specialPlane Plane defining the optimal view
 #' @return numeric vector containing all distances
 #' @export
+#' @examples
+#' planes <- plyr::rlply(10, tourr::basis_random(5))
+#' specialPlane <- basisMatrix(1,2,5)
+#' d <- distanceToSp(planes, specialPlane)
+#' plot(d)
 distanceToSp <- function(planes, specialPlane){
-  planes <- as.list(planes)
   maxI <- length(planes)
   distL <- numeric(maxI)
   i <- 1
@@ -66,7 +77,14 @@ distanceToSp <- function(planes, specialPlane){
 #' @param stepSize Interpolation step size fixing the accuracy (default = 0.01)
 #' @return numeric vector containing all squint angle estimates
 #' @export
-squintAngleEstimat <- function(data, indexF, cutoff, structurePlane, n = 100, stepSize = 0.01){
+#' @examples \dontrun{
+#' data <- spiralData(4, 100)
+#' indexF <- scagIndex("Skinny")
+#' cutoff <- 0.7
+#' structurePlane <- basisMatrix(3,4,4)
+#' squintAngleEstimate(data, indexF, cutoff, structurePlane, n=1)
+#' }
+squintAngleEstimate <- function(data, indexF, cutoff, structurePlane, n = 100, stepSize = 0.01){
   data <- as.matrix(data) # make sure data is in matrix format
   angles <- numeric(length = n) # collecting all individual estimates
   i <- 1
