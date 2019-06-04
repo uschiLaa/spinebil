@@ -1,21 +1,28 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
 # spinebil
 
 <!-- badges: start -->
-
 <!-- badges: end -->
 
-Studying Projection Pursuit INdex functions through Exploration Based on
-Interpolated tour paths and Line graphs. spinebil provides
-functionalities to evaluate the performance of projection pursuit index
-functions using tour methods as presented in (paper reference here?)
+Studying Projection Pursuit INdex functions through Exploration Based on Interpolated tour paths and Line graphs.
+spinebil provides functionalities to evaluate the performance of projection pursuit index functions using tour methods as presented in (paper reference here?)
 
 ## Installation
 
-You can install the released version of spinebil from
-[CRAN](https://CRAN.R-project.org) with:
+You can install the released version of spinebil from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
 install.packages("spinebil")
@@ -27,14 +34,11 @@ And the development version from [GitHub](https://github.com/) with:
 # install.packages("devtools")
 devtools::install_github("uschiLaa/spinebil")
 ```
-
 ## Example
 
-To evaluate the index behaviour on a known input distribution we can
-trace its value when interpolating a tour path, for example moving from
-nuisance and structured projection.
+To evaluate the index behaviour on a known input distribution we can trace its value when interpolating a tour path, for example moving from nuisance and structured projection.
 
-``` r
+```{r example}
 library(spinebil)
 ## sample from the spiral distribution
 d <- spiralData(4, 100)
@@ -50,4 +54,3 @@ trace <- getTrace(d, m, indexList, indexLabels)
 plotTrace(trace)
 ```
 
-<img src="man/figures/README-example-1.png" width="100%" />
