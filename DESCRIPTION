@@ -11,8 +11,8 @@ Authors@R: c(
            email = "dicook@monash.edu",
            role = "aut",
            comment = c(ORCID = "https://orcid.org/0000-0002-3813-7155")))
-Description: Studying Projection Pursuit INdex functions through Exploration
-    Based on Interpolated tour paths and Line graphs
+Description: Functions to evaluate the performance of projection pursuit
+    index functions using tour methods.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
