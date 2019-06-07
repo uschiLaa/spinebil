@@ -2,13 +2,21 @@ Package: spinebil
 Type: Package
 Title: spinebil
 Version: 0.1.0
-Authors@R: c(person("Ursula", "Laa", email = "ursula.laa@monash.edu", role = c("aut", "cre")),
-             person("Dianne", "Cook", email = "dicook@monash.edu", role = "aut"))
+Authors@R: c(
+    person("Ursula", "Laa",
+           email = "ursula.laa@monash.edu",
+           role = c("aut", "cre"),
+           comment = c(ORCID = "https://orcid.org/0000-0002-0249-6439")),
+    person("Dianne", "Cook",
+           email = "dicook@monash.edu",
+           role = "aut",
+           comment = c(ORCID = "https://orcid.org/0000-0002-3813-7155")))
 Description: Studying Projection Pursuit INdex functions through Exploration
     Based on Interpolated tour paths and Line graphs
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+Depends: R (>= 3.5.0)
 Imports:
     tourr,
     ggplot2,
