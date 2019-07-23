@@ -31,5 +31,6 @@ Suggests:
     minerva,
     binostics,
     mbgraphic,
-    testthat
+    testthat,
+    purrr
 RoxygenNote: 6.1.1

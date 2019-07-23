@@ -10,8 +10,8 @@
 #' @return numeric vector containing all distances
 #' @export
 #' @examples
-#' planes1 <- plyr::rlply(10, tourr::basis_random(5))
-#' planes2 <- plyr::rlply(10, tourr::basis_random(10))
+#' planes1 <- purrr::rerun(10, tourr::basis_random(5))
+#' planes2 <- purrr::rerun(10, tourr::basis_random(10))
 #' d1 <- distanceDist(planes1)
 #' d2 <- distanceDist(planes2)
 #' d <- tibble::tibble(dist=c(d1, d2), dim=c(rep(5,length(d1)),rep(10,length(d2))))

@@ -7,7 +7,7 @@
 #' @return New index value
 #' @export
 jitterAngle <-function(proj, d, alpha, idx){
-  newProj <- tourr:::basis_nearby(proj, alpha = alpha, method = "geodesic")
+  newProj <- basis_nearby(proj, alpha = alpha, method = "geodesic")
   newD <- d %*% newProj
   return(idx(newD))
 }
@@ -70,10 +70,9 @@ compareSmoothing <- function(d, tPath, idx, alphaV=c(0.01, 0.05, 0.1), n=10){
     t=numeric(),
     method=character(),
     alpha=numeric())
-  l <- length(tPath)
   for (method in c("jitterAngle", "jitterPoints", "noSmoothing")){
     for (alpha in alphaV){
-      for (i in 1:l) {
+      for (i in seq_along(tPath)) {
         idM <- getIndexMean(tPath[[i]], d, alpha, idx, method, n)
         sc <- sc %>%
           tibble::add_row(indexMean=idM, t=i, method=method, alpha=alpha)
