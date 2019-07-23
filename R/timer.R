@@ -12,13 +12,13 @@
 #' @export
 #' @examples \dontrun{
 #' d <- spiralData(4, 1000)
-#' t <- plyr::rlply(10, tourr::basis_random(4))
+#' t <- purrr::rerun(10, tourr::basis_random(4))
 #' idx <- scagIndex("Skinny")
 #' timeSequence(d, t, idx, 10)
 #' }
 timeSequence <- function(d, t, idx, pmax){
   i <- 1
-  dfTimer = data.frame(t= numeric(), i=numeric())
+  dfTimer <- data.frame(t= numeric(), i=numeric())
   for(pMatrix in t){
     if(i>pmax) break
     tictoc::tic.clearlog()
@@ -29,7 +29,7 @@ timeSequence <- function(d, t, idx, pmax){
     resT <- unlist(tictoc::tic.log(format=FALSE))["toc.elapsed"] -
       unlist(tictoc::tic.log(format=FALSE))["tic.elapsed"]
     dfTimer <- tibble::add_row(dfTimer, t=resT, i=i)
-    i = i+1
+    i <- i+1
   }
   return(dfTimer)
 }

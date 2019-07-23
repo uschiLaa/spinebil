@@ -25,8 +25,7 @@ Imports:
     dplyr,
     tidyr,
     tictoc,
-    magrittr,
-    plyr
+    magrittr
 Suggests:
     minerva,
     binostics,

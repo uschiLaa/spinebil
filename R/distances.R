@@ -16,7 +16,7 @@
 #' d2 <- distanceDist(planes2)
 #' d <- tibble::tibble(dist=c(d1, d2), dim=c(rep(5,length(d1)),rep(10,length(d2))))
 #' ggplot2::ggplot(d) + ggplot2::geom_boxplot(ggplot2::aes(factor(dim), dist))
-distanceDist <- function(planes, nn=F){
+distanceDist <- function(planes, nn=FALSE){
   #nn could be used to turn on only distance to nearest neighbour?
   planes <- as.list(planes)
   maxI <- length(planes)
@@ -46,7 +46,7 @@ distanceDist <- function(planes, nn=F){
 #' @return numeric vector containing all distances
 #' @export
 #' @examples
-#' planes <- plyr::rlply(10, tourr::basis_random(5))
+#' planes <- purrr::rerun(10, tourr::basis_random(5))
 #' specialPlane <- basisMatrix(1,2,5)
 #' d <- distanceToSp(planes, specialPlane)
 #' plot(d)
@@ -90,18 +90,25 @@ squintAngleEstimate <- function(data, indexF, cutoff, structurePlane, n = 100, s
   i <- 1
   p <- ncol(data)
   while(i <= n){
-    # first generate random direction, make sure it is not too close to structure plane
+    # first generate random direction
+    # make sure it is not too close to structure plane
     dist <- 0.
     while(dist < 0.1){
       rBasis <- tourr::basis_random(p)
       dist <- tourr::proj_dist(rBasis, structurePlane)
     }
     # now interpolate from rBasis to structure plane with selected step size
-    # since planned tour ignores first two entries, generate some random planes to be ignored
+    # since planned tour ignores first two entries
+    # we first generate some random planes to be ignored
     notUsed1 <- tourr::basis_random(p)
     notUsed2 <- tourr::basis_random(p)
     tourHist <- tourr::save_history(data,
-                                    tour_path=tourr::planned_tour(list(notUsed1, notUsed2, rBasis, structurePlane)))
+                                    tour_path =
+                                      tourr::planned_tour(
+                                        list(notUsed1,
+                                             notUsed2,
+                                             rBasis,
+                                             structurePlane)))
     allBases <- as.list(tourr::interpolate(tourHist, angle = stepSize))
     cIndex <- 0.
     j <- 1

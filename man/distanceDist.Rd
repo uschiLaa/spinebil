@@ -4,7 +4,7 @@
 \alias{distanceDist}
 \title{Collecting all pairwise distances between input planes.}
 \usage{
-distanceDist(planes, nn = F)
+distanceDist(planes, nn = FALSE)
 }
 \arguments{
 \item{planes}{Input planes (e.g. result of guided tour)}

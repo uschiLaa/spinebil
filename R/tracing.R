@@ -24,7 +24,8 @@ getTrace <- function(d, m, indexList, indexLabels){
     print("Each projection matrix must have exactly two columns!")
     return(NULL)
   }
-  # problem with planned tour: skipping first two entries, so we generate proxies (not used)
+  # problem with planned tour: skipping first two entries
+  # so we generate proxies (not used)
   mSkip1 <- tourr::basis_random(nrow(mX))
   mSkip2 <- tourr::basis_random(nrow(mX))
   mList <- append(list(mSkip1, mSkip2), m)
@@ -38,7 +39,7 @@ getTrace <- function(d, m, indexList, indexLabels){
   colnames(resMat) <- c(indexLabels, "t")
 
   # loop over path and index functions
-  for (i in 1:length(tFullPath)){
+  for (i in seq_along(tFullPath)){
     dprj <- as.matrix(d) %*% tFullPath[[i]]
     res <- c()
     for (idx in indexList){
@@ -66,6 +67,9 @@ plotTrace <- function(resMat, rescY=TRUE){
     ggplot2::theme(legend.position="none") +
     ggplot2::xlab("Sequence of projections (t)") +
     ggplot2::ylab("PPI value")
-  if (rescY) resMelt <- resMelt + ggplot2::ylim(c(0,1)) # usually we want index values between 0 and 1
+  if (rescY) {
+    resMelt <- resMelt +
+      ggplot2::ylim(c(0,1)) # usually we want index values between 0 and 1
+  }
   resMelt
 }

@@ -96,8 +96,12 @@ compareSmoothing <- function(d, tPath, idx, alphaV=c(0.01, 0.05, 0.1), n=10){
 #' @export
 plotSmoothingComparison <- function(smMat, lPos="none"){
   smMat <- smMat %>%
-    dplyr::mutate(method = factor(method, levels = c("jitterAngle", "jitterPoints", "noSmoothing"))) %>%
-    ggplot2::ggplot(ggplot2::aes(x=t, y=indexMean, color=method, linetype=method)) +
+    dplyr::mutate(method = factor(
+      method, levels = c("jitterAngle", "jitterPoints", "noSmoothing")
+      )) %>%
+    ggplot2::ggplot(
+      ggplot2::aes(x=t, y=indexMean, color=method, linetype=method)
+      ) +
     ggplot2::geom_line() +
     ggplot2::scale_color_manual(values = c("black", "black", "red")) +
     ggplot2::scale_linetype_manual(values = c("dashed", "dotted", "solid")) +
