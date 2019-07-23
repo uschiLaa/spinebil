@@ -14,14 +14,8 @@ functions using tour methods as presented in (paper reference here?)
 
 ## Installation
 
-You can install the released version of spinebil from
-[CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("spinebil")
-```
-
-And the development version from [GitHub](https://github.com/) with:
+You can install the development version from
+[GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
