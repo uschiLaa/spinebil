@@ -2,7 +2,7 @@
 % Please edit documentation in R/tracing.R
 \name{getTrace}
 \alias{getTrace}
-\title{Tracing the index over interpolated planned tour path.}
+\title{Tracing the index over an interpolated planned tour path.}
 \usage{
 getTrace(d, m, indexList, indexLabels)
 }
@@ -19,10 +19,11 @@ getTrace(d, m, indexList, indexLabels)
 index values for each interpolation step
 }
 \description{
-Over an interpolated tour path between the planes specified
-by basis vectors listed in x, y we calculate the index value
-obtained for the data d in each projection. All index functions
-must take the data in 2-d matrix format and return the index value.
+Tracing is used to test if the index value varies smoothly
+over an interpolated tour path. The index value is calculated
+for the data d in each projection in the interpolated sequence.
+Note that all index functions must take the data in 2-d matrix
+format and return the index value.
 }
 \examples{
 d <- spiralData(4, 100)

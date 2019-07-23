@@ -84,6 +84,7 @@ compareSmoothing <- function(d, tPath, idx, alphaV=c(0.01, 0.05, 0.1), n=10){
 
 #' Plot the comparison of smoothing methods.
 #'
+#' Plotting method for the results of compareSmoothing.
 #' The results are mapped by facetting over values of alpha and
 #' mapping the method (jitterAngle, jitterPoints, noSmoothing) to
 #' linestyle and color (black dashed, black dotted, red solid). By

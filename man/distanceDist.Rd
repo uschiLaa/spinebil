@@ -9,16 +9,15 @@ distanceDist(planes, nn = FALSE)
 \arguments{
 \item{planes}{Input planes (e.g. result of guided tour)}
 
-\item{nn}{Set true to only consider nearest neighbour distances (dummy, need to add this functionality)}
+\item{nn}{Set true to only consider nearest neighbour distances (dummy, not yet implemented)}
 }
 \value{
 numeric vector containing all distances
 }
 \description{
-The distribution of pairwise distances can be used to understand
-differences in space searched with the guided tour approach when
-considering different optimisation methods or different number of
-noise dimensions.
+The distribution of all pairwise distances is useful to understand
+the optimisation in a guided tour, to compare e.g. different optimisation
+methods or different number of noise dimensions.
 }
 \examples{
 planes1 <- purrr::rerun(10, tourr::basis_random(5))

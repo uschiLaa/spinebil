@@ -2,7 +2,7 @@
 % Please edit documentation in R/smoothing.R
 \name{compareSmoothing}
 \alias{compareSmoothing}
-\title{Compare trace with different smoothing options.}
+\title{Compare traces with different smoothing options.}
 \usage{
 compareSmoothing(d, tPath, idx, alphaV = c(0.01, 0.05, 0.1), n = 10)
 }
@@ -18,10 +18,10 @@ compareSmoothing(d, tPath, idx, alphaV = c(0.01, 0.05, 0.1), n = 10)
 \item{n}{Number of evaluations entering mean value calculation}
 }
 \value{
-Mean index value
+Table of mean index values
 }
 \description{
-Compare trace with different smoothing options.
+Compare traces with different smoothing options.
 }
 \examples{
 \dontrun{

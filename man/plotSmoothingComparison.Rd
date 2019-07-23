@@ -15,6 +15,7 @@ plotSmoothingComparison(smMat, lPos = "none")
 ggplot visualisation of the comparison
 }
 \description{
+Plotting method for the results of compareSmoothing.
 The results are mapped by facetting over values of alpha and
 mapping the method (jitterAngle, jitterPoints, noSmoothing) to
 linestyle and color (black dashed, black dotted, red solid). By

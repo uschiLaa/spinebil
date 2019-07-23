@@ -1,6 +1,6 @@
 #' Matching index functions to the required format.
 #'
-#' These are a number of convenicence functions that format
+#' These are convenicence functions that format
 #' scagnostics, splines2d, dcor2d and mine index functions for direct
 #' use with the guided tour or other functionalities in this package.
 #'
