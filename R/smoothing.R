@@ -47,14 +47,14 @@ getIndexMean <- function(proj, d, alpha, idx, method="jitterAngle", n=10){
   return(mean(c(orig, valVec)))
 }
 
-#' Compare trace with different smoothing options.
+#' Compare traces with different smoothing options.
 #'
 #' @param d Data matrix
 #' @param tPath Interpolated tour path (as list of projections)
 #' @param idx Index function
 #' @param alphaV Jitter amounts to compare (for jittering angle or points)
 #' @param n Number of evaluations entering mean value calculation
-#' @return Mean index value
+#' @return Table of mean index values
 #' @export
 #' @examples \dontrun{
 #' d <- spiralData(4, 100)

@@ -7,15 +7,15 @@
 \title{spinebil}
 \description{
 Functions to evaluate the performance of projection pursuit
-   index functions using tour methods.
+index functions using tour methods.
 }
 \seealso{
 The main functions are:
 \itemize{
-  \item [getTrace()]
-  \item [profileRotation()]
-  \item [compareSmoothing()]
-  \item [timeSequence()]
-  \item [squintAngleEstimate()]
+\item \code{\link[=getTrace]{getTrace()}}
+\item \code{\link[=profileRotation]{profileRotation()}}
+\item \code{\link[=compareSmoothing]{compareSmoothing()}}
+\item \code{\link[=timeSequence]{timeSequence()}}
+\item \code{\link[=squintAngleEstimate]{squintAngleEstimate()}}
 }
 }

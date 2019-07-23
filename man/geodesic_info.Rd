@@ -24,13 +24,13 @@ and the code follows the notation outlined in those papers:
 }
 \details{
 \itemize{
-  \item p = dimension of data
-  \item d = target dimension
-  \item F = frame, an orthonormal p x d matrix
-  \item Fa = starting frame, Fz = target frame
-  \item Fa'Fz = Va lamda  Vz' (svd)
-  \item Ga = Fa Va, Gz = Fz Vz
-  \item tau = principle angles
+\item p = dimension of data
+\item d = target dimension
+\item F = frame, an orthonormal p x d matrix
+\item Fa = starting frame, Fz = target frame
+\item Fa'Fz = Va lamda  Vz' (svd)
+\item Ga = Fa Va, Gz = Fz Vz
+\item tau = principle angles
 }
 }
 \keyword{internal}

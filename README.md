@@ -10,7 +10,8 @@
 Studying Projection Pursuit INdex functions through Exploration Based on
 Interpolated tour paths and Line graphs. spinebil provides
 functionalities to evaluate the performance of projection pursuit index
-functions using tour methods as presented in (paper reference here?)
+functions using tour methods as presented in [this
+paper](https://arxiv.org/abs/1902.00181).
 
 ## Installation
 

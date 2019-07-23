@@ -1,12 +1,11 @@
 #' Collecting all pairwise distances between input planes.
 #'
-#' The distribution of pairwise distances can be used to understand
-#' differences in space searched with the guided tour approach when
-#' considering different optimisation methods or different number of
-#' noise dimensions.
+#' The distribution of all pairwise distances is useful to understand
+#' the optimisation in a guided tour, to compare e.g. different optimisation
+#' methods or different number of noise dimensions.
 #'
 #' @param planes Input planes (e.g. result of guided tour)
-#' @param nn Set true to only consider nearest neighbour distances (dummy, need to add this functionality)
+#' @param nn Set true to only consider nearest neighbour distances (dummy, not yet implemented)
 #' @return numeric vector containing all distances
 #' @export
 #' @examples
