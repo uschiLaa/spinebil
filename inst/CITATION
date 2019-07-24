@@ -1,0 +1,15 @@
+citHeader("To cite spinebil in publications use:")
+
+citEntry(  entry = "Article",
+           title       = "Using tours to visually investigate properties of new projection pursuit indexes with application to problems in physics",
+           author      = personList(as.person("Ursula Laa"),
+                                  as.person("Dianne Cook")),
+           journal     = "arXiv preprint 1902.00181",
+           year        = 2019,
+           url         = "https://arxiv.org/abs/1902.00181",
+
+  textVersion = paste("Ursula Laa, Dianne Cook (2019).",
+                             "Using tours to visually investigate properties of new projection pursuit indexes with application to problems in physics,",
+                             "arXiv preprint 1902.00181,",
+                             "URL: https://arxiv.org/abs/1902.00181")
+)
