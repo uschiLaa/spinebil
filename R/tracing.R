@@ -54,7 +54,7 @@ getTrace <- function(d, m, indexList, indexLabels){
 #' Plot traces of indexes obtained with \code{\link{getTrace}}.
 #'
 #' @param resMat data (result of getTrace)
-#' @param rescY bool to fix y axis range to [0,1]
+#' @param rescY bool to fix y axis range to \[0,1\]
 #' @return ggplot visualisation of the tracing data
 #' @export
 plotTrace <- function(resMat, rescY=TRUE){

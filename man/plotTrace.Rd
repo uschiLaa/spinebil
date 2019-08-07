@@ -9,7 +9,7 @@ plotTrace(resMat, rescY = TRUE)
 \arguments{
 \item{resMat}{data (result of getTrace)}
 
-\item{rescY}{bool to fix y axis range to \link{0,1}}
+\item{rescY}{bool to fix y axis range to [0,1]}
 }
 \value{
 ggplot visualisation of the tracing data
