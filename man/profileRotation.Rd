@@ -24,7 +24,7 @@ test this explicitly by profiling the index while rotating a
 distribution.
 }
 \examples{
-\dontrun{
+\donttest{
 d <- as.matrix(sinData(2, 1000))
 indexList <- list(tourr::holes(), scagIndex("Skinny"), splineIndex())
 indexLabels <- c("holes", "skinny", "splines2d")

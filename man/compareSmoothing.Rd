@@ -24,7 +24,7 @@ Table of mean index values
 Compare traces with different smoothing options.
 }
 \examples{
-\dontrun{
+\donttest{
 d <- spiralData(4, 100)
 tPath <- tourr::save_history(d, max_bases=2)
 tPath <- as.list(tourr::interpolate(tPath))

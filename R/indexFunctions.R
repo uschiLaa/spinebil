@@ -10,7 +10,7 @@
 #' @export
 scagIndex <- function(indexName){
   function(mat){
-    sR <- binostics::scagnostics(mat)[indexName]
+    sR <- binostics::scagnostics(mat)[1,][indexName]
     return(sR)
   }
 }

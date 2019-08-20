@@ -24,7 +24,7 @@ evaluate the computing time for a set of different projections to
 get an overview of the distribution of computing times.
 }
 \examples{
-\dontrun{
+\donttest{
 d <- spiralData(4, 1000)
 t <- purrr::rerun(10, tourr::basis_random(4))
 idx <- scagIndex("Skinny")

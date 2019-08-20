@@ -56,7 +56,7 @@ getIndexMean <- function(proj, d, alpha, idx, method="jitterAngle", n=10){
 #' @param n Number of evaluations entering mean value calculation
 #' @return Table of mean index values
 #' @export
-#' @examples \dontrun{
+#' @examples \donttest{
 #' d <- spiralData(4, 100)
 #' tPath <- tourr::save_history(d, max_bases=2)
 #' tPath <- as.list(tourr::interpolate(tPath))

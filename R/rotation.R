@@ -10,7 +10,7 @@
 #' @param n number of steps in the rotation (default = 200)
 #' @return index values for each rotation step
 #' @export
-#' @examples \dontrun{
+#' @examples \donttest{
 #' d <- as.matrix(sinData(2, 1000))
 #' indexList <- list(tourr::holes(), scagIndex("Skinny"), splineIndex())
 #' indexLabels <- c("holes", "skinny", "splines2d")

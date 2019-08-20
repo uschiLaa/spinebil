@@ -76,7 +76,7 @@ distanceToSp <- function(planes, specialPlane){
 #' @param stepSize Interpolation step size fixing the accuracy (default = 0.01)
 #' @return numeric vector containing all squint angle estimates
 #' @export
-#' @examples \dontrun{
+#' @examples \donttest{
 #' data <- spiralData(4, 100)
 #' indexF <- scagIndex("Skinny")
 #' cutoff <- 0.7

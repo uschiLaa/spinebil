@@ -1,3 +1,5 @@
+This is a re-submission of new release. Thank you for pointing out issues with the first submission. The Title is now in title case, and examples with long runtime are now wrapped in \donttest{} instead of \dontrun{}.
+
 ## Test environments
 
 * local OS X install, R 3.5.1

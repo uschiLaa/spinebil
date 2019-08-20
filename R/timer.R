@@ -10,7 +10,7 @@
 #' @param pmax Maximum number of projections to evaluate (cut t if longer than pmax)
 #' @return numeric vector containing all distances
 #' @export
-#' @examples \dontrun{
+#' @examples \donttest{
 #' d <- spiralData(4, 1000)
 #' t <- purrr::rerun(10, tourr::basis_random(4))
 #' idx <- scagIndex("Skinny")
