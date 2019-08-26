@@ -1,4 +1,4 @@
-This is a re-submission of new release. Thank you for pointing out issues with the first submission. The Title is now in title case, and examples with long runtime are now wrapped in \donttest{} instead of \dontrun{}.
+This is a re-submission of new release. Thank you for pointing out issues with the first submission. The Title is now in title case, and examples with long runtime are now wrapped in \donttest{} instead of \dontrun{}. In addition the DESCRIPTION field has been extended and now contains the relevant reference.
 
 ## Test environments
 
