@@ -140,14 +140,12 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='spiralData.html'>spiralData</a></span>(<span class='fl'>4</span>, <span class='fl'>100</span>)
+    <pre class="examples"><div class='input'><span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='spiralData.html'>spiralData</a></span>(<span class='fl'>4</span>, <span class='fl'>100</span>)
 <span class='no'>tPath</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tourr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/tourr/man/save_history.html'>save_history</a></span>(<span class='no'>d</span>, <span class='kw'>max_bases</span><span class='kw'>=</span><span class='fl'>2</span>)
 <span class='no'>tPath</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>as.list</a></span>(<span class='kw pkg'>tourr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/tourr/man/interpolate.html'>interpolate</a></span>(<span class='no'>tPath</span>))
 <span class='no'>idx</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='scagIndex.html'>scagIndex</a></span>(<span class='st'>"Skinny"</span>)
 <span class='no'>compS</span> <span class='kw'>&lt;-</span> <span class='fu'>compareSmoothing</span>(<span class='no'>d</span>, <span class='no'>tPath</span>, <span class='no'>idx</span>, <span class='kw'>n</span><span class='kw'>=</span><span class='fl'>5</span>)
-<span class='fu'><a href='plotSmoothingComparison.html'>plotSmoothingComparison</a></span>(<span class='no'>compS</span>)
-<span class='co'># }</span></pre>
+<span class='fu'><a href='plotSmoothingComparison.html'>plotSmoothingComparison</a></span>(<span class='no'>compS</span>)</div><div class='img'><img src='compareSmoothing-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
