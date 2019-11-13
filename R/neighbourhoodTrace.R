@@ -35,11 +35,14 @@ getNeighbourhoodTrace <- function(d, index, start, h, n, tmax=20){
   mSkip2 <- tourr::basis_random(nrow(mX))
 
   # initialise results storage
-  res <- tibble::tibble(n = numeric(), t = numeric(), value = numeric())
+  res <- tibble::tibble(n = numeric(), t = numeric(), value = numeric(), s = numeric())
 
   # loop over path and index functions
   i <- 1
+  seeds <- sample(1:999999999, n)
   while (i <= n){
+    s <- seeds[i]
+    set.seed(s)
     mTarget <- tourr::basis_random(nrow(mX))
     mList <- list(mSkip1, mSkip2, start, mTarget)
     tPath <- tourr::save_history(d, tour_path=tourr::planned_tour(mList))
@@ -52,7 +55,7 @@ getNeighbourhoodTrace <- function(d, index, start, h, n, tmax=20){
       dprj <- as.matrix(d) %*% tFullPath[[j]]
       dist_data <- tourr:::anchored_orthogonal_distance(tFullPath[[j]], d)
       idx <- index(dprj, dist_data, h)
-      res <- dplyr::add_row(res, n = i, t = j, value = idx)
+      res <- dplyr::add_row(res, n = i, t = j, value = idx, s = s)
       j <- j + 1
     }
     i <- i+1
