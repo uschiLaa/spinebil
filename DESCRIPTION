@@ -35,5 +35,5 @@ Suggests:
     mbgraphic,
     testthat,
     purrr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)

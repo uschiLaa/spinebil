@@ -3,7 +3,6 @@
 \docType{package}
 \name{spinebil}
 \alias{spinebil}
-\alias{spinebil-package}
 \title{spinebil}
 \description{
 Functions to evaluate the performance of projection pursuit
