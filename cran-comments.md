@@ -1,15 +1,27 @@
-This is a re-submission of new release. Thank you for pointing out issues with the first submission. The Title is now in title case, and examples with long runtime are now wrapped in \donttest{} instead of \dontrun{}. In addition the DESCRIPTION field has been extended and now contains the relevant reference, and we have fixed the notation of the reference.
+This is a re-submission of an archived package. I have updated the code to work with the latest version of "dplyr" and removed the dependencey on the "mbgraphic" package from the example. However, "mbgraphic", which is not currently available on CRAN, is still suggested as it can provide valuable additional functionality.
 
 ## Test environments
 
-* local OS X install, R 3.5.1
+* local OS X install, R 4.0.0
 * win-builder (devel)
 
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note
 
-* New submission
+* Package suggested but not available for checking: "mbgraphic"
+
+## checking CRAN incoming feasibility NOTE
+
+New submission
+
+Package was archived on CRAN
+
+Possibly mis-spelled words in DESCRIPTION:
+  Laa (18:21)
+
+Suggests or Enhances not in mainstream repositories:
+  mbgraphic
 
 ## Reverse dependencies
 

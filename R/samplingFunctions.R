@@ -22,7 +22,7 @@ pipeData <- function(n, p, t=0.1){
       i <- i+1
     }
   }
-  return(tibble::as_tibble(dRet))
+  return(tibble::as_tibble(dRet, .name_repair = "universal"))
 }
 
 #' Generating sine wave sample
@@ -43,7 +43,7 @@ pipeData <- function(n, p, t=0.1){
 sinData <- function(n, p, f=1){
   m <- matrix(stats::rnorm((n)*p), ncol=(n))
   m[,n] <- jitter(sin(m[,n-1]), factor = f)
-  dRet <- tibble::as_tibble(m) #generate normal distributed n-1 dim data
+  dRet <- tibble::as_tibble(m, .name_repair = "universal") #generate normal distributed n-1 dim data
   return(dRet)
 }
 

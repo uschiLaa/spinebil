@@ -1,7 +1,7 @@
 Package: spinebil
 Type: Package
 Title: Investigating New Projection Pursuit Index Functions
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(
     person("Ursula", "Laa",
            email = "ursula.laa@monash.edu",
