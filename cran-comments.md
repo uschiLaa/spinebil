@@ -1,4 +1,6 @@
-This is a re-submission of an archived package. I have updated the code to work with the latest version of "dplyr" and removed the dependencey on the "mbgraphic" package from the example. However, "mbgraphic", which is not currently available on CRAN, is still suggested as it can provide valuable additional functionality.
+This is a re-submission of an archived package. I have updated the code to work with the latest version of "dplyr" and removed the dependencey on the "mbgraphic" package from the example.
+
+The notes arise because it is considered a new submission, and because "mbgraphic", which is not currently available on CRAN, is still suggested. Since it can provide valuable additional functionality I prefer to keep the reference to "mbgraphic".
 
 ## Test environments
 
