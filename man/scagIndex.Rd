@@ -2,8 +2,6 @@
 % Please edit documentation in R/indexFunctions.R
 \name{scagIndex}
 \alias{scagIndex}
-\alias{splineIndex}
-\alias{dcorIndex}
 \alias{mineIndex}
 \alias{mineIndexE}
 \alias{holesR}
@@ -11,10 +9,6 @@
 \title{Matching index functions to the required format.}
 \usage{
 scagIndex(indexName)
-
-splineIndex()
-
-dcorIndex()
 
 mineIndex(indexName)
 
@@ -32,16 +26,12 @@ function taking 2-d data matrix and returning the index value
 }
 \description{
 These are convenicence functions that format
-scagnostics, splines2d, dcor2d and mine index functions for direct
+scagnostics and mine index functions for direct
 use with the guided tour or other functionalities in this package.
 }
 \section{Functions}{
 \itemize{
 \item \code{scagIndex}: Scagnostics index from binostics package
-
-\item \code{splineIndex}: splines2d index from mbgraphic package
-
-\item \code{dcorIndex}: dcor2d index from mbgraphic package
 
 \item \code{mineIndex}: MINE index from minerva package
 

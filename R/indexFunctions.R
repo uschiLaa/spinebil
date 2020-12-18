@@ -1,7 +1,7 @@
 #' Matching index functions to the required format.
 #'
 #' These are convenicence functions that format
-#' scagnostics, splines2d, dcor2d and mine index functions for direct
+#' scagnostics and mine index functions for direct
 #' use with the guided tour or other functionalities in this package.
 #'
 #' @describeIn scagIndex Scagnostics index from binostics package
@@ -12,22 +12,6 @@ scagIndex <- function(indexName){
   function(mat){
     sR <- binostics::scagnostics(mat)[1,][indexName]
     return(sR)
-  }
-}
-
-#' @describeIn scagIndex splines2d index from mbgraphic package
-#' @export
-splineIndex <- function(){
-  function(mat){
-    return(mbgraphic::splines2d(mat[,1], mat[,2]))
-  }
-}
-
-#' @describeIn scagIndex dcor2d index from mbgraphic package
-#' @export
-dcorIndex <- function(){
-  function(mat){
-    return(mbgraphic::dcor2d(mat[,1], mat[,2]))
   }
 }
 

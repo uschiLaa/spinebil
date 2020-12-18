@@ -4,7 +4,7 @@ Title: Investigating New Projection Pursuit Index Functions
 Version: 0.1.1
 Authors@R: c(
     person("Ursula", "Laa",
-           email = "ursula.laa@monash.edu",
+           email = "ursula.laa@boku.ac.at",
            role = c("aut", "cre"),
            comment = c(ORCID = "https://orcid.org/0000-0002-0249-6439")),
     person("Dianne", "Cook",
@@ -32,8 +32,7 @@ Imports:
 Suggests:
     minerva,
     binostics,
-    mbgraphic,
     testthat,
     purrr
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)

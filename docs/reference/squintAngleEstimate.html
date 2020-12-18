@@ -8,23 +8,29 @@
 
 <title>Estimating squint angle of 2-d structure in high-d dataset under selected index. — squintAngleEstimate • spinebil</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -32,13 +38,13 @@
 
 
 
-<meta property="og:title" content="Estimating squint angle of 2-d structure in high-d dataset under selected index. — squintAngleEstimate" />
 
+<meta property="og:title" content="Estimating squint angle of 2-d structure in high-d dataset under selected index. — squintAngleEstimate" />
 <meta property="og:description" content="We estimate the squint angle by interpolating from a random starting plane
 towards the optimal view until the index value of the selected index function
 is above the selected cutoff. Since this depends on the direction, this is repeated
 with n randomly selected planes giving a distribution representative of the squint angle." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -52,9 +58,10 @@ with n randomly selected planes giving a distribution representative of the squi
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -68,7 +75,7 @@ with n randomly selected planes giving a distribution representative of the squi
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spinebil</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -84,7 +91,6 @@ with n randomly selected planes giving a distribution representative of the squi
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -94,6 +100,7 @@ with n randomly selected planes giving a distribution representative of the squi
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -105,17 +112,21 @@ with n randomly selected planes giving a distribution representative of the squi
     </div>
 
     <div class="ref-description">
-    
     <p>We estimate the squint angle by interpolating from a random starting plane
 towards the optimal view until the index value of the selected index function
 is above the selected cutoff. Since this depends on the direction, this is repeated
 with n randomly selected planes giving a distribution representative of the squint angle.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>squintAngleEstimate</span>(<span class='no'>data</span>, <span class='no'>indexF</span>, <span class='no'>cutoff</span>, <span class='no'>structurePlane</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>stepSize</span> <span class='kw'>=</span> <span class='fl'>0.01</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>squintAngleEstimate</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  <span class='va'>indexF</span>,
+  <span class='va'>cutoff</span>,
+  <span class='va'>structurePlane</span>,
+  n <span class='op'>=</span> <span class='fl'>100</span>,
+  stepSize <span class='op'>=</span> <span class='fl'>0.01</span>
+<span class='op'>)</span></pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -144,31 +155,206 @@ with n randomly selected planes giving a distribution representative of the squi
       <td><p>Interpolation step size fixing the accuracy (default = 0.01)</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>numeric vector containing all squint angle estimates</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='spiralData.html'>spiralData</a></span>(<span class='fl'>4</span>, <span class='fl'>100</span>)
-<span class='no'>indexF</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='scagIndex.html'>scagIndex</a></span>(<span class='st'>"Skinny"</span>)
-<span class='no'>cutoff</span> <span class='kw'>&lt;-</span> <span class='fl'>0.7</span>
-<span class='no'>structurePlane</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='basisMatrix.html'>basisMatrix</a></span>(<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>4</span>)
-<span class='fu'>squintAngleEstimate</span>(<span class='no'>data</span>, <span class='no'>indexF</span>, <span class='no'>cutoff</span>, <span class='no'>structurePlane</span>, <span class='kw'>n</span><span class='kw'>=</span><span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 0.0854873</div></pre>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='spiralData.html'>spiralData</a></span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>100</span><span class='op'>)</span>
+<span class='va'>indexF</span> <span class='op'>&lt;-</span> <span class='fu'><a href='scagIndex.html'>scagIndex</a></span><span class='op'>(</span><span class='st'>"Skinny"</span><span class='op'>)</span>
+<span class='va'>cutoff</span> <span class='op'>&lt;-</span> <span class='fl'>0.7</span>
+<span class='va'>structurePlane</span> <span class='op'>&lt;-</span> <span class='fu'><a href='basisMatrix.html'>basisMatrix</a></span><span class='op'>(</span><span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>4</span><span class='op'>)</span>
+<span class='fu'>squintAngleEstimate</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>indexF</span>, <span class='va'>cutoff</span>, <span class='va'>structurePlane</span>, n<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; target_dist - cur_dist: 0 
+#&gt; generation:  dist =   1.277016 
+#&gt; target_dist - cur_dist: 1.277016 
+#&gt; generation:  dist =   1.406553 
+#&gt; target_dist - cur_dist: 0 
+#&gt; generation:  dist =   1.697809 
+#&gt; target_dist - cur_dist: 0 
+#&gt; target_dist - cur_dist: 0 
+#&gt; generation:  dist =   1.697809 
+#&gt; target_dist - cur_dist: 1.697809 
+#&gt; target_dist - cur_dist: 1.687809 
+#&gt; target_dist - cur_dist: 1.677809 
+#&gt; target_dist - cur_dist: 1.667809 
+#&gt; target_dist - cur_dist: 1.657809 
+#&gt; target_dist - cur_dist: 1.647809 
+#&gt; target_dist - cur_dist: 1.637809 
+#&gt; target_dist - cur_dist: 1.627809 
+#&gt; target_dist - cur_dist: 1.617809 
+#&gt; target_dist - cur_dist: 1.607809 
+#&gt; target_dist - cur_dist: 1.597809 
+#&gt; target_dist - cur_dist: 1.587809 
+#&gt; target_dist - cur_dist: 1.577809 
+#&gt; target_dist - cur_dist: 1.567809 
+#&gt; target_dist - cur_dist: 1.557809 
+#&gt; target_dist - cur_dist: 1.547809 
+#&gt; target_dist - cur_dist: 1.537809 
+#&gt; target_dist - cur_dist: 1.527809 
+#&gt; target_dist - cur_dist: 1.517809 
+#&gt; target_dist - cur_dist: 1.507809 
+#&gt; target_dist - cur_dist: 1.497809 
+#&gt; target_dist - cur_dist: 1.487809 
+#&gt; target_dist - cur_dist: 1.477809 
+#&gt; target_dist - cur_dist: 1.467809 
+#&gt; target_dist - cur_dist: 1.457809 
+#&gt; target_dist - cur_dist: 1.447809 
+#&gt; target_dist - cur_dist: 1.437809 
+#&gt; target_dist - cur_dist: 1.427809 
+#&gt; target_dist - cur_dist: 1.417809 
+#&gt; target_dist - cur_dist: 1.407809 
+#&gt; target_dist - cur_dist: 1.397809 
+#&gt; target_dist - cur_dist: 1.387809 
+#&gt; target_dist - cur_dist: 1.377809 
+#&gt; target_dist - cur_dist: 1.367809 
+#&gt; target_dist - cur_dist: 1.357809 
+#&gt; target_dist - cur_dist: 1.347809 
+#&gt; target_dist - cur_dist: 1.337809 
+#&gt; target_dist - cur_dist: 1.327809 
+#&gt; target_dist - cur_dist: 1.317809 
+#&gt; target_dist - cur_dist: 1.307809 
+#&gt; target_dist - cur_dist: 1.297809 
+#&gt; target_dist - cur_dist: 1.287809 
+#&gt; target_dist - cur_dist: 1.277809 
+#&gt; target_dist - cur_dist: 1.267809 
+#&gt; target_dist - cur_dist: 1.257809 
+#&gt; target_dist - cur_dist: 1.247809 
+#&gt; target_dist - cur_dist: 1.237809 
+#&gt; target_dist - cur_dist: 1.227809 
+#&gt; target_dist - cur_dist: 1.217809 
+#&gt; target_dist - cur_dist: 1.207809 
+#&gt; target_dist - cur_dist: 1.197809 
+#&gt; target_dist - cur_dist: 1.187809 
+#&gt; target_dist - cur_dist: 1.177809 
+#&gt; target_dist - cur_dist: 1.167809 
+#&gt; target_dist - cur_dist: 1.157809 
+#&gt; target_dist - cur_dist: 1.147809 
+#&gt; target_dist - cur_dist: 1.137809 
+#&gt; target_dist - cur_dist: 1.127809 
+#&gt; target_dist - cur_dist: 1.117809 
+#&gt; target_dist - cur_dist: 1.107809 
+#&gt; target_dist - cur_dist: 1.097809 
+#&gt; target_dist - cur_dist: 1.087809 
+#&gt; target_dist - cur_dist: 1.077809 
+#&gt; target_dist - cur_dist: 1.067809 
+#&gt; target_dist - cur_dist: 1.057809 
+#&gt; target_dist - cur_dist: 1.047809 
+#&gt; target_dist - cur_dist: 1.037809 
+#&gt; target_dist - cur_dist: 1.027809 
+#&gt; target_dist - cur_dist: 1.017809 
+#&gt; target_dist - cur_dist: 1.007809 
+#&gt; target_dist - cur_dist: 0.997809 
+#&gt; target_dist - cur_dist: 0.987809 
+#&gt; target_dist - cur_dist: 0.977809 
+#&gt; target_dist - cur_dist: 0.967809 
+#&gt; target_dist - cur_dist: 0.957809 
+#&gt; target_dist - cur_dist: 0.947809 
+#&gt; target_dist - cur_dist: 0.937809 
+#&gt; target_dist - cur_dist: 0.927809 
+#&gt; target_dist - cur_dist: 0.917809 
+#&gt; target_dist - cur_dist: 0.907809 
+#&gt; target_dist - cur_dist: 0.897809 
+#&gt; target_dist - cur_dist: 0.887809 
+#&gt; target_dist - cur_dist: 0.877809 
+#&gt; target_dist - cur_dist: 0.867809 
+#&gt; target_dist - cur_dist: 0.857809 
+#&gt; target_dist - cur_dist: 0.847809 
+#&gt; target_dist - cur_dist: 0.837809 
+#&gt; target_dist - cur_dist: 0.827809 
+#&gt; target_dist - cur_dist: 0.817809 
+#&gt; target_dist - cur_dist: 0.807809 
+#&gt; target_dist - cur_dist: 0.797809 
+#&gt; target_dist - cur_dist: 0.787809 
+#&gt; target_dist - cur_dist: 0.777809 
+#&gt; target_dist - cur_dist: 0.767809 
+#&gt; target_dist - cur_dist: 0.757809 
+#&gt; target_dist - cur_dist: 0.747809 
+#&gt; target_dist - cur_dist: 0.737809 
+#&gt; target_dist - cur_dist: 0.727809 
+#&gt; target_dist - cur_dist: 0.717809 
+#&gt; target_dist - cur_dist: 0.707809 
+#&gt; target_dist - cur_dist: 0.697809 
+#&gt; target_dist - cur_dist: 0.687809 
+#&gt; target_dist - cur_dist: 0.677809 
+#&gt; target_dist - cur_dist: 0.667809 
+#&gt; target_dist - cur_dist: 0.657809 
+#&gt; target_dist - cur_dist: 0.647809 
+#&gt; target_dist - cur_dist: 0.637809 
+#&gt; target_dist - cur_dist: 0.627809 
+#&gt; target_dist - cur_dist: 0.617809 
+#&gt; target_dist - cur_dist: 0.607809 
+#&gt; target_dist - cur_dist: 0.597809 
+#&gt; target_dist - cur_dist: 0.587809 
+#&gt; target_dist - cur_dist: 0.577809 
+#&gt; target_dist - cur_dist: 0.567809 
+#&gt; target_dist - cur_dist: 0.557809 
+#&gt; target_dist - cur_dist: 0.547809 
+#&gt; target_dist - cur_dist: 0.537809 
+#&gt; target_dist - cur_dist: 0.527809 
+#&gt; target_dist - cur_dist: 0.517809 
+#&gt; target_dist - cur_dist: 0.507809 
+#&gt; target_dist - cur_dist: 0.497809 
+#&gt; target_dist - cur_dist: 0.487809 
+#&gt; target_dist - cur_dist: 0.477809 
+#&gt; target_dist - cur_dist: 0.467809 
+#&gt; target_dist - cur_dist: 0.457809 
+#&gt; target_dist - cur_dist: 0.447809 
+#&gt; target_dist - cur_dist: 0.437809 
+#&gt; target_dist - cur_dist: 0.427809 
+#&gt; target_dist - cur_dist: 0.417809 
+#&gt; target_dist - cur_dist: 0.407809 
+#&gt; target_dist - cur_dist: 0.397809 
+#&gt; target_dist - cur_dist: 0.387809 
+#&gt; target_dist - cur_dist: 0.377809 
+#&gt; target_dist - cur_dist: 0.367809 
+#&gt; target_dist - cur_dist: 0.357809 
+#&gt; target_dist - cur_dist: 0.347809 
+#&gt; target_dist - cur_dist: 0.337809 
+#&gt; target_dist - cur_dist: 0.327809 
+#&gt; target_dist - cur_dist: 0.317809 
+#&gt; target_dist - cur_dist: 0.307809 
+#&gt; target_dist - cur_dist: 0.297809 
+#&gt; target_dist - cur_dist: 0.287809 
+#&gt; target_dist - cur_dist: 0.277809 
+#&gt; target_dist - cur_dist: 0.267809 
+#&gt; target_dist - cur_dist: 0.257809 
+#&gt; target_dist - cur_dist: 0.247809 
+#&gt; target_dist - cur_dist: 0.237809 
+#&gt; target_dist - cur_dist: 0.227809 
+#&gt; target_dist - cur_dist: 0.217809 
+#&gt; target_dist - cur_dist: 0.207809 
+#&gt; target_dist - cur_dist: 0.197809 
+#&gt; target_dist - cur_dist: 0.187809 
+#&gt; target_dist - cur_dist: 0.177809 
+#&gt; target_dist - cur_dist: 0.167809 
+#&gt; target_dist - cur_dist: 0.157809 
+#&gt; target_dist - cur_dist: 0.147809 
+#&gt; target_dist - cur_dist: 0.137809 
+#&gt; target_dist - cur_dist: 0.127809 
+#&gt; target_dist - cur_dist: 0.117809 
+#&gt; target_dist - cur_dist: 0.107809 
+#&gt; target_dist - cur_dist: 0.09780896 
+#&gt; target_dist - cur_dist: 0.08780896 
+#&gt; target_dist - cur_dist: 0.07780896 
+#&gt; target_dist - cur_dist: 0.06780896 
+#&gt; target_dist - cur_dist: 0.05780896 
+#&gt; target_dist - cur_dist: 0.04780896 
+#&gt; target_dist - cur_dist: 0.03780896 
+#&gt; target_dist - cur_dist: 0.02780896 
+#&gt; target_dist - cur_dist: 0.01780896 
+#&gt; target_dist - cur_dist: 0.007808965 </div><div class='output co'>#&gt; [1] 0.07660425</div><div class='input'><span class='co'># }</span>
+</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -176,13 +362,16 @@ with n randomly selected planes giving a distribution representative of the squi
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

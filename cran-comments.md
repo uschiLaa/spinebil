@@ -1,17 +1,17 @@
-This is a re-submission of an archived package. I have updated the code to work with the latest version of "dplyr" and removed the dependencey on the "mbgraphic" package from the example.
+This is a re-submission of an archived package. I have updated the code to work with the latest version of "dplyr" and removed the dependency on the archived "mbgraphic" package.
 
-The notes arise because it is considered a new submission, and because "mbgraphic", which is not currently available on CRAN, is still suggested. Since it can provide valuable additional functionality I prefer to keep the reference to "mbgraphic".
+The notes arise because it is considered a new submission.
 
 ## Test environments
 
-* local OS X install, R 4.0.0
-* win-builder (devel)
+* local Windows install, R 4.0.3
+* Windows Server 2008 R2 SP1, R-devel
+* Debian Linux, R-release, GCC
+* Ubuntu Linux 16.04 LTS, R-release, GCC 
 
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note
-
-* Package suggested but not available for checking: "mbgraphic"
 
 ## checking CRAN incoming feasibility NOTE
 
@@ -21,9 +21,6 @@ Package was archived on CRAN
 
 Possibly mis-spelled words in DESCRIPTION:
   Laa (18:21)
-
-Suggests or Enhances not in mainstream repositories:
-  mbgraphic
 
 ## Reverse dependencies
 
