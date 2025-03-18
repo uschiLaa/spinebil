@@ -44,7 +44,8 @@ getIndexMean <- function(proj, d, alpha, idx, method="jitterAngle", n=10){
     valVec <- replicate(n, jitterPoints(dProj, alpha, idx))
   }
   else { return(orig)}
-  return(mean(c(orig, valVec)))
+  return(as.numeric(mean(c(orig, valVec))))
+
 }
 
 #' Compare traces with different smoothing options.
@@ -73,7 +74,7 @@ compareSmoothing <- function(d, tPath, idx, alphaV=c(0.01, 0.05, 0.1), n=10){
   for (method in c("jitterAngle", "jitterPoints", "noSmoothing")){
     for (alpha in alphaV){
       for (i in seq_along(tPath)) {
-        idM <- getIndexMean(tPath[[i]], d, alpha, idx, method, n)
+        idM <- as.numeric(getIndexMean(tPath[[i]], d, alpha, idx, method, n))
         sc <- sc %>%
           tibble::add_row(indexMean=idM, t=i, method=method, alpha=alpha)
       }
