@@ -29,7 +29,7 @@ profileRotation <- function(d, indexList, indexLabels, n=200){
     dprj <- d %*% rotM
     res <- c()
     for (idx in indexList){
-      res <- c(res, idx(dprj))
+      res <- c(res, as.numeric(idx(dprj)))
     }
     resMat[i,] <- c(res, a)
     i <- i+1
