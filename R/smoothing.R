@@ -37,13 +37,14 @@ jitterPoints <-function(projData, alpha, idx){
 #' @export
 getIndexMean <- function(proj, d, alpha, idx, method="jitterAngle", n=10){
   dProj <- d %*% proj
-  orig <- idx(dProj)
+  orig <- as.numeric(idx(dProj))
   if(method == "jitterAngle"){
     valVec <- replicate(n, jitterAngle(proj, d, alpha, idx))
   } else if (method=="jitterPoints"){
     valVec <- replicate(n, jitterPoints(dProj, alpha, idx))
   }
   else { return(orig)}
+  valVec <- unlist(valVec)
   return(mean(c(orig, valVec)))
 }
 
