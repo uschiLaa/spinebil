@@ -32,5 +32,4 @@ jobs:
 
       # Step 5: Run R CMD check
       - name: Run R CMD check
-        run: Rscript -e "rcmdcheck::rcmdcheck()"
-
+        run: Rscript -e "install.packages('rcmdcheck'); rcmdcheck::rcmdcheck()"
