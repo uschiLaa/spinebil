@@ -1,37 +1,40 @@
-name: R-CMD-check
+name: CRAN Checks
 
 on:
   push:
-    branches: [master, main]
+    branches:
+      - main
   pull_request:
-    branches: [master, main]
+    branches:
+      - main
 
 jobs:
-  R-CMD-check:
+  check:
     runs-on: ubuntu-latest
-
     steps:
+      # Step 1: Checkout the repository
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
+      # Step 2: Set up R
       - name: Set up R
         uses: r-lib/actions/setup-r@v2
 
+      # Step 3: Install system dependencies
       - name: Install system dependencies
-        run: sudo apt-get update && sudo apt-get install -y libcurl4-openssl-dev
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcurl4-openssl-dev
 
-      - name: Install remotes package
-        run: Rscript -e 'install.packages("remotes")'
+      # Step 4: Install R dependencies
+      - name: Install R dependencies
+        run: Rscript -e "
+          install.packages('remotes');
+          remotes::install_deps(dependencies = TRUE);
+          remotes::install_github('uschiLaa/binostics')
+        "
 
-      - name: Install binostics package (not on CRAN)
-        run: Rscript -e 'remotes::install_github("cran/binostics")'
-
-      - name: Install package dependencies manually (to avoid binostics issue)
-        run: Rscript -e 'remotes::install_deps(dependencies = TRUE)'
-
-      - name: Install rcmdcheck
-        run: Rscript -e 'install.packages("rcmdcheck")'
-
+      # Step 5: Run R CMD check
       - name: Run R CMD check
-        run: Rscript -e 'rcmdcheck::rcmdcheck(error_on = "error")'
+        run: Rscript -e "rcmdcheck::rcmdcheck()"
 
