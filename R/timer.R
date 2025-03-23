@@ -16,20 +16,23 @@
 #' idx <- scagIndex("Skinny")
 #' timeSequence(d, t, idx, 10)
 #' }
-timeSequence <- function(d, t, idx, pmax){
+timeSequence <- function(d, t, idx, pmax) {
   i <- 1
   dfTimer <- data.frame(t= numeric(), i=numeric())
+  
+  
+  
   for(pMatrix in t){
     if(i>pmax) break
-    tictoc::tic.clearlog()
-    tictoc::tic() #start timer
+    tictoc :: tic.clearlog()
+    tictoc :: tic() #start timer
     dProj <- d %*% pMatrix
     res <- idx(dProj)
-    tictoc::toc(log=TRUE,quiet=TRUE)
-    resT <- unlist(tictoc::tic.log(format=FALSE))["toc.elapsed"] -
-      unlist(tictoc::tic.log(format=FALSE))["tic.elapsed"]
-    dfTimer <- tibble::add_row(dfTimer, t=resT, i=i)
+    tictoc :: toc(log=TRUE, quiet=TRUE)
+    resT <- as.numeric(unlist(tictoc :: tic.log(format=FALSE)) ["toc.elapsed"]) -
+      as.numeric(unlist(tictoc :: tic.log(format=FALSE) ) ["tic.elapsed"])
+    dfTimer <- tibble :: add_row(dfTimer, t=resT, i=i)
     i <- i+1
   }
-  return(dfTimer)
-}
+    return(dfTimer)
+} 
