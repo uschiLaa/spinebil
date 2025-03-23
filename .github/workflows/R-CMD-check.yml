@@ -29,11 +29,11 @@ jobs:
       # Step 4: Install R dependencies
       - name: Install R dependencies
         run: |
-          install.packages("remotes")
-          remotes::install_deps(dependencies = TRUE)
-          remotes::install_github('cran/binostics')
+          Rscript -e 'install.packages("remotes")'
+          Rscript -e 'remotes::install_deps(dependencies = TRUE)'
+          Rscript -e 'remotes::install_github("uschiLaa/binostics")'
 
       # Step 5: Run R CMD check
       - name: Run R CMD check
         run: |
-          Rscript -e 'rcmdcheck::rcmdcheck()'
+          Rscript -e 'library(rcmdcheck); rcmdcheck::rcmdcheck()'
