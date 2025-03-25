@@ -26,8 +26,8 @@ get an overview of the distribution of computing times.
 \examples{
 \donttest{
 d <- spiralData(4, 1000)
-t <- purrr::map(1:10, ~ tourr::basis_random(4))
-idx <- indexF <- function(xy){cassowaryr::calc_scags(xy[,1], xy[,2], scag ="skinny")[[1]]}
+t <- purrr::rerun(10, tourr::basis_random(4))
+idx <- scagIndex("Skinny")
 timeSequence(d, t, idx, 10)
 }
 }

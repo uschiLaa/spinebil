@@ -78,7 +78,7 @@ distanceToSp <- function(planes, specialPlane){
 #' @export
 #' @examples \donttest{
 #' data <- spiralData(4, 100)
-#' indexF <- function(xy){cassowaryr::calc_scags(xy[,1], xy[,2], scag ="skinny")[[1]]}
+#' indexF <- scagIndex("Skinny")
 #' cutoff <- 0.7
 #' structurePlane <- basisMatrix(3,4,4)
 #' squintAngleEstimate(data, indexF, cutoff, structurePlane, n=1)
@@ -111,19 +111,13 @@ squintAngleEstimate <- function(data, indexF, cutoff, structurePlane, n = 100, s
     allBases <- as.list(tourr::interpolate(tourHist, angle = stepSize))
     cIndex <- 0.
     j <- 1
-    while(cIndex < cutoff && j <= length(allBases)) {
+    while(cIndex < cutoff){
       cProj <- data %*% allBases[[j]]
       cIndex <- indexF(cProj)
-      j <- j + 1
+      j <- j+1
     }
-    
-    # If we reached the end without crossing the cutoff, return NA
-    if (j > length(allBases)) {
-      angles[i] <- NA
-    } else {
-      cDist <- tourr::proj_dist(allBases[[j]], structurePlane)
-      angles[i] <- cDist
-    }
+    cDist <- tourr::proj_dist(allBases[[j]], structurePlane)
+    angles[i] <- cDist
     i <- i+1
   }
   return(angles)

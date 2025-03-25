@@ -7,5 +7,3 @@
 ^CRAN-RELEASE$
 ^plots$
 examples.R
-^GSoC_spinebil_tests$
-^GSoC_spinebil_tests\.qmd$

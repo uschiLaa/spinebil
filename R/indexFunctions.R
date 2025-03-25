@@ -10,7 +10,7 @@
 #' @export
 scagIndex <- function(indexName){
   function(mat){
-    sR <- cassowaryr::calc_scags(mat)[1,][indexName]
+    sR <- binostics::scagnostics(mat)[1,][indexName]
     return(sR)
   }
 }

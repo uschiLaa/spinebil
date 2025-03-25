@@ -31,14 +31,14 @@ use with the guided tour or other functionalities in this package.
 }
 \section{Functions}{
 \itemize{
-\item \code{scagIndex()}: Scagnostics index from binostics package
+\item \code{scagIndex}: Scagnostics index from binostics package
 
-\item \code{mineIndex()}: MINE index from minerva package
+\item \code{mineIndex}: MINE index from minerva package
 
-\item \code{mineIndexE()}: MINE index from minerva package (updated estimator)
+\item \code{mineIndexE}: MINE index from minerva package (updated estimator)
 
-\item \code{holesR()}: rescaling the tourr holes index
+\item \code{holesR}: rescaling the tourr holes index
 
-\item \code{cmassR()}: rescaling the tourr cmass index
-
+\item \code{cmassR}: rescaling the tourr cmass index
 }}
+
