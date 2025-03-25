@@ -38,7 +38,7 @@ with n randomly selected planes giving a distribution representative of the squi
 \examples{
 \donttest{
 data <- spiralData(4, 100)
-indexF <- scagIndex("Skinny")
+indexF <- function(xy){cassowaryr::calc_scags(xy[,1], xy[,2], scag ="skinny")[[1]]}
 cutoff <- 0.7
 structurePlane <- basisMatrix(3,4,4)
 squintAngleEstimate(data, indexF, cutoff, structurePlane, n=1)

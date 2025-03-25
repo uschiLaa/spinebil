@@ -26,7 +26,8 @@ distribution.
 \examples{
 \donttest{
 d <- as.matrix(sinData(2, 1000))
-indexList <- list(tourr::holes(), scagIndex("Skinny"), mineIndexE("MIC"))
+idx <- indexF <- function(xy){cassowaryr::calc_scags(xy[,1], xy[,2], scag ="skinny")[[1]]}
+indexList <- list(tourr::holes(), idx, mineIndexE("MIC"))
 indexLabels <- c("holes", "skinny", "mic")
 pRot <- profileRotation(d, indexList, indexLabels)
 plotRotation(pRot)

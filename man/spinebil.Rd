@@ -2,6 +2,7 @@
 % Please edit documentation in R/spinebil-package.R
 \docType{package}
 \name{spinebil}
+\alias{spinebil-package}
 \alias{spinebil}
 \title{spinebil}
 \description{
@@ -17,4 +18,13 @@ The main functions are:
 \item \code{\link[=timeSequence]{timeSequence()}}
 \item \code{\link[=squintAngleEstimate]{squintAngleEstimate()}}
 }
+}
+\author{
+\strong{Maintainer}: Ursula Laa \email{ursula.laa@boku.ac.at} (\href{https://orcid.org/0000-0002-0249-6439}{ORCID})
+
+Authors:
+\itemize{
+  \item Dianne Cook \email{dicook@monash.edu} (\href{https://orcid.org/0000-0002-3813-7155}{ORCID})
+}
+
 }

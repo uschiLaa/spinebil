@@ -1,0 +1,400 @@
+---
+title: "GSoC_spinebil_tests"
+author: "Tina"
+date: "today"
+format: html
+---
+
+## 📦 Overview
+
+This document describes the process of running the tests for the `spinebil` package and how I identified and resolved various issues to make the package pass `devtools::check()` with **no errors or warnings**. This is part of my work for **Google Summer of Code 2025**. 
+
+
+## 1️⃣ First test
+
+- Easy: Fork the package and run the package checks using devtools. Make the fixes needed for it to pass CRAN checks.
+
+
+## ✅ Goals
+
+- Run `devtools::check()` to verify the package status
+- Fix all errors, warnings, and notes
+- Replace deprecated packages or functions
+- Ensure the examples run without error
+- Prepare for CRAN-readiness and future testing
+
+---
+
+## 🔍 First Check: `devtools::check()`
+
+To begin, I created a Quarto (`.qmd`) file inside a new folder named `GSoC_spinebil_tests` within the `spinebil` package repository that I have froked. Since `.qmd` files are not part of a typical R package structure, I added the file to `.Rbuildignore` to ensure that `devtools::check()` would not throw an error during the package check process. This allows me to include documentation and notes within the package directory without interfering with the R package build or checks.
+
+Next, I installed and loaded the `devtools` package using:
+
+```{r}
+# install.packages("devtools")
+library(devtools)
+```
+
+Then, I ran `devtools::check()` to evaluate the current state of the `spinebil` package and identify any **errors**, **warnings**, or **notes** that need to be fixed.
+
+```{r eval= FALSE}
+devtools::check()
+```
+```txt
+── R CMD check results ──────────────────────────────── spinebil 0.1.1 ────
+Duration: 15.4s
+
+❯ checking examples with --run-donttest ... ERROR
+  Running examples in ‘spinebil-Ex.R’ failed
+  The error most likely occurred in:
+  
+  > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+  > ### Name: compareSmoothing
+  > ### Title: Compare traces with different smoothing options.
+  > ### Aliases: compareSmoothing
+  > 
+  > ### ** Examples
+  > 
+  > ## No test: 
+  > d <- spiralData(4, 100)
+  > tPath <- tourr::save_history(d, max_bases=2)
+  > tPath <- as.list(tourr::interpolate(tPath))
+  > idx <- scagIndex("Skinny")
+  > compS <- compareSmoothing(d, tPath, idx, n=5)
+  Error in loadNamespace(x) : there is no package called ‘binostics’
+  Calls: compareSmoothing ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+  Execution halted
+
+❯ checking package dependencies ... NOTE
+  Package suggested but not available for checking: ‘binostics’
+
+1 error ✖ | 0 warnings ✔ | 1 note ✖
+```
+
+### ❗ First Error :  There is no package called `binostics`
+
+
+The `binostics` package was originally used in `spinebil` to compute scagnostic indices. However, `binostics` has been deprecated and removed from CRAN, making it unusable as a dependency for a CRAN-ready package.
+
+To resolve this, I replaced all usage of `binostics` with the [`cassowaryr`](https://cran.r-project.org/package=cassowaryr) package, which is an actively maintained package on CRAN that also computes scagnostics. It provides similar functionality and includes functions like `calc_scags()` and individual index functions such as `sc_stringy()` and `sc_skinny()`.
+
+### 🔧 Updating Package Dependencies
+
+In order to use the `cassowaryr` package, which provides scagnostic computations and because it will be used throughout future tests and development, I added `cassowaryr` to the `Imports` field in the `DESCRIPTION` file of the `spinebil` package.
+
+At the same time, I removed the `binostics` package from the `Suggests` field, as it is deprecated and no longer available on CRAN. Keeping it in `DESCRIPTION` caused errors during `devtools::check()`, so removing it was necessary for compatibility.
+
+**Changes made to `DESCRIPTION`:**
+
+Before:
+
+- Imports:
+    tourr,
+    ggplot2,
+    tibble,
+    stats,
+    dplyr,
+    tidyr,
+    tictoc,
+    magrittr
+- Suggests:
+    minerva,
+    binostics,
+    testthat,
+    purrr
+    
+After: 
+
+- Imports:
+    tourr,
+    ggplot2,
+    tibble,
+    stats,
+    dplyr,
+    tidyr,
+    tictoc,
+    magrittr,
+    cassowaryr
+- Suggests:
+    minerva,
+    testthat,
+    purrr
+    
+### 🔁 Re-checking the Package
+
+After updating the `DESCRIPTION` file to include `cassowaryr` under the `Imports` field and removing `binostics` from `Suggests`, I re-ran the full package check using:
+
+```{r, eval=FALSE}
+devtools::check()
+```
+```txt
+── R CMD check results ─────────────────────────────── spinebil 0.1.1 ────
+Duration: 10.1s
+
+❯ checking examples with --run-donttest ... ERROR
+  Running examples in ‘spinebil-Ex.R’ failed
+  The error most likely occurred in:
+  
+  > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+  > ### Name: compareSmoothing
+  > ### Title: Compare traces with different smoothing options.
+  > ### Aliases: compareSmoothing
+  > 
+  > ### ** Examples
+  > 
+  > ## No test: 
+  > d <- spiralData(4, 100)
+  > tPath <- tourr::save_history(d, max_bases=2)
+  > tPath <- as.list(tourr::interpolate(tPath))
+  > idx <- scagIndex("Skinny")
+  > compS <- compareSmoothing(d, tPath, idx, n=5)
+  Error in loadNamespace(x) : there is no package called ‘binostics’
+  Calls: compareSmoothing ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+  Execution halted
+
+❯ checking dependencies in R code ... WARNING
+  '::' or ':::' import not declared from: ‘binostics’
+  Namespace in Imports field not imported from: ‘cassowaryr’
+    All declared Imports should be used.
+
+1 error ✖ | 1 warning ✖ | 0 notes ✔
+```
+
+Now, the error message indicated that all imported packages must be used, and that the examples in the `spinebil` package still referenced the deprecated `binostics` package. To fix this, I needed to update all examples that used `binostics` functions and replace them with equivalent calls from the `cassowaryr` package.
+
+For instance, in the `distances.R` file, under the examples for "Estimating squint angle of 2-D structure in high-D dataset", the following line originally used the `scagIndex()` function from `binostics`:
+
+```{r eval=FALSE}
+indexF <- scagIndex("Skinny")
+```
+
+To make it work with `cassowaryr` package, and to avoid runtime errors, I converted it into a proper function that takes a projected dataset xy as input:
+
+```{r, eval=FALSE}
+indexF <- function(xy) {
+  cassowaryr::calc_scags(xy[, 1], xy[, 2], scag = "skinny")[[1]]
+}
+```
+
+
+I then applied the same modification across all other example files in the package where `binostics` was used. In each case, I replaced calls to `scagIndex()` with a functional form using `cassowaryr::calc_scags()`, ensuring that the index function accepts a projected dataset (`xy`) as input.
+
+```{r, eval=FALSE}
+devtools::check()
+```
+```txt
+── R CMD check results ─────────────────────────────── spinebil 0.1.1 ────
+Duration: 13m 1.7s
+
+❯ checking examples with --run-donttest ... [13m/13m] ERROR
+  Running examples in ‘spinebil-Ex.R’ failed
+  The error most likely occurred in:
+  
+  > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+  > ### Name: squintAngleEstimate
+  > ### Title: Estimating squint angle of 2-d structure in high-d dataset under
+  > ###   selected index.
+  > ### Aliases: squintAngleEstimate
+  > 
+  > ### ** Examples
+  > 
+  > ## No test: 
+  > data <- spiralData(4, 100)
+  > indexF <- function(xy){cassowaryr::calc_scags(xy[,1], xy[,2], scag ="skinny")[[1]]}
+  > cutoff <- 0.7
+   > structurePlane <- basisMatrix(3,4,4)
+  > squintAngleEstimate(data, indexF, cutoff, structurePlane, n=1)
+  Error in allBases[[j]] : subscript out of bounds
+  Calls: squintAngleEstimate
+  Execution halted
+
+❯ checking dependencies in R code ... WARNING
+  '::' or ':::' import not declared from: ‘binostics’
+  Namespace in Imports field not imported from: ‘cassowaryr’
+    All declared Imports should be used.
+
+1 error ✖ | 1 warning ✖ | 0 notes ✔
+```
+
+  
+###  Error in `squintAngleEstimate()`
+
+While running `devtools::check()`, I encountered the following runtime error in the examples of the `squintAngleEstimate()` function:
+
+Error in allBases[[j]] : subscript out of bounds
+
+
+This error occurred during the example execution because the index `j` exceeded the length of the `allBases` list. In the function, `allBases` contains interpolated projection matrices. The loop that searches for a projection with an index value exceeding a given cutoff did not check whether `j` had gone out of bounds, leading to the error.
+
+### 🔧 How I fixed it
+
+To resolve this issue, I updated the loop to include a boundary check using:
+
+```txt
+while (cIndex < cutoff && j <= length(allBases)) {
+  cProj <- data %*% allBases[[j]]
+  cIndex <- indexF(cProj)
+  j <- j + 1
+}
+```
+
+Additionally, I added a conditional check after the loop to avoid accessing an invalid index:
+
+```txt
+if (j > length(allBases)) {
+  angles[i] <- NA
+} else {
+  cDist <- tourr::proj_dist(allBases[[j]], structurePlane)
+  angles[i] <- cDist
+}
+
+```
+
+These changes prevent the function from crashing and allow it to return NA if no projection satisfies the cutoff condition, making the function more robust during package checks and real usage.
+
+```{r eval=FALSE}
+devtools::check()
+```
+
+```txt
+── R CMD check results ─────────────────────────────── spinebil 0.1.1 ────
+Duration: 13m 20s
+
+❯ checking examples with --run-donttest ... [13m/13m] ERROR
+  Running examples in ‘spinebil-Ex.R’ failed
+  The error most likely occurred in:
+  
+  > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+  > ### Name: timeSequence
+  > ### Title: Time each index evaluation for projections in the tour path.
+  > ### Aliases: timeSequence
+  > 
+  > ### ** Examples
+  > 
+  > ## No test: 
+  > d <- spiralData(4, 1000)
+  > t <- purrr::rerun(10, tourr::basis_random(4))
+  Warning: `rerun()` was deprecated in purrr 1.0.0.
+  ℹ Please use `map()` instead.
+   # Previously
+    rerun(10, tourr::basis_random(4))
+  
+    # Now
+    map(1:10, ~ tourr::basis_random(4))
+  > idx <- indexF <- function(xy){cassowaryr::calc_scags(xy[,1], xy[,2], scag ="skinny")[[1]]}
+  > timeSequence(d, t, idx, 10)
+  Error in unlist(tictoc::tic.log(format = FALSE))["toc.elapsed"] - unlist(tictoc::tic.log(format = FALSE))["tic.elapsed"] : 
+    non-numeric argument to binary operator
+  Calls: timeSequence
+  Execution halted
+
+❯ checking dependencies in R code ... WARNING
+  '::' or ':::' import not declared from: ‘binostics’
+  Namespace in Imports field not imported from: ‘cassowaryr’
+    All declared Imports should be used.
+
+1 error ✖ | 1 warning ✖ | 0 notes ✔
+```
+
+### Two Additional Errors Detected During `devtools::check()`
+
+While re-running `devtools::check()` on the updated `spinebil` package, I encountered two more issues:
+
+#### 1. Deprecated `purrr::rerun()` function
+
+Warning: rerun() was deprecated in purrr 1.0.0. ℹ Please use map() instead. I replaced all with `purrr::map()`
+
+
+#### 2. Runtime error in timeSequence() due to unlist() on tictoc::tic.log()
+The function originally used:
+```txt
+resT <- unlist(tictoc::tic.log(format = FALSE))["toc.elapsed"] -
+         unlist(tictoc::tic.log(format = FALSE))["tic.elapsed"]
+```
+
+This caused the following error:
+
+```txt
+non-numeric argument to binary operator
+```
+
+Calling unlist() returns a list where each element (like "toc.elapsed") may be coerced to a character string, breaking numeric subtraction.
+
+I rewrote this part of the function to extract the toc and tic values as numeric values:
+
+```txt
+log <- tictoc::tic.log(format = FALSE)
+resT <- log[[1]]$toc - log[[1]]$tic
+```
+
+I also updated the code inside `timer.R` to fix an issue with how the list of projection matrices was generated. Originally, the code used:
+
+```txt
+t <- purrr::map(10, tourr::basis_random(4))
+```
+However, this caused problems during matrix multiplication because the output was not a list of 10 projection matrices as intended, instead, it returned a single-element list. This led to a mismatch in dimensions when using %*%.
+I replaced it with the following: 
+
+```txt
+t <- purrr::map(1:10, ~ tourr::basis_random(4))
+```
+Now, I will run `devtools::check()` once again to verify the current state of the package and see if any new errors, warnings, or notes appear.
+
+```{r eval=FALSE}
+devtools::check()
+
+```
+```txt
+── R CMD check results ─────────────────────────────── spinebil 0.1.1 ────
+Duration: 13m 20.2s
+
+❯ checking dependencies in R code ... WARNING
+  '::' or ':::' import not declared from: ‘binostics’
+
+0 errors ✔ | 1 warning ✖ | 0 notes ✔
+```
+
+
+After running `devtools::check()`, I encountered the following warning:
+
+```txt
+checking dependencies in R code ... WARNING '::' or ':::' import not declared from: ‘binostics’
+```
+
+
+To identify the source of this warning, I used `Cmd + Shift + F` in RStudio to search for the term `binostics` across the entire package directory. I discovered that the warning was coming from the `indexFunctions.R` file, where the `binostics` package was still being used inside the `scagIndex()` function.
+
+The original line was:
+
+```txt
+sR <- binostics::scagnostics(mat)[1,][indexName]
+```
+I replaced it with the corresponding function from the cassowaryr package:
+
+```txt
+sR <- cassowaryr::calc_scags(mat)[1,][indexName]
+```
+
+After implementing all necessary fixes, replacing deprecated functions, updating dependencies, and cleaning up example code, I ran a final `devtools::check()` to validate the package.
+
+
+```{r eval=FALSE}
+devtools::check()
+```
+
+```txt
+── R CMD check results ─────────────────────────────── spinebil 0.1.1 ────
+Duration: 13m 9.5s
+
+0 errors ✔ | 0 warnings ✔ | 0 notes ✔
+```
+
+This indicates that the package has passed all checks successfully and is ready for CRAN submission.
+
+
+## 2️⃣ Second test
+
+- Medium: Add a GitHub Actions workflow to automate the CRAN checks when code is pushed to the GitHub.
+
+

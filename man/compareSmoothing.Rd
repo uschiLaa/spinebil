@@ -28,7 +28,7 @@ Compare traces with different smoothing options.
 d <- spiralData(4, 100)
 tPath <- tourr::save_history(d, max_bases=2)
 tPath <- as.list(tourr::interpolate(tPath))
-idx <- scagIndex("Skinny")
+idx <- indexF <- function(xy){cassowaryr::calc_scags(xy[,1], xy[,2], scag ="skinny")[[1]]}
 compS <- compareSmoothing(d, tPath, idx, n=5)
 plotSmoothingComparison(compS)
 }
