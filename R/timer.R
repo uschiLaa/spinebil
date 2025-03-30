@@ -26,8 +26,8 @@ timeSequence <- function(d, t, idx, pmax){
     dProj <- d %*% pMatrix
     res <- idx(dProj)
     tictoc::toc(log=TRUE,quiet=TRUE)
-    resT <- unlist(tictoc::tic.log(format=FALSE))["toc.elapsed"] -
-      unlist(tictoc::tic.log(format=FALSE))["tic.elapsed"]
+    resT <- as.numeric(unlist(tictoc::tic.log(format=FALSE))["toc.elapsed"]) -
+      as.numeric(unlist(tictoc::tic.log(format=FALSE))["tic.elapsed"])
     dfTimer <- tibble::add_row(dfTimer, t=resT, i=i)
     i <- i+1
   }
