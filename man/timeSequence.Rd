@@ -25,8 +25,9 @@ get an overview of the distribution of computing times.
 }
 \examples{
 \donttest{
+library(purrr)  # Ensure purrr is loaded
 d <- spiralData(4, 1000)
-t <- purrr::rerun(10, tourr::basis_random(4))
+t <- map(1:10, tourr::basis_random(4))
 idx <- scagIndex("Skinny")
 timeSequence(d, t, idx, 10)
 }
