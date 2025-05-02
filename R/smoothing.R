@@ -35,17 +35,21 @@ jitterPoints <-function(projData, alpha, idx){
 #' @param n Number of evaluations entering mean value calculation
 #' @return Mean index value
 #' @export
+
+
 getIndexMean <- function(proj, d, alpha, idx, method="jitterAngle", n=10){
   dProj <- d %*% proj
-  orig <- idx(dProj)
-  if(method == "jitterAngle"){
+  orig <- as.numeric(idx(dProj))
+  if (method == "jitterAngle"){
     valVec <- replicate(n, jitterAngle(proj, d, alpha, idx))
-  } else if (method=="jitterPoints"){
+  } else if (method == "jitterPoints"){
     valVec <- replicate(n, jitterPoints(dProj, alpha, idx))
   }
-  else { return(orig)}
-  return(mean(c(orig, valVec)))
-}
+    else { return(orig)}
+    valVec <- unlist (valVec)
+    return(mean(c(orig, valVec)))
+    
+  }
 
 #' Compare traces with different smoothing options.
 #'
@@ -99,10 +103,10 @@ plotSmoothingComparison <- function(smMat, lPos="none"){
   smMat <- smMat %>%
     dplyr::mutate(method = factor(
       method, levels = c("jitterAngle", "jitterPoints", "noSmoothing")
-      )) %>%
+    )) %>%
     ggplot2::ggplot(
       ggplot2::aes(x=t, y=indexMean, color=method, linetype=method)
-      ) +
+    ) +
     ggplot2::geom_line() +
     ggplot2::scale_color_manual(values = c("black", "black", "red")) +
     ggplot2::scale_linetype_manual(values = c("dashed", "dotted", "solid")) +
@@ -113,4 +117,3 @@ plotSmoothingComparison <- function(smMat, lPos="none"){
     ggplot2::ylab("PPI value")
   smMat
 }
-

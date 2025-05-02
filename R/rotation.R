@@ -21,21 +21,23 @@ profileRotation <- function(d, indexList, indexLabels, n=200){
   # initialise results storage
   resMat <- matrix(ncol = length(indexLabels)+1, nrow = n+1)
   colnames(resMat) <- c(indexLabels, "alpha")
-
+  
   # loop over rotation angles
   i <- 1
   for (a in seq(0,2*pi, 2*pi/n)){
-    rotM <- matrix(c(cos(a), sin(a), -sin(a), cos(a)), ncol = 2)
+    rotM <- matrix(c(cos(a), sin(a), -sin(a), cos(a)), ncol=2)
     dprj <- d %*% rotM
     res <- c()
-    for (idx in indexList){
+    for (idx in indexList) {
       res <- c(res, idx(dprj))
+    } 
+      resMat[i,] <- unlist(c(res, a))
+      i <- i+1
     }
-    resMat[i,] <- c(res, a)
-    i <- i+1
+      resMat
   }
-  resMat
-}
+
+
 
 #' Plot rotation traces of indexes obtained with profileRotation.
 #'
