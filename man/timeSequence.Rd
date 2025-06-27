@@ -24,10 +24,10 @@ evaluate the computing time for a set of different projections to
 get an overview of the distribution of computing times.
 }
 \examples{
-\donttest{
+if (interactive()) {
 d <- spiralData(4, 1000)
-t <- purrr::rerun(10, tourr::basis_random(4))
-idx <- scagIndex("Skinny")
+t <- purrr::map(1:10, ~ tourr::basis_random(4))
+idx <- scagIndex("skinny")
 timeSequence(d, t, idx, 10)
 }
 }

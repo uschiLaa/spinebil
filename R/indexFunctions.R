@@ -8,10 +8,10 @@
 #' @param indexName Index name to select from group of indexes.
 #' @return function taking 2-d data matrix and returning the index value
 #' @export
-scagIndex <- function(indexName){
-  function(mat){
-    sR <- binostics::scagnostics(mat)[1,][indexName]
-    return(sR)
+scagIndex <- function(indexName) {
+  function(mat) {
+    sR <- cassowaryr::calc_scags_wide(as.data.frame(mat), indexName)
+    return(sR[[3]])
   }
 }
 

@@ -28,11 +28,11 @@ Imports:
     dplyr,
     tidyr,
     tictoc,
-    magrittr
+    magrittr,
+    cassowaryr
 Suggests:
     minerva,
-    binostics,
     testthat,
     purrr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
