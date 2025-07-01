@@ -1,3 +1,6 @@
+Version 0.1.2
+ * Fixed CRAN errors
+
 Version 0.1.1
  * Updated to work with new version of dplyr and tibble.
  * Removed dependency on mbgraphic (index functions now available in tourr).

@@ -1,4 +1,4 @@
-This is a re-submission of an archived package. I have updated the code to work with the latest version of "dplyr" and removed the dependency on the archived "mbgraphic" package.
+This is a re-submission of an archived package with a new maintainer. It fixes the problems listed at https://cran-archive.r-project.org/web/checks/2020/2020-06-15_check_results_spinebil.html. The dependency of the "binostics" package is removed.
 
 The notes arise because it is considered a new submission.
 
