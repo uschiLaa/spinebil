@@ -8,3 +8,5 @@
 ^plots$
 examples.R
 .spinebil.Rcheck/
+^CRAN-SUBMISSION$
+^\.github$
