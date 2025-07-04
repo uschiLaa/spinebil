@@ -6,6 +6,7 @@
 ^cran-comments\.md$
 ^\.github$
 ^CRAN-RELEASE$
+^CRAN-SUBMISSION$
 ^plots$
 examples.R
 .spinebil.Rcheck/

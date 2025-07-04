@@ -11,13 +11,10 @@ Checks made using rhub on these platforms: ubuntu-latest on GitHub, macos-13 on 
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+── R CMD check results ──────────────────────────────────────────────────── spinebil 0.1.3 ────
+Duration: 18.9s
 
-## checking CRAN incoming feasibility NOTE
-
-New submission
-
-Package was archived on CRAN
+0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
 ## Reverse dependencies
 
