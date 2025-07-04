@@ -4,12 +4,15 @@ citEntry(  entry = "Article",
            title       = "Using tours to visually investigate properties of new projection pursuit indexes with application to problems in physics",
            author      = personList(as.person("Ursula Laa"),
                                   as.person("Dianne Cook")),
-           journal     = "arXiv preprint 1902.00181",
-           year        = 2019,
-           url         = "https://arxiv.org/abs/1902.00181",
+           journal     = "Computational Statistics",
+           volume      = 35,
+           pages       = "1171–1205",
+           year        = 2020,
+           url         = "https://doi.org/10.1007/s00180-020-00954-8",
 
-  textVersion = paste("Ursula Laa, Dianne Cook (2019).",
+  textVersion = paste("Ursula Laa, Dianne Cook (2020).",
                              "Using tours to visually investigate properties of new projection pursuit indexes with application to problems in physics,",
-                             "arXiv preprint 1902.00181,",
-                             "URL: https://arxiv.org/abs/1902.00181")
+                             "Computational Statistics,",
+                             "35:1171–1205",
+                             "URL: https://doi.org/10.1007/s00180-020-00954-8")
 )

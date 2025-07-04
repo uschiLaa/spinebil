@@ -22,7 +22,7 @@ pipeData <- function(n, p, t=0.1){
       i <- i+1
     }
   }
-  return(tibble::as_tibble(dRet))
+  return(tibble::as_tibble(dRet, .name_repair = "universal"))
 }
 
 #' Generating sine wave sample
@@ -41,13 +41,9 @@ pipeData <- function(n, p, t=0.1){
 #' sinData(4, 100)
 #' sinData(2, 100, 200)
 sinData <- function(n, p, f=1){
-  vName <- paste0("V",n)
-  vNameM1 <- paste0("V",n-1)
-  expr <- paste0(vName,"=sin(",vNameM1,")") # need string expression if I want to use tibble here
-  dRet <- tibble::as_tibble(matrix(stats::rnorm((n-1)*p), ncol=(n-1))) #generate normal distributed n-1 dim data
-  dRet <- dplyr::mutate_(dRet, expr) #string evaluation calculates var(n) as sin(var(n-1))
-  colnames(dRet)[n] <- vName #correct name of new variable
-  dRet[vName] <- jitter(dRet[[vName]], factor = f) #adding noise
+  m <- matrix(stats::rnorm((n)*p), ncol=(n))
+  m[,n] <- jitter(sin(m[,n-1]), factor = f)
+  dRet <- tibble::as_tibble(m, .name_repair = "universal") #generate normal distributed n-1 dim data
   return(dRet)
 }
 

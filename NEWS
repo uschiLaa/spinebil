@@ -1,0 +1,11 @@
+Version 0.1.3
+ * Fixed CRAN errors
+ * updated citation to published paper
+
+Version 0.1.2
+ * Fixed CRAN errors
+ * removed dependency on binostics
+
+Version 0.1.1
+ * Updated to work with new version of dplyr and tibble.
+ * Removed dependency on mbgraphic (index functions now available in tourr).

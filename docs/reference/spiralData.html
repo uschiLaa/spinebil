@@ -8,23 +8,29 @@
 
 <title>Generating spiral sample — spiralData • spinebil</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -32,13 +38,13 @@
 
 
 
-<meta property="og:title" content="Generating spiral sample — spiralData" />
 
+<meta property="og:title" content="Generating spiral sample — spiralData" />
 <meta property="og:description" content="n-2 points are drawn from a normal distribution with mean=0, sd=1,
 the points in the final two direction are sampled along a spiral
 by samping the angle from a normal distribution with mean=0, sd=2*pi
 (absolute values are used to fix the orientation of the spiral)." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -52,9 +58,10 @@ by samping the angle from a normal distribution with mean=0, sd=2*pi
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -68,7 +75,7 @@ by samping the angle from a normal distribution with mean=0, sd=2*pi
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spinebil</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -84,7 +91,6 @@ by samping the angle from a normal distribution with mean=0, sd=2*pi
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -94,6 +100,7 @@ by samping the angle from a normal distribution with mean=0, sd=2*pi
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -105,16 +112,14 @@ by samping the angle from a normal distribution with mean=0, sd=2*pi
     </div>
 
     <div class="ref-description">
-    
     <p>n-2 points are drawn from a normal distribution with mean=0, sd=1,
 the points in the final two direction are sampled along a spiral
 by samping the angle from a normal distribution with mean=0, sd=2*pi
 (absolute values are used to fix the orientation of the spiral).</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>spiralData</span>(<span class='no'>n</span>, <span class='no'>p</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>spiralData</span><span class='op'>(</span><span class='va'>n</span>, <span class='va'>p</span><span class='op'>)</span></pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -127,127 +132,122 @@ by samping the angle from a normal distribution with mean=0, sd=2*pi
       <td><p>number of sample points to generate</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>sample points in matrix format</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>spiralData</span>(<span class='fl'>4</span>, <span class='fl'>100</span>)</div><div class='output co'>#&gt;          [,1]         [,2]         [,3]          [,4]
-#&gt; v -0.19156194 -1.203991350 -1.014096371 -0.3619752408
-#&gt; v -0.14928970 -0.988248953 -0.286322441  0.8713089772
-#&gt; v  0.76400192 -0.764220023  0.712412186  0.2812472828
-#&gt; v  0.57440044  1.454354816  1.173630125 -0.5831481210
-#&gt; v  0.37769313  0.457817317 -0.117292095  0.2735029003
-#&gt; v -0.19633722  0.532207247 -0.265884306  0.8753978035
-#&gt; v -0.11645988 -1.791435814  0.731037563  0.1761793186
-#&gt; v -0.75173731  1.443320207 -0.055669951 -0.5585371250
-#&gt; v -1.05455799  0.030424727 -0.355893810 -0.3367049946
-#&gt; v -0.19350202  0.393606874  0.118252064  0.0250520346
-#&gt; v -0.52872257  3.071007147 -0.885926708  0.4533407031
-#&gt; v  0.33070126 -1.759479023  0.734702696  0.0759022651
-#&gt; v  1.03686204  0.034712279 -0.403344175 -1.0920728500
-#&gt; v -0.37408213 -1.258362453 -0.375083333 -0.3028489907
-#&gt; v -1.36870786 -0.942163446 -0.035972179 -0.5637197563
-#&gt; v  0.02209434  0.548882732 -0.560974276  0.7650359538
-#&gt; v -0.64446763  1.047844734 -0.130945548  0.2720651770
-#&gt; v  0.03432588  1.063948370 -0.935402815 -0.5740903028
-#&gt; v -1.58346240  0.110531327  0.005923797  0.2546852408
-#&gt; v  0.05714992 -1.083303495  0.049577486  0.2306376203
-#&gt; v -0.82368553 -1.500780397  0.127730116  0.8612546621
-#&gt; v -0.21586746  1.733784762 -0.911576385  0.4113464910
-#&gt; v -0.17647895  0.756314868  0.710117394 -0.0896737309
-#&gt; v -0.38642438  0.381516254 -0.535260191  0.7794880575
-#&gt; v  0.98374868  0.086637298 -0.387949592  0.0748395291
-#&gt; v -0.89290017  0.002229617  0.113710805  0.1580657490
-#&gt; v -0.57455455  0.235160435 -0.089067523  0.8909212174
-#&gt; v -1.39029804  0.115795724  0.515926852 -0.4129241196
-#&gt; v  0.03875288 -0.038372698  0.229669630 -0.5649516047
-#&gt; v  0.03348690  0.663318866  0.044515663  0.2340927364
-#&gt; v -0.01573655  2.087713501 -1.040093875  0.0223100357
-#&gt; v -0.30976402  1.584290933  0.493772288  0.6557392294
-#&gt; v  0.93799414 -1.176473378 -0.801290746  0.5659213510
-#&gt; v -0.17717538 -0.650604263  0.112800521  0.8651094740
-#&gt; v  0.25132590 -1.563215351  0.235826191 -0.5635176176
-#&gt; v -0.11084868 -0.761172061  0.297595955 -0.5452740228
-#&gt; v -1.05517196  0.222967963 -1.523586805  0.5900362648
-#&gt; v  2.00064170 -0.754805825 -0.301664266  0.8679184889
-#&gt; v  0.24602616  0.548893707 -0.404146203  0.0345825803
-#&gt; v -0.85724446 -0.208889627  0.112647310  0.0155473635
-#&gt; v  0.37172886 -2.300614875 -0.206722852 -0.4894038454
-#&gt; v  0.82395471  0.671560953  0.121382922  0.1408817144
-#&gt; v -0.32485542  1.165364420  0.549369758 -0.3797364702
-#&gt; v  0.98561211 -0.126323527 -0.945488081  0.3473439596
-#&gt; v  0.03215408 -2.117716447 -0.578625529 -0.9899646518
-#&gt; v  0.57567105 -0.002235961 -0.096851114 -0.5451184847
-#&gt; v  0.44867236  0.051736240 -0.020353147  0.8874578217
-#&gt; v  0.55837496  0.298702402 -0.311409596  0.1827732282
-#&gt; v -1.62537447  0.299647475  0.116556648  0.1522451424
-#&gt; v  0.33047044 -0.344358479  0.513407594 -0.4152384889
-#&gt; v -0.13629434  0.281191185  0.130145058  0.1087891614
-#&gt; v -0.03624743  0.024977216  0.123939994  0.1337459798
-#&gt; v  2.59552392  0.419283992 -0.054804534  0.2715205966
-#&gt; v  0.54486311  0.868230689  0.061801380  0.2213938664
-#&gt; v  0.07494732 -2.250901330 -1.043062689 -0.0062992838
-#&gt; v -0.48276894  0.605210639  0.188832310 -0.5727604305
-#&gt; v  0.31836219  0.103472107 -0.281393143 -0.4291824092
-#&gt; v  0.03387470 -0.649756559  0.570641346 -0.3559357896
-#&gt; v -0.04727292 -1.178515013  0.069563972  1.5075012750
-#&gt; v  1.46748561  0.552061735 -0.207176850  0.2516466539
-#&gt; v  1.83752167  0.883273304 -0.269589149 -1.1451305094
-#&gt; v  0.29372860  1.330807535  0.100642249  0.0006484856
-#&gt; v  0.94401212 -0.163110155  0.112177051  0.0148422513
-#&gt; v  0.55105923  0.754814726  0.734893353  0.0830247316
-#&gt; v -0.32052555 -0.457239570  0.715262537  1.2757955160
-#&gt; v  0.06640965  1.513114967  0.011789187  0.2521317625
-#&gt; v  0.19609740 -0.656023781 -0.396860718  0.0543079887
-#&gt; v  0.56887874 -2.102626810  0.102052430  0.0021172700
-#&gt; v  0.41691801  0.473867599  0.128772303  0.0537426601
-#&gt; v -1.63621935  1.168229652 -0.299655258  0.1936552107
-#&gt; v -0.09411706  0.467589309  0.292682535 -0.5469885690
-#&gt; v  0.39681323  0.244475509 -0.344080601 -0.3547851288
-#&gt; v -0.80520647 -1.932053070 -0.113061243 -0.5388218364
-#&gt; v  1.79248656  1.123194865 -0.856704529 -0.7082534166
-#&gt; v  1.73279950  1.275703717 -0.325432372  0.1683792770
-#&gt; v -0.13777813 -0.597937324 -0.096657884 -0.5451899703
-#&gt; v  0.07276248  1.473362511 -0.120693198  0.2732064821
-#&gt; v -1.41472141 -1.986179040 -0.149202569 -0.5225420158
-#&gt; v -0.79042763  0.758480158  1.238832022  0.6646797603
-#&gt; v  1.91913490  0.075529822 -0.029855707  0.2665665228
-#&gt; v  0.43629074  1.209748781 -0.017034268  0.8871545065
-#&gt; v  1.76502863 -0.159322027  0.535040387 -0.3945419346
-#&gt; v -0.70499533  1.126896570  1.323094366 -0.2153374449
-#&gt; v -1.24477283  1.031250388 -0.407742603 -0.2211552937
-#&gt; v -1.03789001  1.561622325  0.131532463  0.0980607899
-#&gt; v  2.32423830  2.325851550 -0.244379229  0.8791777065
-#&gt; v -0.04501885  0.195694234 -0.399009098  0.0488195257
-#&gt; v  2.01734246  1.195608651 -0.283878949 -0.4267417536
-#&gt; v  1.02629785  0.520192659  0.584032642  0.5527100842
-#&gt; v  0.39989766 -0.984527658 -0.415715257 -0.0066930434
-#&gt; v  0.98714844  2.191481010  0.103644762  0.1753598547
-#&gt; v -0.68604080  0.941399410  0.104420952  0.1741670467
-#&gt; v -1.30233941 -0.723484004 -0.750377701  0.6200620215
-#&gt; v  0.68184063  0.468260280 -0.320400532  0.1737346174
-#&gt; v -0.80033126 -0.488457510 -0.425559044 -0.1064322364
-#&gt; v  1.43517102 -0.261838719 -0.864562190  0.4850796091
-#&gt; v -0.51379272  0.772301225 -0.807562350  0.5586481494
-#&gt; v -0.01580491 -1.023289556  1.064173513  0.9548677637
-#&gt; v  0.15037144 -0.520871198  0.554318078 -0.3744028369
-#&gt; v -0.74998690 -0.786576021 -0.420272950 -0.1654268408</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>spiralData</span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>100</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;           [,1]        [,2]         [,3]         [,4]
+#&gt; v -1.238081361  0.23264460  0.130188316  0.108525659
+#&gt; v  0.070513462  0.67672143  0.729207688  0.192025594
+#&gt; v  0.333709489 -0.58996697 -0.104106369  0.274264084
+#&gt; v -0.000818866  0.75462540  0.732925064  0.043085967
+#&gt; v -1.847341497 -2.34954650  0.480377989 -0.443459048
+#&gt; v -1.265428928 -0.83989224 -0.299111545  0.194134722
+#&gt; v -1.640596156  0.57439399 -0.546712032 -1.011752457
+#&gt; v  2.151040582 -0.87289778  0.110025485  0.011765268
+#&gt; v  0.002609863 -0.53109551 -0.397675643 -1.094719280
+#&gt; v -0.829847283  0.96902984 -0.129611665 -0.531763273
+#&gt; v  1.385693996 -0.55448948  0.433174801  1.419473767
+#&gt; v  0.088123898 -0.42259809 -1.035623396 -0.255437093
+#&gt; v  0.529385136  0.38543744 -0.129167517 -0.531961265
+#&gt; v  1.469740628  1.81899624 -0.149461625  0.269059183
+#&gt; v -0.173500415 -1.63215323  0.518481304 -0.410552415
+#&gt; v  0.528358855 -0.98877118  0.545227596 -0.384112024
+#&gt; v  0.640145872 -0.91390708  0.032786684 -0.575992580
+#&gt; v  2.023079539 -1.26247062  0.095051675  0.187417707
+#&gt; v  0.897831088  1.22795184 -0.401925390 -0.239578531
+#&gt; v -0.578209119  1.05104601 -0.618764161  1.426208677
+#&gt; v  0.192366291 -0.93849573  0.003585319  0.255652164
+#&gt; v -0.055305791  0.62080362  0.439989621 -0.473192987
+#&gt; v -0.250947225 -0.02732318  0.130744789  0.104841240
+#&gt; v  1.289869216 -0.53099978  0.554917692  0.589941796
+#&gt; v -0.195721679 -1.19405934  0.459632538 -0.459338530
+#&gt; v -0.899990704  1.08230903 -0.965746126  0.302777458
+#&gt; v  0.703742539 -0.63163839 -0.199561212  0.254670972
+#&gt; v -0.183264272  0.60648638  0.347880587 -0.524957507
+#&gt; v  0.943690378 -0.39819295 -0.169208156 -0.512094803
+#&gt; v -1.293589351 -0.94159266  0.132036597  0.090742514
+#&gt; v  0.314309672  2.06075284 -0.208490942  0.251101305
+#&gt; v  0.701432015  0.49949524 -1.556766633 -0.717030388
+#&gt; v -1.198356249 -0.27001310 -0.386423880  0.078054486
+#&gt; v -1.220998921 -1.02454212  0.758212561 -1.011209592
+#&gt; v  1.022101553 -0.58317965 -0.424234236 -0.062818462
+#&gt; v -0.925970324 -0.74757997  0.101630133  0.001670814
+#&gt; v  0.617510775 -0.55673057 -0.043458426  0.269582351
+#&gt; v -0.516926118  1.07951484 -0.036623764  0.268163562
+#&gt; v  0.620836608 -0.88921477  0.694843768 -0.138892773
+#&gt; v -0.184672417 -0.48452681  0.368723585  0.754693096
+#&gt; v -0.958083274  0.57831178  0.072549096 -0.579174120
+#&gt; v -0.231967528  0.53222865 -0.991493275 -0.438457286
+#&gt; v -1.046542325  0.06217690  0.704410146  0.310598553
+#&gt; v -0.269670353 -0.76716734 -0.419653064 -0.169232653
+#&gt; v -0.885616206  1.34251504 -0.378237410  0.094117720
+#&gt; v -0.958890440  0.16000477  0.130098373  0.109070440
+#&gt; v  0.404221280  0.34183748  0.675495519  0.391750032
+#&gt; v  0.439211919  1.09838450 -0.143350043  0.270186266
+#&gt; v  0.626583272 -0.68059251 -0.121972993  0.273084337
+#&gt; v  0.094649172 -0.76382434 -0.002249440  0.257941875
+#&gt; v -0.608431351 -0.11739863  0.026283149  0.244986244
+#&gt; v -1.011050453  0.67359172 -0.245181145 -0.461270584
+#&gt; v -1.185176420  0.56019050  0.624204949 -0.283715633
+#&gt; v  0.814269086 -0.57517153 -0.996524796  0.220735917
+#&gt; v -0.452803527  1.59014881  0.122563909  0.034270473
+#&gt; v  0.375485811 -3.15302713 -0.064510552 -1.192408825
+#&gt; v  0.317279836  0.55126349 -0.497967778 -1.042117599
+#&gt; v  1.342978721 -1.11577475 -0.993502138  0.229845680
+#&gt; v -1.539680022 -0.51631147  0.101776992  0.178152732
+#&gt; v  0.150459929  0.98744537  0.131107977  0.066948893
+#&gt; v  0.264391044 -0.71078603 -0.031388824 -0.564815730
+#&gt; v  1.940846816 -1.67248484  0.025693693  0.882112123
+#&gt; v -1.596866233 -0.48562951  0.129017555  0.054828634
+#&gt; v  0.280850372 -2.20309572 -0.271172314  0.216249188
+#&gt; v -1.401575668 -0.69417967 -0.360451667  0.123724206
+#&gt; v -0.560658910  0.62573585  0.623761566 -0.284404282
+#&gt; v -1.232920895  1.35441566  0.296945767 -0.545503594
+#&gt; v -1.427083209 -2.67241211  0.326609341 -0.534179906
+#&gt; v -0.025033532 -0.44950296  0.158346888  0.852449840
+#&gt; v -0.241355264 -0.24089241  0.014070128  0.251087909
+#&gt; v -1.298684325  0.56470279 -1.034587356 -0.262219786
+#&gt; v -0.542723592 -0.65822242 -1.032416478  0.075526102
+#&gt; v  0.267792825  0.25748785  0.132178900  0.084106227
+#&gt; v  0.771398270 -1.34695778  1.356185294 -0.005949838
+#&gt; v  0.921291982 -1.29655349  0.050878741  0.229715967
+#&gt; v -1.097990465 -0.83534928 -0.965185345 -0.508563680
+#&gt; v -0.773771741  0.08223613  0.541280631  0.605930418
+#&gt; v  0.470530151  1.03004896 -0.985571868 -0.455589611
+#&gt; v  0.940065756 -0.32755551  0.368070054 -0.515311528
+#&gt; v  0.551310582  0.36406047  0.102463796  0.002557735
+#&gt; v -1.547159990 -0.04050991  1.186259901  0.769913128
+#&gt; v  0.082824660 -0.25576781  0.236384961  0.824241910
+#&gt; v  0.520073206  0.49584820 -0.630595803 -0.950911380
+#&gt; v  0.712867752 -1.05462256  0.131526445  0.098125000
+#&gt; v  0.420748799 -0.28634512  0.115636144  0.020339759
+#&gt; v -0.757125301 -1.51179154 -0.330983625  0.162204022
+#&gt; v -0.104191412 -0.27562351  0.494318248  1.394641819
+#&gt; v  1.706816143  0.63971207 -1.046511393 -0.060666648
+#&gt; v -0.195723760  1.11711298  0.475991181  0.672361606
+#&gt; v -1.052013551 -1.74165345  0.104671186  0.005019112
+#&gt; v -2.132953417  1.42979659 -0.653846423 -0.931869404
+#&gt; v  0.324042261 -0.54163968  0.131967284  0.092158456
+#&gt; v -1.475114463  0.73016662 -0.347277656  0.142250324
+#&gt; v  0.269536516  0.32955048  0.159799938 -0.576541014
+#&gt; v -0.198343327  2.04113580  0.131478091  0.070227111
+#&gt; v  0.927701662  0.05257081 -0.329524200 -0.374893986
+#&gt; v  1.125299520 -0.48753710  0.552679674  0.592624322
+#&gt; v -1.096061651 -0.20689643 -0.390401137 -1.098061198
+#&gt; v -1.870695786 -0.25126503  0.125550084  0.042267495
+#&gt; v  0.909689971 -1.06900433 -0.420318717 -0.165137296</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -255,13 +255,16 @@ by samping the angle from a normal distribution with mean=0, sd=2*pi
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

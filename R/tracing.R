@@ -64,13 +64,17 @@ plotTrace <- function(resMat, rescY=TRUE){
     tidyr::gather(PPI, value, -t) %>%
     ggplot2::ggplot(ggplot2::aes(x=t, y=value)) +
     ggplot2::geom_line() +
-    ggplot2::facet_grid(PPI~.) +
     ggplot2::theme(legend.position="none") +
     ggplot2::xlab("Sequence of projections (t)") +
     ggplot2::ylab("PPI value")
   if (rescY) {
     resMelt <- resMelt +
+      ggplot2::facet_grid(PPI~.) +
       ggplot2::ylim(c(0,1)) # usually we want index values between 0 and 1
+  }
+  else {
+    resMelt <- resMelt +
+      ggplot2::facet_grid(PPI~., scales = "free_y")
   }
   resMelt
 }

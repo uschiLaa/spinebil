@@ -4,8 +4,14 @@
 \alias{squintAngleEstimate}
 \title{Estimating squint angle of 2-d structure in high-d dataset under selected index.}
 \usage{
-squintAngleEstimate(data, indexF, cutoff, structurePlane, n = 100,
-  stepSize = 0.01)
+squintAngleEstimate(
+  data,
+  indexF,
+  cutoff,
+  structurePlane,
+  n = 100,
+  stepSize = 0.01
+)
 }
 \arguments{
 \item{data}{Input data}
@@ -30,9 +36,9 @@ is above the selected cutoff. Since this depends on the direction, this is repea
 with n randomly selected planes giving a distribution representative of the squint angle.
 }
 \examples{
-\dontrun{
+if (interactive()) {
 data <- spiralData(4, 100)
-indexF <- scagIndex("Skinny")
+indexF <- scagIndex("skinny")
 cutoff <- 0.7
 structurePlane <- basisMatrix(3,4,4)
 squintAngleEstimate(data, indexF, cutoff, structurePlane, n=1)
