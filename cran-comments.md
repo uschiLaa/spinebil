@@ -1,3 +1,8 @@
+This is a submission of a previously archived package. 
+
+It has a new maintainer, and the problems resulting in it being
+removed from CRAN have been fixed.
+
 ## Test environments
 
 * local OS X install, R 3.5.1
