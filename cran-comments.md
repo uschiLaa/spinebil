@@ -9,6 +9,8 @@ The notes arise because it is considered a new submission.
 * Debian Linux, R-release, GCC
 * Ubuntu Linux 16.04 LTS, R-release, GCC 
 
+I did not include checks on Apple Silicon (M1) as it is not an official CRAN platform.
+
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note
