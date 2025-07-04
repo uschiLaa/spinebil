@@ -4,7 +4,7 @@
 ^docs$
 ^_pkgdown\.yml$
 ^cran-comments\.md$
-^.github$
+^\.github$
 ^CRAN-RELEASE$
 ^plots$
 examples.R

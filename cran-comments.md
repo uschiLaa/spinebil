@@ -1,14 +1,13 @@
 
 This is a re-submission of an archived package with a new maintainer. It fixes the problems listed at https://cran-archive.r-project.org/web/checks/2020/2020-06-15_check_results_spinebil.html. The dependency of the "binostics" package is removed.
 
-The notes arise because it is considered a new submission.
+The note arises because it is considered a new submission.
+
+This version fixes issues noted in the first automated CRAN checks. 
 
 ## Test environments
 
-* local Windows install, R 4.0.3
-* Windows Server 2008 R2 SP1, R-devel
-* Debian Linux, R-release, GCC
-* Ubuntu Linux 16.04 LTS, R-release, GCC 
+Checks made using rhub on these platforms: ubuntu-latest on GitHub, macos-13 on GitHub, macos-latest on GitHub, windows-latest on GitHub
 
 ## R CMD check results
 
@@ -19,9 +18,6 @@ The notes arise because it is considered a new submission.
 New submission
 
 Package was archived on CRAN
-
-Possibly mis-spelled words in DESCRIPTION:
-  Laa (18:21)
 
 ## Reverse dependencies
 
