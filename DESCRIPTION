@@ -1,7 +1,7 @@
 Package: spinebil
 Type: Package
 Title: Investigating New Projection Pursuit Index Functions
-Version: 0.1.3
+Version: 0.1.4
 Authors@R: c(
     person("Ursula", "Laa",
            email = "ursula.laa@boku.ac.at",
@@ -18,7 +18,8 @@ Authors@R: c(
 Description: Projection pursuit is used to find interesting low-dimensional
     projections of high-dimensional data by optimizing an index over all
     possible projections. The 'spinebil' package contains methods to evaluate
-    the performance of projection pursuit index functions using tour methods.
+    the performance of projection pursuit index functions using tour methods. 
+    A paper describing the methods can be found at <doi.org/10.1007/s00180-020-00954-8>.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -31,7 +32,6 @@ Imports:
     dplyr,
     tidyr,
     tictoc,
-    magrittr,
     cassowaryr
 Suggests:
     minerva,

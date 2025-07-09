@@ -36,11 +36,9 @@ is above the selected cutoff. Since this depends on the direction, this is repea
 with n randomly selected planes giving a distribution representative of the squint angle.
 }
 \examples{
-if (interactive()) {
-data <- spiralData(4, 100)
-indexF <- scagIndex("skinny")
+data <- spiralData(4, 50)
+indexF <- scagIndex("stringy")
 cutoff <- 0.7
 structurePlane <- basisMatrix(3,4,4)
 squintAngleEstimate(data, indexF, cutoff, structurePlane, n=1)
-}
 }

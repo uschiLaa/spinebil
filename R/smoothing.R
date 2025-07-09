@@ -56,14 +56,13 @@ getIndexMean <- function(proj, d, alpha, idx, method="jitterAngle", n=10){
 #' @param n Number of evaluations entering mean value calculation
 #' @return Table of mean index values
 #' @export
-#' @examples if (interactive()) {
-#' d <- spiralData(4, 100)
+#' @examples
+#' d <- spiralData(3, 50)
 #' tPath <- tourr::save_history(d, max_bases=2)
-#' tPath <- as.list(tourr::interpolate(tPath))
-#' idx <- scagIndex("skinny")
-#' compS <- compareSmoothing(d, tPath, idx, n=5)
+#' tPath <- as.list(tourr::interpolate(tPath, 0.2))
+#' idx <- scagIndex("stringy")
+#' compS <- compareSmoothing(d, tPath, idx, alphaV = c(0.01, 0.05), n=2)
 #' plotSmoothingComparison(compS)
-#' }
 compareSmoothing <- function(d, tPath, idx, alphaV=c(0.01, 0.05, 0.1), n=10){
   sc <- tibble::tibble(
     indexMean=numeric(),
@@ -74,7 +73,7 @@ compareSmoothing <- function(d, tPath, idx, alphaV=c(0.01, 0.05, 0.1), n=10){
     for (alpha in alphaV){
       for (i in seq_along(tPath)) {
         idM <- getIndexMean(tPath[[i]], d, alpha, idx, method, n)
-        sc <- sc %>%
+        sc <- sc |>
           tibble::add_row(indexMean=idM, t=i, method=method, alpha=alpha)
       }
     }
@@ -96,10 +95,10 @@ compareSmoothing <- function(d, tPath, idx, alphaV=c(0.01, 0.05, 0.1), n=10){
 #' @return ggplot visualisation of the comparison
 #' @export
 plotSmoothingComparison <- function(smMat, lPos="none"){
-  smMat <- smMat %>%
+  smMat <- smMat |>
     dplyr::mutate(method = factor(
       method, levels = c("jitterAngle", "jitterPoints", "noSmoothing")
-      )) %>%
+      )) |>
     ggplot2::ggplot(
       ggplot2::aes(x=t, y=indexMean, color=method, linetype=method)
       ) +

@@ -24,11 +24,9 @@ test this explicitly by profiling the index while rotating a
 distribution.
 }
 \examples{
-if (interactive()) {
-d <- as.matrix(sinData(2, 100))
+d <- as.matrix(sinData(2, 50))
 indexList <- list(tourr::holes(), scagIndex("skinny"), mineIndexE("MIC"))
 indexLabels <- c("holes", "skinny", "mic")
-pRot <- profileRotation(d, indexList, indexLabels)
+pRot <- profileRotation(d, indexList, indexLabels, n = 100)
 plotRotation(pRot)
-}
 }

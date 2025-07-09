@@ -22,7 +22,7 @@
 getTrace <- function(d, m, indexList, indexLabels){
   mX <- m[[1]]
   if(ncol(mX) != 2){
-    print("Each projection matrix must have exactly two columns!")
+    warning("Each projection matrix must have exactly two columns!")
     return(NULL)
   }
   # problem with planned tour: skipping first two entries
@@ -60,8 +60,8 @@ getTrace <- function(d, m, indexList, indexLabels){
 plotTrace <- function(resMat, rescY=TRUE){
   PPI <- colnames(resMat)
   PPI <- PPI[PPI != "t"] # columns are index names or time counter
-  resMelt <- tibble::as_tibble(resMat) %>%
-    tidyr::gather(PPI, value, -t) %>%
+  resMelt <- tibble::as_tibble(resMat) |>
+    tidyr::gather(PPI, value, -t) |>
     ggplot2::ggplot(ggplot2::aes(x=t, y=value)) +
     ggplot2::geom_line() +
     ggplot2::theme(legend.position="none") +

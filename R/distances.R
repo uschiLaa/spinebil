@@ -76,13 +76,12 @@ distanceToSp <- function(planes, specialPlane){
 #' @param stepSize Interpolation step size fixing the accuracy (default = 0.01)
 #' @return numeric vector containing all squint angle estimates
 #' @export
-#' @examples if (interactive()) {
-#' data <- spiralData(4, 100)
-#' indexF <- scagIndex("skinny")
+#' @examples
+#' data <- spiralData(4, 50)
+#' indexF <- scagIndex("stringy")
 #' cutoff <- 0.7
 #' structurePlane <- basisMatrix(3,4,4)
 #' squintAngleEstimate(data, indexF, cutoff, structurePlane, n=1)
-#' }
 squintAngleEstimate <- function(data, indexF, cutoff, structurePlane, n = 100, stepSize = 0.01){
   data <- as.matrix(data) # make sure data is in matrix format
   angles <- numeric(length = n) # collecting all individual estimates
