@@ -1,3 +1,6 @@
+Version 0.1.6
+ * Corrected DOI formatting in DESCRIPTION to meet CRAN requirements.
+
 Version 0.1.5
  * Further reduction in code speed to satisfy CRAN checks
 
