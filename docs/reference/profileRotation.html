@@ -19,7 +19,7 @@ distribution."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/li
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spinebil</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.4</span>
       </span>
     </div>
 
@@ -78,13 +78,15 @@ distribution.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="sinData.html">sinData</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="sinData.html">sinData</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">50</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> New names:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `` -&gt; `...1`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `` -&gt; `...2`</span>
 <span class="r-in"><span><span class="va">indexList</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu">tourr</span><span class="fu">::</span><span class="fu"><a href="https://ggobi.github.io/tourr/reference/holes.html" class="external-link">holes</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="scagIndex.html">scagIndex</a></span><span class="op">(</span><span class="st">"skinny"</span><span class="op">)</span>, <span class="fu"><a href="scagIndex.html">mineIndexE</a></span><span class="op">(</span><span class="st">"MIC"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">indexLabels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"holes"</span>, <span class="st">"skinny"</span>, <span class="st">"mic"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">pRot</span> <span class="op">&lt;-</span> <span class="fu">profileRotation</span><span class="op">(</span><span class="va">d</span>, <span class="va">indexList</span>, <span class="va">indexLabels</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pRot</span> <span class="op">&lt;-</span> <span class="fu">profileRotation</span><span class="op">(</span><span class="va">d</span>, <span class="va">indexList</span>, <span class="va">indexLabels</span>, n <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="plotRotation.html">plotRotation</a></span><span class="op">(</span><span class="va">pRot</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-plt img"><img src="profileRotation-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>
