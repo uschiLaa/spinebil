@@ -1,3 +1,6 @@
+Version 0.1.5
+ * Further reduction in code speed to satisfy CRAN checks
+
 Version 0.1.4
  * Fixes to correct items reported in manual CRAN check
  * Added citation into the DESCRIPTION

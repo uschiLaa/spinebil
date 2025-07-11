@@ -57,9 +57,9 @@ getIndexMean <- function(proj, d, alpha, idx, method="jitterAngle", n=10){
 #' @return Table of mean index values
 #' @export
 #' @examples
-#' d <- spiralData(3, 50)
+#' d <- spiralData(3, 30)
 #' tPath <- tourr::save_history(d, max_bases=2)
-#' tPath <- as.list(tourr::interpolate(tPath, 0.2))
+#' tPath <- as.list(tourr::interpolate(tPath, 0.3))
 #' idx <- scagIndex("stringy")
 #' compS <- compareSmoothing(d, tPath, idx, alphaV = c(0.01, 0.05), n=2)
 #' plotSmoothingComparison(compS)

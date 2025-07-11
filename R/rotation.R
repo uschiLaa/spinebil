@@ -11,10 +11,10 @@
 #' @return index values for each rotation step
 #' @export
 #' @examples 
-#' d <- as.matrix(sinData(2, 50))
-#' indexList <- list(tourr::holes(), scagIndex("skinny"), mineIndexE("MIC"))
+#' d <- as.matrix(sinData(2, 30))
+#' indexList <- list(tourr::holes(), scagIndex("stringy"), mineIndexE("MIC"))
 #' indexLabels <- c("holes", "skinny", "mic")
-#' pRot <- profileRotation(d, indexList, indexLabels, n = 100)
+#' pRot <- profileRotation(d, indexList, indexLabels, n = 50)
 #' plotRotation(pRot)
 profileRotation <- function(d, indexList, indexLabels, n=200){
   # initialise results storage
