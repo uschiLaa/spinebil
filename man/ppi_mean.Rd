@@ -26,5 +26,6 @@ A tibble with:
 Simulate and Summarize Projection Pursuit Index (PPI) Values
 }
 \examples{
-ppi_mean(data_gen(type = "polynomial", degree = 2), scagIndex("stringy"))
+data <- as.data.frame(data_gen(type = "polynomial", degree = 2))
+ppi_mean(data, scagIndex("stringy"), n_sim = 30)
 }

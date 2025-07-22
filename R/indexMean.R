@@ -12,7 +12,8 @@
 #' 
 #' @export
 #' @examples
-#' ppi_mean(data_gen(type = "polynomial", degree = 2), scagIndex("stringy"))
+#' data <- as.data.frame(data_gen(type = "polynomial", degree = 2))
+#' ppi_mean(data, scagIndex("stringy"), n_sim = 30)
 ppi_mean <- function(data,
                          index_fun,
                          n_sim = 100,
@@ -22,20 +23,23 @@ ppi_mean <- function(data,
   stopifnot(ncol(data) >= 2, nrow(data) >= 2)
   
   col_pairs <- utils::combn(seq_along(data), 2, simplify = FALSE)
+  
+  old_plan <- future::plan()                  
+  on.exit(future::plan(old_plan), add = TRUE)
   future::plan(future::multisession, workers = max(1, parallel::detectCores() - 1))
   
   
   # Simulate and compute index values across all variable pairs
   all_results <- furrr::future_map_dfr(seq_len(n_sim), function(sim) {
-    sampled_data <- data[sample(nrow(data), size = n_obs, replace = TRUE), , drop = FALSE]
     
     purrr::map_dfr(col_pairs, function(pair) {
       i <- pair[1]
       j <- pair[2]
-      x <- sampled_data[[i]]
-      y <- sampled_data[[j]]
+      x <- data[[i]]
+      y <- data[[j]]
+      mat = cbind(x,y)
       
-      result <- tryCatch(index_fun(x, y), error = function(e) NA_real_)
+      result <- tryCatch(index_fun(mat), error = function(e) NA_real_)
       
       tibble::tibble(
         sim = sim,
@@ -48,13 +52,7 @@ ppi_mean <- function(data,
   
   # Aggregate mean value for each pair
   all_results |>
-    dplyr::group_by(.data[["var_i"]], .data[["var_j"]]) |>
+    dplyr::group_by("var_i", "var_j") |>
     dplyr::summarise(mean_index = mean(value, na.rm = TRUE), .groups = "drop")
-
-future::plan(future::sequential)
-
 }
 
-
-
-utils::globalVariables(".data")

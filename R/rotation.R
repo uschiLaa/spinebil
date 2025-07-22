@@ -13,7 +13,7 @@
 #' @examples 
 #' d <- as.matrix(sinData(2, 30))
 #' indexList <- list(tourr::holes(), scagIndex("stringy"), mineIndexE("MIC"))
-#' indexLabels <- c("holes", "skinny", "mic")
+#' indexLabels <- c("holes", "stringy", "mic")
 #' pRot <- profileRotation(d, indexList, indexLabels, n = 50)
 #' plotRotation(pRot)
 profileRotation <- function(d, indexList, indexLabels, n=200){
