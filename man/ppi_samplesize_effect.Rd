@@ -23,6 +23,6 @@ For a given index function, simulates how the index behaves across a range
 of sample sizes when applied to pairs of standard normal noise.
 }
 \examples{
-ppi_samplesize_effect(scagIndex("stringy"), n_sim = 50)
+ppi_samplesize_effect(scagIndex("stringy"), n_sim = 10)
 
 }

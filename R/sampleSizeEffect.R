@@ -11,7 +11,7 @@
 #' - `Percentile95`: 95th percentile of the index values over simulations
 #'
 #' @examples
-#' ppi_samplesize_effect(scagIndex("stringy"), n_sim = 50)
+#' ppi_samplesize_effect(scagIndex("stringy"), n_sim = 10)
 #'
 #' @export
 ppi_samplesize_effect <- function(index_fun,
@@ -33,9 +33,10 @@ ppi_samplesize_effect <- function(index_fun,
     for (i in seq_len(n_sim)) {
       x <- stats::rnorm(sample_size)
       y <- stats::rnorm(sample_size)
+      mat <- cbind(x,y)
       
       index_values[i] <- tryCatch(
-        index_fun(x, y),
+        index_fun(mat),
         error = function(e) {
           warning(sprintf("Simulation %d failed at sample size %d: %s", i, sample_size, e$message))
           NA_real_
@@ -50,6 +51,6 @@ ppi_samplesize_effect <- function(index_fun,
     
   }, .options = furrr::furrr_options(seed = TRUE), .progress = TRUE)
   
-  future::plan(future::sequential)  # cleanup workers
+  future::plan(future::sequential)
   return(results)
 }

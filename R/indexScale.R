@@ -36,18 +36,20 @@ scag_scale <- function(data,
   
   results <- furrr::future_map_dfr(seq_len(n_sim), function(sim) {
     
-    structured_data <- data[sample(nrow(data), size = n_obs, replace = TRUE), , drop = FALSE]
-    
     purrr::map_dfr(col_pairs, function(pair) {
       i <- pair[1]
       j <- pair[2]
-      x_struct <- structured_data[[i]]
-      y_struct <- structured_data[[j]]
-      index_0 <- tryCatch(index_fun(x_struct, y_struct), error = function(e) NA_real_)
+      x_struct <- data[[i]]
+      y_struct <- data[[j]]
+      mat1 <- cbind(x_struct, y_struct)
+      
+      index_0 <- tryCatch(index_fun(mat1), error = function(e) NA_real_)
           
       x_noise <- scale(stats::rnorm(n_obs))[, 1]
       y_noise <- scale(stats::rnorm(n_obs))[, 1]
-      index_1 <- tryCatch(index_fun(x_noise, y_noise), error = function(e) NA_real_)
+      mat2 <- cbind(x_noise, y_noise)
+        
+      index_1 <- tryCatch(index_fun(mat2), error = function(e) NA_real_)
       
       var_names <- names(data)[pair]
       
