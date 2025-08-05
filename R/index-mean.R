@@ -52,7 +52,13 @@ ppi_mean <- function(data,
   
   # Aggregate mean value for each pair
   all_results |>
-    dplyr::group_by("var_i", "var_j") |>
+    dplyr::group_by(var_i, var_j) |>
     dplyr::summarise(mean_index = mean(value, na.rm = TRUE), .groups = "drop")
 }
+
+
+
+
+
+
 

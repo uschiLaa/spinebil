@@ -38,6 +38,9 @@ Suggests:
     testthat,
     purrr,
     furrr,
-    future
+    future,
+    quarto
+VignetteBuilder: 
+    quarto
 RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
