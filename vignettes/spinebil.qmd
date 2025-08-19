@@ -60,30 +60,4 @@ plotTrace(trace)
 
 `spinebil` is particularly useful for researchers and developers designing new projection pursuit indices or wanting to better understand the strengths and weaknesses of existing ones. By using tour-based visual diagnostics, it helps bridge the gap between statistical rigor and exploratory data analysis.
 
-## Effect of sample size
 
-This demonstrates how to use the `ppi_samplesize_effect()` function to study how projection pursuit index (PPI) values behave under increasing sample sizes in purely noisy (Gaussian) data.
-
-Understanding how an index behaves under null conditions is critical for:
-
-- Calibrating thresholds for statistical significance
-- Identifying sensitivity to sample size
-- Comparing robustness across different index functions
-
-
-## What the Function Does
-
-The function `ppi_samplesize_effect()` runs repeated simulations of standard normal noise across a range of sample sizes. For each size, it computes a specified index function over the samples and records the 95th percentile of index values observed. This helps estimate the distributional behavior of the index under pure noise, depending on sample size.
-
-## Example Usage
-
-Let’s evaluate the `stringy` index from the `cassowaryr` package to see how its values change under noise as the sample size increases.
-
-```{r}
-library(spinebil)
-library(cassowaryr)
-
-result <- ppi_samplesize_effect(scagIndex("stringy"), n_sim = 10)
-head(result)
-tail(result)
-```

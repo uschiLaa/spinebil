@@ -1,0 +1,120 @@
+---
+title: "Tracing Index Values Over an Interpolated Tour"
+author: "Tina Rashid Jafari"
+vignette: >
+  %\VignetteIndexEntry{Tracing Index Values Over an Interpolated Tour}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  message=FALSE, 
+  warning=FALSE
+)
+```
+
+## Overview
+
+This vignette shows how to trace projection pursuit index (PPI) values along a planned, interpolated tour path. You will compute an index at each intermediate projection and then plot it (“plotTrace”) for quick smoothness checks and diagnostics.
+
+```{r}
+library(spinebil)
+library(tourr)
+library(tidyverse)
+```
+
+## What the Function Does
+
+### `getTrace(d, m, indexList, indexLabels)`
+
+* Builds a planned tour from a list of 2D projection matrices `m`.
+* Interpolates smoothly between consecutive projections.
+* Projects the data `d` at each interpolation step and evaluates each index in `indexList`.
+* Returns a matrix whose columns are `indexLabels` plus a counter column `"t"` (the step index).
+
+### `plotTrace(resMat, rescY = TRUE)`
+
+* Turns the `getTrace()` output into a faceted line plot (one facet per index).
+* If `rescY = TRUE`, y-axes are fixed to [0, 1] (typical scale for many PPIs).
+If `FALSE`, each facet gets its own y-scale.
+
+
+## Function usage
+
+```r
+# Compute traces for chosen indices along a planned tour:
+trace <- getTrace(
+  d = <data>,
+  m = list(<2D basis 1>, <2D basis 2>, ...),
+  indexList   = list(tourr::holes(), tourr::cmass(), ...),
+  indexLabels = c("holes", "cmass", ...)
+)
+```
+**Arguments:**
+
+* `d`: data matrix/data frame.
+* `m`: list of 2-column projection matrices.
+* `indexList`: list of index functions taking a 2-column matrix and returning a single numeric.
+* `indexLabels`: character vector of labels matching `indexList`.
+
+```r
+# Plot the traces:
+plotTrace(resMat = trace)          # fixed y in [0, 1]
+plotTrace(resMat = trace, rescY = FALSE)   # free y per index
+```
+
+**Arguments:**
+  
+* `resMat`: data (result of getTrace)
+* `rescY`: lock y-limits to $[0,1]$ or let them vary.
+
+
+
+## Example Usage
+
+```{r}
+# Data: 4D spiral-like structure
+d <- spiralData(4, 100)
+
+# Planned tour between two explicit 2D basis
+m <- list(
+  basisMatrix(1, 2, 4),
+  basisMatrix(3, 4, 4)
+)
+
+# Two indices from tourr
+indexList   <- list(tourr::holes(), tourr::cmass())
+indexLabels <- c("holes", "cmass")
+
+# Compute the trace (index values over the interpolated sequence)
+trace <- getTrace(d, m, indexList, indexLabels)
+
+# Peek at the first rows
+head(trace)
+```
+
+### fixed y-range
+
+```{r}
+p1 <- plotTrace(trace, rescY = TRUE)
+p1
+```
+
+### free y-range
+
+```{r}
+p2 <- plotTrace(trace, rescY = FALSE)
+p2
+```
+
+## Return value
+
+* **`getTrace()`** returns a numeric matrix with `nrow = (# of interpolated steps)` and
+`ncol = length(indexLabels) + 1`.
+Columns are named by `indexLabels` plus `"t"` (step counter). Each row holds all index values for that step.
+
+* **`plotTrace()`** returns a ggplot object visualising the traces (one facet per index).
+

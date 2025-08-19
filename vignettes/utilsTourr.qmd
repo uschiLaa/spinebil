@@ -1,0 +1,94 @@
+---
+title: "Geodesic steps and nearby basis"
+author: "Tina Rashid Jafari"
+vignette: >
+  %\VignetteIndexEntry{Geodesic steps and nearby basis}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  message=FALSE, 
+  warning=FALSE
+)
+```
+
+## Overview
+
+This vignette shows how to make small, controlled moves between projection bases using these utilities:
+
+* `basis_nearby()` — generate a basis toward a random target (linear blend or geodesic).
+* `geodesic_info()` — compute the ingredients of the smooth geodesic path between two bases.
+* `step_fraction()` — take a fractional step along that path.
+
+These are useful for search/optimisation over projections and smooth animation between views.
+
+> **Terminology.** A *frame* (or *basis*) here is a $p \times d$ matrix $F$ with orthonormal columns (projecting $p$-dimensional data into $d$ dimensions). Throughout we keep $F^\top F = I_d$.
+
+The implementations rely on core linear-algebra helpers from **tourr** package.
+
+```{r}
+library(spinebil)
+library(tourr)
+```
+
+## What the Function Does
+
+### `basis_nearby(current, alpha = 0.5, method = "linear")`
+
+Creates a new basis “near” `current`.
+
+* `method = "linear"`: linearly blends `current` with a random basis, then re-orthonormalises.
+* `method = "geodesic"`: takes a true geodesic step of size `alpha` toward a random basis.
+
+### `geodesic_info(Fa, Fz, epsilon = 1e-6)`
+
+Prepares the smooth rotation from start basis `Fa` to target basis `Fz`: aligned frames and principal angles.
+
+### `step_fraction(interp, fraction)`
+
+Given the result of `geodesic_info()`, returns the basis at a chosen fraction `fraction ∈ [0,1]` along the path.
+
+## Function usage
+
+```r
+
+# Move a little from a basis:
+spinebil:::basis_nearby(current, alpha = 0.2, method = "geodesic")
+
+# Compute geodesic ingredients between two bases:
+info <- spinebil:::geodesic_info(Fa, Fz)
+
+# Step part-way (e.g., 30%) along the path:
+sf <- spinebil:::step_fraction(info, fraction = 0.3)
+```
+
+## Example Usage
+
+
+```{r}
+X <- scale(iris[, 1:4])
+
+# Two nearby bases to act as start (Fa) and end (Fz) 
+Fa <- spinebil:::basis_nearby(X, alpha = 0.25, method = "geodesic")
+Fz <- spinebil:::basis_nearby(X, alpha = 0.85, method = "geodesic")
+
+# Geodesic info between Fa and Fz
+info <- spinebil:::geodesic_info(Fa, Fz)
+
+# Fractions along the path: 0 = start, 1 = end 
+fractions <- c(0,1)
+
+s_frac <- spinebil:::step_fraction(info, fractions)
+```
+
+## Return value
+
+* **`basis_nearby()`** → an orthonormal $p \times d$ matrix: a new basis near `current`.
+* **`geodesic_info()`** → a list with components:
+  
+  * `Va` (rotation matrix), `Ga`, `Gz` (aligned frames), `tau` (principal angles, numeric vector length $d$).
+* **`step_fraction()`** → an orthonormal $p \times d$ matrix: the basis located `fraction` along the geodesic from `Fa` to `Fz`.

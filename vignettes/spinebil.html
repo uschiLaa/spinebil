@@ -149,54 +149,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="usage">Usage</h2>
 <p><code>spinebil</code> is particularly useful for researchers and developers designing new projection pursuit indices or wanting to better understand the strengths and weaknesses of existing ones. By using tour-based visual diagnostics, it helps bridge the gap between statistical rigor and exploratory data analysis.</p>
 </section>
-<section id="effect-of-sample-size" class="level2">
-<h2 class="anchored" data-anchor-id="effect-of-sample-size">Effect of sample size</h2>
-<p>This demonstrates how to use the <code>ppi_samplesize_effect()</code> function to study how projection pursuit index (PPI) values behave under increasing sample sizes in purely noisy (Gaussian) data.</p>
-<p>Understanding how an index behaves under null conditions is critical for:</p>
-<ul>
-<li>Calibrating thresholds for statistical significance</li>
-<li>Identifying sensitivity to sample size</li>
-<li>Comparing robustness across different index functions</li>
-</ul>
-</section>
-<section id="what-the-function-does" class="level2">
-<h2 class="anchored" data-anchor-id="what-the-function-does">What the Function Does</h2>
-<p>The function <code>ppi_samplesize_effect()</code> runs repeated simulations of standard normal noise across a range of sample sizes. For each size, it computes a specified index function over the samples and records the 95th percentile of index values observed. This helps estimate the distributional behavior of the index under pure noise, depending on sample size.</p>
-</section>
-<section id="example-usage" class="level2">
-<h2 class="anchored" data-anchor-id="example-usage">Example Usage</h2>
-<p>Let’s evaluate the <code>stringy</code> index from the <code>cassowaryr</code> package to see how its values change under noise as the sample size increases.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spinebil)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cassowaryr)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">ppi_samplesize_effect</span>(<span class="fu">scagIndex</span>(<span class="st">"stringy"</span>), <span class="at">n_sim =</span> <span class="dv">10</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 2
-  SampleSize Percentile95
-       &lt;dbl&gt;        &lt;dbl&gt;
-1         30        0.830
-2         35        0.770
-3         40        0.810
-4         45        0.813
-5         50        0.789
-6         55        0.778</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 2
-  SampleSize Percentile95
-       &lt;dbl&gt;        &lt;dbl&gt;
-1       1875        0.744
-2       1900        0.747
-3       1925        0.743
-4       1950        0.736
-5       1975        0.746
-6       2000        0.741</code></pre>
-</div>
-</div>
-</section>
 
 </main>
 <!-- /main column -->

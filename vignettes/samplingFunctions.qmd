@@ -1,0 +1,104 @@
+---
+title: "Synthetic Samples: Pipe, Sine, and Spiral"
+author: "Tina Rashid Jafari"
+vignette: >
+  %\VignetteIndexEntry{Synthetic Samples: Pipe, Sine, and Spiral}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  message=FALSE, 
+  warning=FALSE
+)
+```
+
+## Overview
+
+
+This vignette introduces three generators for synthetic data used in projection-pursuit experiments:
+
+```{r}
+library(spinebil)
+library(ggplot2)
+library(dplyr)
+library(tibble)
+```
+
+## What the Function Does
+
+### `pipeData(n, p, t = 0.1)`
+
+* Repeatedly samples `v ~ Uniform([-1,1]^n)`.
+* Keeps those whose last two coordinates fall within a thick unit circle (radius 1, thickness `t`), producing a “pipe/ring” structure in the last two dimensions.
+* Returns a tibble with `n` columns.
+
+### `sinData(n, p, f = 1)`
+
+* Samples an `n × p` normal matrix (each column $N(0,1)$).
+* then sets the last coordinate to sin of the $(n-1)$-th plus jitter controlled by `f`; yields a noisy sine relationship.
+* Returns a tibble with `n` columns.
+
+### `spiralData(n, p)`
+
+* draws $n-2$ standard normal coordinates; then makes the last two coordinates follow a planar spiral.
+* Returns a matrix with `n` columns. 
+
+## Example Usage
+
+  
+```{r}
+# Pipe:
+pipe_4d <- pipeData(4, 100)
+pipe_2d <- pipeData(2, 100, 0.5)  # ring with thicker band
+
+# Sine:
+sin_4d  <- sinData(4, 100)
+sin_2d  <- sinData(2, 100, 200)  # stronger jitter
+
+# Spiral:
+spir_4d <- spiralData(4, 100)
+```
+
+
+### Pipe: last two coordinates form a thick unit circle
+
+```{r}
+pipe_4d |> 
+  transmute(x = .data$...3, y = .data$...4) |> 
+  ggplot(aes(x, y)) +
+  geom_point(alpha = 0.7, size = 1.4) +
+  coord_equal()
+```
+
+
+### Sine: last vs previous coordinate shows (noisy) sine
+
+```{r}
+sin_4d |> 
+  transmute(x = .data$...3, y = .data$...4) |> 
+  ggplot(aes(x, y)) +
+  geom_point(alpha = 0.7, size = 1.4) 
+```
+
+
+### Spiral: last two coordinates trace a spiral
+
+```{r}
+spir_df <- as_tibble(spir_4d, .name_repair = "universal")
+spir_df |> 
+  transmute(x = .data$...3, y = .data$...4) |> 
+  ggplot(aes(x, y)) +
+  geom_point(alpha = 0.7, size = 1.4) +
+  coord_equal() 
+```
+
+## Return value
+
+* **`pipeData(n, p, t)`** returns a tibble with `p` rows and `n` columns. Points lie close to a unit circle in the last two coordinates; other coords are uniform in $[-1,1]$.
+* **`sinData(n, p, f)`** returns a tibble with `p` rows and `n` columns. The points in the final direction are calculated as the sine of the values of direction n-1 with additional jittering controled by the jitter factor f.
+* **`spiralData(n, p)`** returns a matrix with `p` rows and `n` columns. Last two columns lie on an spiral; first $n-2$ are $N(0,1)$.
+

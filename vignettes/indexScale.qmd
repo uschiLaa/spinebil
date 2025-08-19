@@ -1,0 +1,65 @@
+---
+title: "Comparing Index Scale on Structured vs. Noisy Data"
+vignette: >
+  %\VignetteIndexEntry{An introduction to the spinebil package}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(cache = TRUE)
+```
+
+## Overview
+  
+  `ppi_scale()` simulates how a projection pursuit index (PPI) behaves on:
+  
+1) **Structured** data (taken from your input data’s columns), and  
+2) **Pure Gaussian noise** (same sample size),  
+
+so you can compare the scale of the index across contexts. This is useful to
+answer: *“How large is an index value on real structure compared to random?”*
+  
+```{r setup, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(future)
+library(furrr)
+library(spinebil) 
+
+```
+
+
+## Function usage
+
+```r
+ppi_scale(
+  data,        # data frame or matrix (>= 2 numeric columns)
+  index_fun,   # function: takes a 2-column matrix and returns a numeric scalar
+  n_sim = 100, # simulations (per variable pair)
+  n_obs = 500, # observations per noise simulation
+  seed = NULL
+)
+```
+
+
+## Example usage
+
+Let’s evaluate the `stringy` index from the `cassowaryr` package to see how the scale change for pure noise and structure. 
+
+```{r}
+ppi_scale(data_gen("polynomial", degree = 3), scagIndex("stringy"), n_sim = 10)
+```
+
+
+Here `sigma = 0` is **structured** and `sigma = 1` is  **pure noise**.
+
+
+## Return value
+
+`ppi_scale()` returns a tibble with columns:
+  
+* `simulation`: simulation index
+* `var_i`, `var_j`: the two variable names
+* `var_pair`: convenience label, e.g. `"P1-P2"`
+* `sigma`: `0 = structured`, `1 = noise`
+* `index`: the index value from `index_fun`

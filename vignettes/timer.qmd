@@ -1,0 +1,78 @@
+---
+title: "Timing Index Evaluation Along a Tour Path"
+author: "Tina Rashid Jafari"
+vignette: >
+  %\VignetteIndexEntry{Timing Index Evaluation Along a Tour Path}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  message=FALSE, 
+  warning=FALSE
+)
+```
+
+## Overview
+
+
+This vignette measures how long a projection index takes to compute across a sequence of projections (e.g., an interpolated tour path). The result helps you see the distribution of compute times and spot slow projections or heavy-tail behavior.
+
+```{r}
+library(spinebil)
+library(ggplot2)
+```
+
+
+## What the Function Does
+
+### `timeSequence(d, t, idx, pmax)`
+
+For each projection matrix in `t` (up to `pmax` of them), the function:
+  
+1. Projects the data `d` to 2D using that matrix.
+2. Evaluates the index function `idx(dProj)`.
+3. Times just that evaluation and records the elapsed time.
+
+It returns a table with one row per evaluated projection containing:
+  
+* `t`: elapsed time (in seconds).
+* `i`: the order of the projection within the sequence (1, ... ,`pmax`).
+
+
+## Function usage
+
+```r
+timeSequence(d, t, idx, pmax)
+```
+
+**Arguments:**
+  
+* `d` — data in matrix form.
+* `t` — a list of projection matrices (each `p x 2`).
+* `idx` — an index function (e.g., `scagIndex("stringy")`, `tourr::holes()`) that accepts a 2-column numeric matrix and returns one number.
+* `pmax` — maximum number of projections to time.
+
+
+## Example Usage
+  
+```{r}
+d   <- spiralData(4, 100)  # 4d data
+t   <- purrr::map(1:10, ~ tourr::basis_random(4))  # 10 random 4x2 bases
+idx <- scagIndex("stringy")
+
+df_times <- timeSequence(d, t, idx, 10)
+head(df_times)
+```
+
+
+## Return value
+
+* **`timeSequence()`** returns a tibble/data frame with columns:
+  
+  * `t`: elapsed time (seconds) to compute `idx` at each projection.
+  * `i`: projection order index (1, ... ,`pmax`).
+

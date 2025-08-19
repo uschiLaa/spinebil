@@ -1,0 +1,56 @@
+---
+title: "Estimating a Noise Threshold for Projection–Pursuit Indexes"
+vignette: >
+  %\VignetteIndexEntry{An introduction to the spinebil package}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Overview
+  
+`ppi_noise_threshold()` estimates the **95th percentile** of a projection–pursuit
+index (PPI) under **synthetic noise**. This gives you a *null threshold*: if an
+observed index on real data exceeds this value, it may indicate non-random
+structure.
+
+The function supports different noise types via `noise_gen()` (e.g., Gaussian,
+                                                               $t$-distributed, Cauchy, microstructure) and lets you set the number of
+simulations and sample size per simulation.
+
+```{r setup, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(spinebil)
+library(cassowaryr)
+```
+
+
+## Function usage
+
+```r
+ppi_noise_threshold(
+  index_fun,
+  n_sim = 100,
+  n_obs = 500,
+  noise_type  = "gaussian",
+  noise_level = 0.01,
+  seed = NULL
+)
+```
+
+* **`index_fun`**: a function that returns a single numeric index. 
+* **`n_sim`**: number of simulated index evaluations.
+* **`n_obs`**: sample size per simulation.
+* **`noise_type` / `noise_level`**: passed through to `noise_gen()` to control
+the distribution and its scale.
+* **`seed`**: for reproducibility.
+
+
+```{r}
+ppi_noise_threshold(
+  index_fun = scagIndex("stringy"),
+  noise_type = "cauchy",
+  noise_level = 0.1,
+  n_sim = 10,
+  n_obs = 100
+)
+```

@@ -1,0 +1,61 @@
+---
+title: "Generating Basis Vectors and 2D Basis"
+author: "Tina Rashid Jafari"
+vignette: >
+  %\VignetteIndexEntry{Generating Basis Vectors and 2D Basis}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  message=FALSE, 
+  warning=FALSE
+)
+```
+
+## Overview
+
+This vignette introduces two utilities:
+  
+  * `basisVector(i, n)` — the i-th standard basis vector in $\mathbb{R}^n$ (all zeros except a 1 at position `i`).
+* `basisMatrix(i, j, n)` — a 2D basis matrix in $\mathbb{R}^n$ whose columns are the `i`-th and `j`-th standard basis vectors.
+
+```{r}
+library(spinebil)
+library(ggplot2)
+```
+
+## What the Function Does
+
+### `basisVector(i, n)`
+
+Returns a length-`n` numeric vector with value `1` at index `i` and `0` elsewhere.
+
+### `basisMatrix(i, j, n)`
+
+Returns an `n × 2` matrix whose first column is `basisVector(i, n)` and second column is `basisVector(j, n)`.
+
+
+## Function usage
+
+```{r}
+# Single direction
+e3 <- basisVector(i = 3, n = 5)
+e3
+```
+
+```{r}
+# 2D basis using directions 1 and 3:
+B13 <- basisMatrix(i = 1, j = 3, n = 4)
+B13
+```
+
+
+## Return value
+
+* **`basisVector(i, n)`** returns numeric vector of length `n` with a single 1 at position `i`.
+* **`basisMatrix(i, j, n)`** returns numeric matrix of size `n × 2`.
+
