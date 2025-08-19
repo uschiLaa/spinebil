@@ -4,7 +4,7 @@
 #' scagnostics and mine index functions for direct
 #' use with the guided tour or other functionalities in this package.
 #'
-#' @describeIn scagIndex Scagnostics index from binostics package
+#' @describeIn scagIndex Scagnostics index from cassowaryr package
 #' @param indexName Index name to select from group of indexes.
 #' @return function taking 2-d data matrix and returning the index value
 #' @export

@@ -8,7 +8,7 @@
 
 <meta name="author" content="Tina Rashid Jafari">
 
-<title>Estimating a Noise Threshold for Projection–Pursuit Indices</title>
+<title>Profiling Rotation Invariance of Projection Pursuit Indices</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,16 +58,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="indexNoiseThreshold_files/libs/clipboard/clipboard.min.js"></script>
-<script src="indexNoiseThreshold_files/libs/quarto-html/quarto.js"></script>
-<script src="indexNoiseThreshold_files/libs/quarto-html/popper.min.js"></script>
-<script src="indexNoiseThreshold_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="indexNoiseThreshold_files/libs/quarto-html/anchor.min.js"></script>
-<link href="indexNoiseThreshold_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="indexNoiseThreshold_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="indexNoiseThreshold_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="indexNoiseThreshold_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="indexNoiseThreshold_files/libs/bootstrap/bootstrap-c0367b04c37547644fece4185067e4a7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="rotation_files/libs/clipboard/clipboard.min.js"></script>
+<script src="rotation_files/libs/quarto-html/quarto.js"></script>
+<script src="rotation_files/libs/quarto-html/popper.min.js"></script>
+<script src="rotation_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="rotation_files/libs/quarto-html/anchor.min.js"></script>
+<link href="rotation_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="rotation_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="rotation_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="rotation_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="rotation_files/libs/bootstrap/bootstrap-c0367b04c37547644fece4185067e4a7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -109,7 +109,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Estimating a Noise Threshold for Projection–Pursuit Indices</h1>
+<h1 class="title">Profiling Rotation Invariance of Projection Pursuit Indices</h1>
 </div>
 
 
@@ -134,60 +134,94 @@ window.Quarto = {
 
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p><code>ppi_noise_threshold()</code> estimates the 95th percentile of a projection pursuit index (PPI) under synthetic noise. This gives you a null threshold: if an observed index on real data exceeds this value, it may indicate non-random structure.</p>
+<p>This vignette shows rotation invariance of projection pursuit indices on a 2D dataset by rotating the data through a full circle and recording index values at each angle, by using:</p>
+<ul>
+<li><code>profileRotation(d, indexList, indexLabels, n)</code> — compute index values while rotating the data in <code>n</code> steps.</li>
+<li><code>plotRotation(resMat)</code> — visualise the rotation profile (polar line plots).</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spinebil)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spinebil)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The function supports different noise types via <code>noise_gen()</code> (e.g., Gaussian, <span class="math inline">\(t\)</span>-distributed, Cauchy, microstructure) and lets you set the number of simulations and sample size per simulation.</p>
 </section>
 <section id="what-the-function-does" class="level2">
 <h2 class="anchored" data-anchor-id="what-the-function-does">What the Function Does</h2>
-<p><code>ppi_noise_threshold(index_fun, n_sim = 100, n_obs = 500, noise_type = "gaussian", noise_level = 0.01, seed = NULL)</code></p>
+<section id="profilerotationd-indexlist-indexlabels-n-200" class="level3">
+<h3 class="anchored" data-anchor-id="profilerotationd-indexlist-indexlabels-n-200"><code>profileRotation(d, indexList, indexLabels, n = 200)</code></h3>
+<p>This checks whether chosen projection–pursuit indices change when a 2D dataset is rotated.</p>
 <ul>
-<li><p>Generates noise pairs <code>(x, y)</code> repeatedly (<code>n_sim</code> times), each of length <code>n_obs</code>, using <code>noise_gen(type = noise_type, level = noise_level)</code>.</p></li>
-<li><p>Computes the index for every simulated pair via <code>index_fun</code>.</p></li>
-<li><p>Returns the 95th percentile (<code>quantile(..., 0.95)</code>) of all simulated index values.</p></li>
+<li><p><strong>Input</strong>: 2-column matrix <code>d</code> (the 2D distribution), a list of index functions <code>indexList</code>, their names <code>indexLabels</code>, and number of rotation steps <code>n</code>.</p></li>
+<li><p><strong>Output</strong>: a numeric matrix with one row per angle and columns = <code>indexLabels</code> plus <code>alpha</code> (the angle in radians).</p></li>
 </ul>
+</section>
+<section id="plotrotationresmat" class="level3">
+<h3 class="anchored" data-anchor-id="plotrotationresmat"><code>plotRotation(resMat)</code></h3>
+<p>It visualises rotation profiles from profileRotation().</p>
+<ul>
+<li>Converts the matrix from <code>profileRotation()</code> to long form and plots index value vs.&nbsp;angle in polar coordinates, faceted by index.</li>
+<li>x-axis is angle in degrees; y-axis is the index value (default limits <code>[-1, 1.1]</code> to accommodate different scales).</li>
+</ul>
+</section>
 </section>
 <section id="function-usage" class="level2">
 <h2 class="anchored" data-anchor-id="function-usage">Function usage</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ppi_noise_threshold</span>(</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  index_fun,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_sim =</span> <span class="dv">100</span>,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_obs =</span> <span class="dv">500</span>,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">noise_type  =</span> <span class="st">"gaussian"</span>,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">noise_level =</span> <span class="fl">0.01</span>,</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> <span class="cn">NULL</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Arguments :</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute rotation profiles for chosen indices:</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pRot <span class="ot">&lt;-</span> <span class="fu">profileRotation</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">d =</span> <span class="sc">&lt;</span><span class="dv">2</span><span class="sc">-</span>col matrix<span class="sc">&gt;</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">indexList   =</span> <span class="fu">list</span>(tourr<span class="sc">::</span><span class="fu">holes</span>(), <span class="fu">scagIndex</span>(<span class="st">"stringy"</span>), <span class="fu">mineIndexE</span>(<span class="st">"MIC"</span>)),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">indexLabels =</span> <span class="fu">c</span>(<span class="st">"holes"</span>, <span class="st">"stringy"</span>, <span class="st">"mic"</span>),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">50</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualise:</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRotation</span>(pRot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Arguments:</strong></p>
 <ul>
-<li><strong><code>index_fun</code></strong>: a function that returns a single numeric value.</li>
-<li><strong><code>n_sim</code></strong>: number of simulations.</li>
-<li><strong><code>n_obs</code></strong>: sample size per simulation.</li>
-<li><strong><code>noise_type</code> / <code>noise_level</code></strong>: passed through to <code>noise_gen()</code> to control the distribution and its scale.</li>
-<li><strong><code>seed</code></strong>: for reproducibility.</li>
+<li><code>d</code> — 2-column numeric matrix.</li>
+<li><code>indexList</code> — list of functions taking a 2-column matrix returns a single numeric.</li>
+<li><code>indexLabels</code> — names for each index (same length/order as <code>indexList</code>).</li>
+<li><code>n</code> — number of rotation steps over <span class="math inline">\([0, 2\pi]\)</span>.</li>
 </ul>
 </section>
 <section id="example-usage" class="level2">
 <h2 class="anchored" data-anchor-id="example-usage">Example Usage</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>thr <span class="ot">&lt;-</span> <span class="fu">ppi_noise_threshold</span>(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">index_fun   =</span> <span class="fu">scagIndex</span>(<span class="st">"stringy"</span>),</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">noise_type  =</span> <span class="st">"cauchy"</span>,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">noise_level =</span> <span class="fl">0.1</span>,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_sim       =</span> <span class="dv">10</span>,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_obs       =</span> <span class="dv">100</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>thr</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      95% </span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.768817</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2D sample with noisy sine relationship</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">sinData</span>(<span class="dv">2</span>, <span class="dv">30</span>))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Indices to profile</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>indexList   <span class="ot">&lt;-</span> <span class="fu">list</span>(tourr<span class="sc">::</span><span class="fu">holes</span>(), <span class="fu">scagIndex</span>(<span class="st">"stringy"</span>), <span class="fu">mineIndexE</span>(<span class="st">"MIC"</span>))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>indexLabels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"holes"</span>, <span class="st">"stringy"</span>, <span class="st">"mic"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Profile over 50 steps</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>pRot <span class="ot">&lt;-</span> <span class="fu">profileRotation</span>(d, indexList, indexLabels, <span class="at">n =</span> <span class="dv">50</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pRot)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          holes stringy       mic     alpha</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,] 0.6670101       1 0.9182958 0.0000000</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,] 0.6670101       1 0.8201120 0.1256637</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,] 0.6670101       1 0.8201120 0.2513274</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,] 0.6670101       1 0.8201120 0.3769911</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5,] 0.6670101       1 0.7303079 0.5026548</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [6,] 0.6670101       1 0.2709954 0.6283185</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRotation</span>(pRot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="rotation_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><em>Interpretation:</em> A rotation-invariant index should draw a circle in the polar plot (constant value for all angles). If a facet shows waves/lobes, that index varies with rotation on this dataset.</p>
 </section>
 <section id="return-value" class="level2">
 <h2 class="anchored" data-anchor-id="return-value">Return value</h2>
 <ul>
-<li><strong><code>ppi_noise_threshold()</code></strong> returns a single numeric: estimated 95th percentile of the index under the specified noise model.</li>
+<li><strong><code>profileRotation()</code></strong> returns a matrix with <code>n + 1</code> rows (angles from 0 to <span class="math inline">\(2\pi\)</span> inclusive) and <code>length(indexLabels) + 1</code> columns. Column names: the provided <code>indexLabels</code> plus <code>"alpha"</code> (radians).</li>
+<li><strong><code>plotRotation()</code></strong> returns a ggplot object (polar line plots faceted by index).</li>
 </ul>
 </section>
 

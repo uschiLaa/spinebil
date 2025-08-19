@@ -1,0 +1,103 @@
+---
+title: "Profiling Rotation Invariance of Projection Pursuit Indices"
+author: "Tina Rashid Jafari"
+vignette: >
+  %\VignetteIndexEntry{Profiling Rotation Invariance of Projection Pursuit Indices}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  message=FALSE, 
+  warning=FALSE
+)
+```
+
+## Overview
+
+This vignette shows rotation invariance of projection pursuit indices on a 2D dataset by rotating the data through a full circle and recording index values at each angle, by using:
+  
+* `profileRotation(d, indexList, indexLabels, n)` — compute index values while rotating the data in `n` steps.
+* `plotRotation(resMat)` — visualise the rotation profile (polar line plots).
+
+
+```{r}
+library(spinebil)
+```
+
+## What the Function Does
+
+### `profileRotation(d, indexList, indexLabels, n = 200)`
+
+This checks whether chosen projection–pursuit indices change when a 2D dataset is rotated.
+
+* **Input**: 2-column matrix `d` (the 2D distribution), a list of index functions `indexList`, their names `indexLabels`, and number of rotation steps `n`.
+
+* **Output**: a numeric matrix with one row per angle and columns = `indexLabels` plus `alpha` (the angle in radians).
+
+
+
+### `plotRotation(resMat)`
+
+It visualises rotation profiles from profileRotation().
+
+* Converts the matrix from `profileRotation()` to long form and plots index value vs. angle in polar coordinates, faceted by index.
+* x-axis is angle in degrees; y-axis is the index value (default limits `[-1, 1.1]` to accommodate different scales).
+
+
+
+## Function usage
+
+```r
+# Compute rotation profiles for chosen indices:
+pRot <- profileRotation(
+  d = <2-col matrix>,
+  indexList   = list(tourr::holes(), scagIndex("stringy"), mineIndexE("MIC")),
+  indexLabels = c("holes", "stringy", "mic"),
+  n = 50
+)
+
+
+# Visualise:
+plotRotation(pRot)
+```
+
+**Arguments:**
+  
+* `d` — 2-column numeric matrix.
+* `indexList` — list of functions taking a 2-column matrix returns a  single numeric.
+* `indexLabels` — names for each index (same length/order as `indexList`).
+* `n` — number of rotation steps over $[0, 2\pi]$.
+
+## Example Usage
+
+  
+```{r}
+# 2D sample with noisy sine relationship
+d <- as.matrix(sinData(2, 30))
+
+# Indices to profile
+indexList   <- list(tourr::holes(), scagIndex("stringy"), mineIndexE("MIC"))
+indexLabels <- c("holes", "stringy", "mic")
+
+# Profile over 50 steps
+pRot <- profileRotation(d, indexList, indexLabels, n = 50)
+
+head(pRot)
+```
+
+```{r}
+plotRotation(pRot)
+```
+
+*Interpretation:* A rotation-invariant index should draw a circle in the polar plot (constant value for all angles). If a facet shows waves/lobes, that index varies with rotation on this dataset.
+
+## Return value
+
+* **`profileRotation()`** returns a matrix with `n + 1` rows (angles from 0 to $2\pi$ inclusive) and `length(indexLabels) + 1` columns.
+Column names: the provided `indexLabels` plus `"alpha"` (radians).
+* **`plotRotation()`** returns a ggplot object (polar line plots faceted by index).
+

@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Tina Rashid Jafari">
 
 <title>Comparing Index Scale on Structured vs.&nbsp;Noisy Data</title>
 <style>
@@ -86,6 +87,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Tina Rashid Jafari </p>
+          </div>
+  </div>
     
   
     
@@ -98,53 +105,89 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p><code>ppi_scale()</code> simulates how a projection pursuit index (PPI) behaves on:</p>
+<p><code>ppi_scale()</code> runs simulations to compare a projection pursuit index (PPI) on:</p>
 <ol type="1">
-<li><strong>Structured</strong> data (taken from your input data’s columns), and<br>
-</li>
-<li><strong>Pure Gaussian noise</strong> (same sample size),</li>
+<li>Structured dataset (your input), and</li>
+<li>Pure Gaussian noise (same sample size).</li>
 </ol>
-<p>so you can compare the scale of the index across contexts. This is useful to answer: <em>“How large is an index value on real structure compared to random?”</em></p>
+<p>For every pair of variables and across many simulations, it records the index values for both cases so you can see the scale and separation of the index between structure and noise.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(furrr)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spinebil) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spinebil) </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="what-the-function-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-function-does">What the Function Does</h2>
+<section id="ppi_scaledata-index_fun-n_sim-100-n_obs-500-seed-null" class="level3">
+<h3 class="anchored" data-anchor-id="ppi_scaledata-index_fun-n_sim-100-n_obs-500-seed-null"><code>ppi_scale(data, index_fun, n_sim = 100, n_obs = 500, seed = NULL)</code></h3>
+<ul>
+<li><p><strong>Pairs:</strong> builds all 2D variable pairs from <code>data</code>.</p></li>
+<li><p><strong>Simulations:</strong> for each simulation <code>1,...,n_sim</code> and each pair:</p>
+<ol type="1">
+<li><strong>Structured value (<code>sigma = 0</code>)</strong> — compute the index on the actual pair.</li>
+<li><strong>Noise value (<code>sigma = 1</code>)</strong> — generate <code>n_obs</code> standard-normal <code>x</code>, <code>y</code>, scale to mean 0 / sd 1, compute the index.</li>
+</ol></li>
+<li><p><strong>Output:</strong> a tidy table with simulation id, variable pair, <code>sigma ∈ {0,1}</code>, and <code>index</code> value.</p></li>
+</ul>
+</section>
 </section>
 <section id="function-usage" class="level2">
 <h2 class="anchored" data-anchor-id="function-usage">Function usage</h2>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ppi_scale</span>(</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  data,        <span class="co"># data frame or matrix (&gt;= 2 numeric columns)</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  index_fun,   <span class="co"># function: takes a 2-column matrix and returns a numeric scalar</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_sim =</span> <span class="dv">100</span>, <span class="co"># simulations (per variable pair)</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_obs =</span> <span class="dv">500</span>, <span class="co"># observations per noise simulation</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  data,        </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  index_fun, </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_sim =</span> <span class="dv">100</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_obs =</span> <span class="dv">500</span>,</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> <span class="cn">NULL</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Arguments:</strong></p>
+<ul>
+<li><code>data</code> — data frame/tibble/matrix; (&gt;= 2 numeric columns).</li>
+<li><code>index_fun</code> — function: takes a 2-column matrix and returns a numeric scalar (e.g., <code>scagIndex("stringy")</code>).</li>
+<li><code>n_sim</code> — number of simulations.</li>
+<li><code>n_obs</code> — number of observations.</li>
+<li><code>seed</code> — optional seed for reproducibility.</li>
+</ul>
 </section>
 <section id="example-usage" class="level2">
 <h2 class="anchored" data-anchor-id="example-usage">Example usage</h2>
 <p>Let’s evaluate the <code>stringy</code> index from the <code>cassowaryr</code> package to see how the scale change for pure noise and structure.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ppi_scale</span>(<span class="fu">data_gen</span>(<span class="st">"polynomial"</span>, <span class="at">degree =</span> <span class="dv">3</span>), <span class="fu">scagIndex</span>(<span class="st">"stringy"</span>), <span class="at">n_sim =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 60 × 6
-   simulation var_i var_j var_pair sigma index
-        &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;
- 1          1 1     2     1-2          0 1    
- 2          1 1     2     1-2          1 0.751
- 3          1 1     3     1-3          0 1    
- 4          1 1     3     1-3          1 0.737
- 5          1 2     3     2-3          0 0.996
- 6          1 2     3     2-3          1 0.762
- 7          2 1     2     1-2          0 1    
- 8          2 1     2     1-2          1 0.699
- 9          2 1     3     1-3          0 1    
-10          2 1     3     1-3          1 0.724
-# ℹ 50 more rows</code></pre>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">ppi_scale</span>(<span class="fu">data_gen</span>(<span class="st">"polynomial"</span>, <span class="at">degree =</span> <span class="dv">3</span>), <span class="fu">scagIndex</span>(<span class="st">"stringy"</span>), <span class="at">n_sim =</span> <span class="dv">3</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(res)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 6</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   simulation var_i var_j var_pair sigma index</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1          1 1     2     1-2          0 1    </span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2          1 1     2     1-2          1 0.728</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3          1 1     3     1-3          0 1    </span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4          1 1     3     1-3          1 0.743</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5          1 2     3     2-3          0 0.996</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6          1 2     3     2-3          1 0.724</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here <code>sigma = 0</code> is structured and <code>sigma = 1</code> is pure noise.</p>
+<section id="boxplots-structured-vs-noise-per-variable-pair" class="level3">
+<h3 class="anchored" data-anchor-id="boxplots-structured-vs-noise-per-variable-pair">Boxplots: structured vs noise per variable pair</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>res <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sigma =</span> <span class="fu">factor</span>(sigma, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"structured"</span>,<span class="st">"noise"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sigma, <span class="at">y =</span> index, <span class="at">fill =</span> sigma)) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> var_pair, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Index scale on structured vs noisy data"</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"index"</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="indexScale_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
-<p>Here <code>sigma = 0</code> is <strong>structured</strong> and <code>sigma = 1</code> is <strong>pure noise</strong>.</p>
+</div>
+</section>
 </section>
 <section id="return-value" class="level2">
 <h2 class="anchored" data-anchor-id="return-value">Return value</h2>
@@ -152,7 +195,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><code>simulation</code>: simulation index</li>
 <li><code>var_i</code>, <code>var_j</code>: the two variable names</li>
-<li><code>var_pair</code>: convenience label, e.g.&nbsp;<code>"P1-P2"</code></li>
+<li><code>var_pair</code>: <code>"var_i-var_j"</code> compact label.</li>
 <li><code>sigma</code>: <code>0 = structured</code>, <code>1 = noise</code></li>
 <li><code>index</code>: the index value from <code>index_fun</code></li>
 </ul>
