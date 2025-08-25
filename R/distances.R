@@ -127,11 +127,3 @@ squintAngleEstimate <- function(data, indexF, cutoff, structurePlane, n = 100, s
   }
   return(angles)
 }
-
-
-
-
-
-
-
-
