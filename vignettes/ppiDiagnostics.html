@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Tina Rashid Jafari">
+
+<title>spinebil: Core Diagnostics for Projection Pursuit Indices</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="ppiDiagnostics_files/libs/clipboard/clipboard.min.js"></script>
+<script src="ppiDiagnostics_files/libs/quarto-html/quarto.js"></script>
+<script src="ppiDiagnostics_files/libs/quarto-html/popper.min.js"></script>
+<script src="ppiDiagnostics_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="ppiDiagnostics_files/libs/quarto-html/anchor.min.js"></script>
+<link href="ppiDiagnostics_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="ppiDiagnostics_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="ppiDiagnostics_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="ppiDiagnostics_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="ppiDiagnostics_files/libs/bootstrap/bootstrap-c0367b04c37547644fece4185067e4a7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">spinebil: Core Diagnostics for Projection Pursuit Indices</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Tina Rashid Jafari </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p>A practical tour of the five most important functions in <strong>spinebil</strong> for finding, validating, and understanding projection pursuit indices.</p>
+</blockquote>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>This vignette presents a compact workflow built around five functions: <code>squintAngleEstimate()</code>, <code>profileRotation()</code>, <code>compareSmoothing()</code>, <code>timeSequence()</code> and <code>getTrace()</code>.</p>
+</section>
+<section id="packages" class="level2">
+<h2 class="anchored" data-anchor-id="packages">Packages</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spinebil)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tourr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="squintangleestimate" class="level2">
+<h2 class="anchored" data-anchor-id="squintangleestimate">1) <code>squintAngleEstimate()</code></h2>
+<p><em>From how far away (in projection space) does the pattern become visible under a chosen index?</em></p>
+<p><code>squintAngleEstimate()</code>, produces a distribution of squint angles by repeatedly walking from random 2‑D planes toward an assumed optimal plane (the best view of a structure) and recording the first point along each path where a user‑chosen index function exceeds a visibility cutoff.</p>
+<p><strong>Interpretation:</strong></p>
+<ul>
+<li><strong>Larger squint angles ⇒ easier to see</strong> (the index crosses the cutoff while still far from the optimal plane).</li>
+<li><strong>Smaller squint angles ⇒ harder to see</strong> (the index only crosses when we are very close to the optimal plane).</li>
+</ul>
+</section>
+<section id="function-usage" class="level2">
+<h2 class="anchored" data-anchor-id="function-usage">Function usage</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">squintAngleEstimate</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  data,            <span class="co"># numeric matrix/data frame (n x p)</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  indexF,          <span class="co"># function: (n x 2) -&gt; numeric scalar</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  cutoff,          <span class="co"># numeric threshold for 'visible'</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  structurePlane,  <span class="co"># 2-D basis (p x 2) representing the optimal view</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">100</span>,         <span class="co"># number of random starts</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">stepSize =</span> <span class="fl">0.01</span>  <span class="co"># interpolation step along the tour path</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="example-usage" class="level2">
+<h2 class="anchored" data-anchor-id="example-usage">Example Usage</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spinebil)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">spiralData</span>(<span class="dv">4</span>, <span class="dv">50</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>indexF <span class="ot">&lt;-</span> <span class="fu">scagIndex</span>(<span class="st">"stringy"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>cutoff <span class="ot">&lt;-</span> <span class="fl">0.7</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>structurePlane <span class="ot">&lt;-</span> <span class="fu">basisMatrix</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">squintAngleEstimate</span>(data, indexF, cutoff, structurePlane, <span class="at">n=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1.4564579 1.4271653 1.2815243 0.9034616 0.7680183 1.5844728 1.7602684
+ [8] 1.4382679 1.5264995 1.2994495</code></pre>
+</div>
+</div>
+</section>
+<section id="inputs" class="level2">
+<h2 class="anchored" data-anchor-id="inputs">Inputs</h2>
+<section id="indexf-what-kind-of-structure" class="level3">
+<h3 class="anchored" data-anchor-id="indexf-what-kind-of-structure"><code>indexF</code> (what kind of structure?)</h3>
+<p>Choose an index that matches the pattern you care about. With scagnostics-style indices, for example:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>indexF <span class="ot">&lt;-</span> <span class="fu">scagIndex</span>(<span class="st">"stringy"</span>)   <span class="co"># sine-wave/spiral-like</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># indexF &lt;- scagIndex("skinny")  # elongated patterns</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="cutoff-when-do-we-call-it-visible" class="level3">
+<h3 class="anchored" data-anchor-id="cutoff-when-do-we-call-it-visible"><code>cutoff</code> (when do we call it visible?)</h3>
+<p>Set this data‑driven so results are comparable across datasets and indices.</p>
+<ul>
+<li>Preferred: 95th–99th percentile of the index computed on random projections (a null where no specific structure is targeted).</li>
+<li>You can use <code>indexNoiseThreshold()</code> to estimate this cutoff automatically.</li>
+</ul>
+</section>
+<section id="structureplane-where-is-the-best-view" class="level3">
+<h3 class="anchored" data-anchor-id="structureplane-where-is-the-best-view"><code>structurePlane</code> (where is the best view?)</h3>
+<p>If you know the two variables that define the structure, construct the basis directly. Otherwise, run a guided tour to maximize the index and use the best basis it returns.</p>
+</section>
+<section id="n-and-stepsize" class="level3">
+<h3 class="anchored" data-anchor-id="n-and-stepsize"><code>n</code> and <code>stepSize</code></h3>
+<ul>
+<li><code>n = 100</code> typically yields a stable distribution for summaries and plots.</li>
+<li><code>stepSize = 0.01</code> is a good accuracy/speed trade‑off. If the threshold crossing looks coarse (the index jumps over the cutoff), try <code>0.005</code>. If runtime is an issue, use something larger (e.g., <code>0.02</code>).</li>
+</ul>
+</section>
+</section>
+<section id="return-value" class="level2">
+<h2 class="anchored" data-anchor-id="return-value">Return value</h2>
+<ul>
+<li><strong><code>squintAngleEstimate()</code></strong> returns a numeric vector of length <code>n</code> containing the squint-angle estimates under the specified index and cutoff.</li>
+</ul>
+</section>
+<section id="profilerotation" class="level2">
+<h2 class="anchored" data-anchor-id="profilerotation">2) <code>profileRotation()</code></h2>
+<p><em>Does the index value stay the same when the 2‑D data are rotated?</em></p>
+<p><code>profileRotation()</code> tests rotation invariance of one or more 2-D projection indices.</p>
+<p><strong>Interpretation</strong></p>
+<ul>
+<li><strong>Flat profile</strong> → rotation invariant.</li>
+<li><strong>Oscillating profile</strong> → orientation dependence.</li>
+</ul>
+<section id="function-usage-1" class="level3">
+<h3 class="anchored" data-anchor-id="function-usage-1">Function Usage</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">profileRotation</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  d,            <span class="co"># 2-column numeric matrix (the data to rotate)</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  indexList,    <span class="co"># list of functions: (n x 2) -&gt; numeric</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  indexLabels,  <span class="co"># character labels for columns</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">200</span>       <span class="co"># number of rotation steps across [0, 2*pi]</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="inputs-1" class="level3">
+<h3 class="anchored" data-anchor-id="inputs-1">Inputs</h3>
+<ul>
+<li><code>d</code>: numeric matrix with 2 columns; the 2-D data to be rotated.</li>
+<li><code>indexList</code>: list of functions, each taking an <span class="math inline">\((n \times 2)\)</span> numeric matrix and returning a single numeric index value. Examples: <code>list(tourr::holes(), scagIndex("stringy"), mineIndexE("MIC"))</code>.</li>
+<li><code>indexLabels</code>: character vector of labels (one per index in <code>indexList</code>) used as column names in the result.</li>
+<li><code>n</code> <em>(default = 200)</em>: integer number of rotation steps.</li>
+</ul>
+</section>
+<section id="example-usage-1" class="level3">
+<h3 class="anchored" data-anchor-id="example-usage-1">Example Usage</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">sinData</span>(<span class="dv">2</span>, <span class="dv">30</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>New names:
+• `` -&gt; `...1`
+• `` -&gt; `...2`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>indexList <span class="ot">&lt;-</span> <span class="fu">list</span>(tourr<span class="sc">::</span><span class="fu">holes</span>(), <span class="fu">scagIndex</span>(<span class="st">"stringy"</span>), <span class="fu">mineIndexE</span>(<span class="st">"MIC"</span>))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>indexLabels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"holes"</span>, <span class="st">"stringy"</span>, <span class="st">"mic"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>pRot <span class="ot">&lt;-</span> <span class="fu">profileRotation</span>(d, indexList, indexLabels, <span class="at">n =</span> <span class="dv">50</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRotation</span>(pRot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ppiDiagnostics_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="interpretation">Interpretation</h3>
+<ul>
+<li>Perfect circle (constant radius) → <em>rotation invariant</em>.</li>
+<li>Deformed/flower-like shape → <em>orientation dependence</em>.</li>
+</ul>
+</section>
+<section id="return-value-1" class="level3">
+<h3 class="anchored" data-anchor-id="return-value-1">Return value</h3>
+<p>A numeric matrix with <code>n + 1</code> rows and <code>length(indexLabels) + 1</code> columns:</p>
+<ul>
+<li>One column per index (named by <code>indexLabels</code>) containing the index values at each angle.</li>
+<li>An additional column <code>alpha</code> giving the corresponding angles in radians.</li>
+</ul>
+</section>
+</section>
+<section id="comparesmoothing" class="level2">
+<h2 class="anchored" data-anchor-id="comparesmoothing">3) <code>compareSmoothing()</code></h2>
+<p>Projection–pursuit indices evaluated along a tour path can be spiky due to small numerical changes in the projection or to point-level noise. <code>compareSmoothing()</code> provides a principled way to smooth these traces by averaging the index over local perturbations, and to compare different smoothing strategies side-by-side.</p>
+<p>It supports two kinds of perturbations:</p>
+<ul>
+<li><code>jitterAngle</code>: randomly jitter the projection plane by a small angle <code>alpha</code> via geodesic moves, then recompute the index.</li>
+<li><code>jitterPoints</code>: randomly jitter the projected points by a small amount (using <code>base::jitter()</code>), then recompute the index.</li>
+<li><code>noSmoothing</code>: the original index with no perturbation.</li>
+</ul>
+<p>Averaging across multiple perturbations reduces high-frequency noise and reveals the underlying trend of the index along the tour.</p>
+<section id="function-usage-2" class="level3">
+<h3 class="anchored" data-anchor-id="function-usage-2">Function Usage</h3>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compareSmoothing</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  d,         <span class="co"># data matrix (n x p)</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  tPath,     <span class="co"># interpolated tour path: list of projection bases (p x 2)</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  idx,       <span class="co"># index function</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">alphaV =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>),  jitter amounts to <span class="fu">compare</span> (<span class="cf">for</span> jittering angle or points)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">10</span>     <span class="co"># number of evaluations entering mean value calculation</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="inputs-2" class="level3">
+<h3 class="anchored" data-anchor-id="inputs-2">Inputs</h3>
+<ul>
+<li><code>d</code>, numeric data matrix with <code>p</code> columns. It will be projected as <code>d %*% basis</code> for each basis in <code>tPath</code>.</li>
+<li><code>tPath</code>, list of (p × 2) projection bases. Typically built from a tour history using <code>tourr::save_history()</code> and <code>tourr::interpolate()</code>.</li>
+<li><code>idx</code>, index function accepting a two-column matrix and returning a single numeric value (e.g., <code>scagIndex("stringy")</code>).</li>
+<li><code>alphaV</code>, numeric vector of jitter magnitudes to compare.</li>
+<li><code>n</code>, number of evaluations entering mean value calculation (larger <code>n</code> → smoother, slower).</li>
+</ul>
+</section>
+<section id="example-usage-2" class="level3">
+<h3 class="anchored" data-anchor-id="example-usage-2">Example Usage</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">spiralData</span>(<span class="dv">3</span>, <span class="dv">30</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>tPath <span class="ot">&lt;-</span> tourr<span class="sc">::</span><span class="fu">save_history</span>(d, <span class="at">max_bases=</span><span class="dv">2</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>tPath <span class="ot">&lt;-</span> <span class="fu">as.list</span>(tourr<span class="sc">::</span><span class="fu">interpolate</span>(tPath, <span class="fl">0.3</span>))</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>idx <span class="ot">&lt;-</span> <span class="fu">scagIndex</span>(<span class="st">"stringy"</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>compS <span class="ot">&lt;-</span> <span class="fu">compareSmoothing</span>(d, tPath, idx, <span class="at">alphaV =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.05</span>), <span class="at">n=</span><span class="dv">2</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plotSmoothingComparison</span>(compS, <span class="at">lPos =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ppiDiagnostics_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="interpretation-1" class="level3">
+<h3 class="anchored" data-anchor-id="interpretation-1">Interpretation</h3>
+<ul>
+<li><strong>noSmoothing (red, solid)</strong>: the raw index trace along the tour. Spiky traces indicate high sensitivity to tiny projection changes.</li>
+<li><strong>jitterAngle (black, dashed)</strong>: averaging over nearby projection angles. Smooths out high‑frequency variability caused by small plane movements; preserves structure amplitude better when index is robust to minor orientation shifts.</li>
+<li><strong>jitterPoints (black, dotted)</strong>: averaging over point noise. Strong smoothing when the index is sensitive to local point perturbations.</li>
+</ul>
+</section>
+<section id="return-value-2" class="level3">
+<h3 class="anchored" data-anchor-id="return-value-2">Return value</h3>
+<p>A tibble with columns:</p>
+<ul>
+<li><code>indexMean</code>, mean index value at each frame (includes the original, unjittered value).</li>
+<li><code>t</code>, integer frame index along the tour path.</li>
+<li><code>method</code>, one of <code>"jitterAngle"</code>, <code>"jitterPoints"</code>, <code>"noSmoothing"</code>.</li>
+<li><code>alpha</code>, jitter magnitude used for that row.</li>
+</ul>
+</section>
+</section>
+<section id="timesequence" class="level2">
+<h2 class="anchored" data-anchor-id="timesequence">4) <code>timeSequence()</code></h2>
+<p>The cost of evaluating a projection pursuit index can vary with both the data distribution and the projection. <code>timeSequence()</code> times the index on a sequence of projection bases and returns a simple table you can plot or summarise.</p>
+<section id="function-usage-3" class="level3">
+<h3 class="anchored" data-anchor-id="function-usage-3">Function Usage</h3>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">timeSequence</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  d,      <span class="co"># numeric data matrix (n x p)</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  t,      <span class="co"># list of projection matrices (each p x 2); e.g., an interpolated tour path</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  idx,    <span class="co"># index function: (n x 2) -&gt; numeric</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  pmax    <span class="co"># maximum number of projections to evaluate (cut t if longer than pmax)</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="inputs-3" class="level3">
+<h3 class="anchored" data-anchor-id="inputs-3">Inputs</h3>
+<ul>
+<li><code>d</code>: numeric matrix of size <span class="math inline">\(n \times p\)</span>.</li>
+<li><code>t</code>: list of (p × 2) projection bases (e.g., from <code>tourr::basis_random()</code> or an interpolated tour history).</li>
+<li><code>idx</code>: index function mapping a two-column matrix to a single numeric value (e.g., <code>scagIndex("stringy")</code>).</li>
+<li><code>pmax</code>: integer limit; evaluation stops after <code>pmax</code> projections even if <code>t</code> is longer.</li>
+</ul>
+</section>
+<section id="example-usage-3" class="level3">
+<h3 class="anchored" data-anchor-id="example-usage-3">Example Usage</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">spiralData</span>(<span class="dv">4</span>, <span class="dv">500</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="sc">~</span> tourr<span class="sc">::</span><span class="fu">basis_random</span>(<span class="dv">4</span>))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>idx <span class="ot">&lt;-</span> <span class="fu">scagIndex</span>(<span class="st">"stringy"</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">timeSequence</span>(d, t, idx, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       t  i
+1  0.039  1
+2  0.036  2
+3  0.039  3
+4  0.039  4
+5  0.038  5
+6  0.049  6
+7  0.039  7
+8  0.040  8
+9  0.045  9
+10 0.043 10</code></pre>
+</div>
+</div>
+</section>
+<section id="return-value-3" class="level3">
+<h3 class="anchored" data-anchor-id="return-value-3">Return value</h3>
+<p>A data frame with two columns:</p>
+<ul>
+<li><code>t</code>: elapsed time in seconds for the index evaluation at that projection.</li>
+<li><code>i</code>: the sequence index (1, 2, …) of the projection in <code>t</code>.</li>
+</ul>
+</section>
+</section>
+<section id="gettrace" class="level2">
+<h2 class="anchored" data-anchor-id="gettrace">5) <code>getTrace()</code></h2>
+<p><code>getTrace()</code> evaluates one or more projection pursuit indices along an interpolated, planned tour path and returns their values at each frame. Plotting these traces reveals whether an index varies smoothly with small changes in the projection (desirable), or exhibits spikes (potentially unstable, overly sensitive, or under‑smoothed).</p>
+<p>A smooth trace indicates that small rotations of the view produce small changes in the index,an important property for guided tours and optimisation.</p>
+<p>In combination with <code>plotTrace()</code>, you can quickly diagnose index behaviour across a path connecting user‑specified views.</p>
+</section>
+<section id="function-usage-4" class="level2">
+<h2 class="anchored" data-anchor-id="function-usage-4">Function Usage</h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getTrace</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  d,           <span class="co"># data: matrix/data frame (n x p)</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  m,           <span class="co"># list of projection matrices for the planned tour</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  indexList,   <span class="co"># list of index functions to calculate for each entry -&gt; numeric</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  indexLabels  <span class="co"># character vector of labels for the indices</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="inputs-4" class="level2">
+<h2 class="anchored" data-anchor-id="inputs-4">Inputs</h2>
+<ul>
+<li><code>d</code>; numeric data with <code>p</code> columns.</li>
+<li><code>m</code>; list of (p × 2) projection matrices for the planned tour.</li>
+<li><code>indexList</code>; list of functions that take a two‑column matrix and return a numeric scalar (e.g., <code>tourr::holes()</code>, <code>tourr::cmass()</code>, or <code>scagIndex("stringy")</code>).</li>
+<li><code>indexLabels</code>; character vector of the same length and order as <code>indexList</code>; used as column names in the output.</li>
+</ul>
+</section>
+<section id="example-usage-4" class="level2">
+<h2 class="anchored" data-anchor-id="example-usage-4">Example Usage</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">spiralData</span>(<span class="dv">4</span>, <span class="dv">100</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">basisMatrix</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>), <span class="fu">basisMatrix</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>indexList <span class="ot">&lt;-</span> <span class="fu">list</span>(tourr<span class="sc">::</span><span class="fu">holes</span>(), tourr<span class="sc">::</span><span class="fu">cmass</span>())</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>indexLabels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"holes"</span>, <span class="st">"cmass"</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>trace <span class="ot">&lt;-</span> <span class="fu">getTrace</span>(d, m, indexList, indexLabels)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plotTrace</span>(trace)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ppiDiagnostics_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotTrace</span>(trace, <span class="at">rescY =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ppiDiagnostics_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="return-value-4" class="level2">
+<h2 class="anchored" data-anchor-id="return-value-4">Return value</h2>
+<p>A numeric matrix with <code>length(indexLabels) + 1</code> columns and as many rows as interpolation frames. Columns are the index values (named by <code>indexLabels</code>) and <code>t</code> (the frame index).</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
