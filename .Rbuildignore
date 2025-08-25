@@ -10,3 +10,4 @@
 ^plots$
 examples.R
 .spinebil.Rcheck/
+^pkgdown$
