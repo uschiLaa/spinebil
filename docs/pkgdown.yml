@@ -2,11 +2,7 @@ pandoc: '3.4'
 pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
-  indexMean: indexMean.html
-  indexNoiseThreshold: indexNoiseThreshold.html
-  indexScale: indexScale.html
+  diagnosePPI: diagnosePPI.html
   ppiDiagnostics: ppiDiagnostics.html
-  sampleSizeEffect: sampleSizeEffect.html
   spinebil: spinebil.html
-  utilsData: utilsData.html
-last_built: 2025-08-25T14:46Z
+last_built: 2025-08-26T02:18Z

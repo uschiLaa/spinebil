@@ -36,12 +36,8 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/indexMean.html">Simulate and Summarize Projection Pursuit Index (PPI) Means</a></li>
-    <li><a class="dropdown-item" href="../articles/indexNoiseThreshold.html">Estimating a Noise Threshold for Projection–Pursuit Indices</a></li>
-    <li><a class="dropdown-item" href="../articles/indexScale.html">Comparing Index Scale on Structured vs. Noisy Data</a></li>
+<li><a class="dropdown-item" href="../articles/diagnosePPI.html">More Diagnostics for Projection Pursuit Indices</a></li>
     <li><a class="dropdown-item" href="../articles/ppiDiagnostics.html">spinebil: Core Diagnostics for Projection Pursuit Indices</a></li>
-    <li><a class="dropdown-item" href="../articles/sampleSizeEffect.html">Sample-Size Effects for Projection Pursuit Indexes under Gaussian Noise</a></li>
-    <li><a class="dropdown-item" href="../articles/utilsData.html">Generating Synthetic Structures and Noise</a></li>
   </ul>
 </li>
       </ul>
@@ -119,8 +115,8 @@
 <span><span class="va">structurePlane</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/basisMatrix.html">basisMatrix</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">4</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/squintAngleEstimate.html">squintAngleEstimate</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">indexF</span>, <span class="va">cutoff</span>, <span class="va">structurePlane</span>, n<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 1.512584 1.518812 1.509205 1.524282 1.700339 1.638713 1.347074 1.187366
- [9] 1.372369 1.171865</code></pre>
+<pre><code> [1] 1.247627 1.440900 1.278476 1.364699 1.311972 1.235694 1.508794 1.251345
+ [9] 1.476975 1.561042</code></pre>
 </div>
 </div>
 </section><section class="level2"><h2 id="inputs">Inputs<a class="anchor" aria-label="anchor" href="#inputs"></a>
@@ -330,16 +326,16 @@
 <span><span class="fu"><a href="../reference/timeSequence.html">timeSequence</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">t</span>, <span class="va">idx</span>, <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       t  i
-1  0.054  1
-2  0.039  2
-3  0.038  3
-4  0.038  4
-5  0.042  5
+1  0.042  1
+2  0.041  2
+3  0.040  3
+4  0.041  4
+5  0.040  5
 6  0.042  6
-7  0.039  7
-8  0.038  8
-9  0.038  9
-10 0.044 10</code></pre>
+7  0.044  7
+8  0.040  8
+9  0.042  9
+10 0.048 10</code></pre>
 </div>
 </div>
 </section><section class="level3"><h3 id="return-value-3">Return value<a class="anchor" aria-label="anchor" href="#return-value-3"></a>
