@@ -105,8 +105,12 @@
 <span><span class="va">index_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu">tourr</span><span class="fu">::</span><span class="fu"><a href="https://ggobi.github.io/tourr/reference/holes.html" class="external-link">holes</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu">tourr</span><span class="fu">::</span><span class="fu"><a href="https://ggobi.github.io/tourr/reference/cmass.html" class="external-link">cmass</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">index_labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"holes"</span>, <span class="st">"cmass"</span><span class="op">)</span></span>
 <span><span class="co">## we can now compute the index traces and plot them</span></span>
-<span><span class="va">trace</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_trace.html">get_trace</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">m</span>, <span class="va">index_list</span>, <span class="va">index_labels</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot_trace.html">plot_trace</a></span><span class="op">(</span><span class="va">trace</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">trace</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_trace.html">get_trace</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">m</span>, <span class="va">index_list</span>, <span class="va">index_labels</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Converting input data to the required matrix format.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_trace.html">plot_trace</a></span><span class="op">(</span><span class="va">trace</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure><p><img src="spinebil_files/figure-html/example-1.png" width="672"></p>

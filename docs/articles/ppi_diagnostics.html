@@ -73,16 +73,125 @@
 </blockquote>
 <section class="level2"><h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>This vignette presents a compact workflow built around five functions: <code><a href="../reference/squint_angle_estimate.html">squint_angle_estimate()</a></code>, <code><a href="../reference/profile_rotation.html">profile_rotation()</a></code>, <code><a href="../reference/compare_smoothing.html">compare_smoothing()</a></code>, <code><a href="../reference/time_sequence.html">time_sequence()</a></code> and <code><a href="../reference/get_trace.html">get_trace()</a></code>.</p>
-</section><section class="level2"><h2 id="packages">Packages<a class="anchor" aria-label="anchor" href="#packages"></a>
+<p>In this vignette we introduce three example datasets; <em>spiral</em>, a <em>sine</em>, and a <em>pipe</em> dataset and then evaluate five key characteristics of projection pursuit indices (PPIs): smoothness, squintability, flexibility, rotation invariance and speed.</p>
+<p>We will generate the datasets first, then walk through one section per characteristic with the functions provided in spinebil.</p>
+</section><section class="level2"><h2 id="data-generators">Data Generators<a class="anchor" aria-label="anchor" href="#data-generators"></a>
 </h2>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">spinebil</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ggobi/tourr" class="external-link">tourr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span></code></pre></div>
-</section><section class="level2"><h2 id="squint_angle_estimate">1) <code>squint_angle_estimate()</code>
+<ul>
+<li>
+<strong><code>pipe_data(n, p, t)</code></strong>; a pipe (circular ring) structure.</li>
+<li>
+<strong><code>sin_data(n, p, f)</code></strong>; a sine relationship.</li>
+<li>
+<strong><code>spiral_data(n, p)</code></strong>; an archimedean spiral.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">500</span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fl">4</span></span>
+<span><span class="va">lst</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  Pipe   <span class="op">=</span> <span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/pipe_data.html">pipe_data</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">p</span><span class="op">)</span>,</span>
+<span>  Sine   <span class="op">=</span> <span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/sin_data.html">sin_data</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">p</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  Spiral <span class="op">=</span> <span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/spiral_data.html">spiral_data</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">p</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">lst</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">lbl</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">d</span> <span class="op">&lt;-</span> <span class="va">lst</span><span class="op">[[</span><span class="va">lbl</span><span class="op">]</span><span class="op">]</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">d</span><span class="op">[[</span><span class="va">p</span> <span class="op">-</span> <span class="fl">1</span><span class="op">]</span><span class="op">]</span>, y <span class="op">=</span> <span class="va">d</span><span class="op">[[</span><span class="va">p</span><span class="op">]</span><span class="op">]</span>, structure <span class="op">=</span> <span class="va">lbl</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">df_all</span>, <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.6</span>, size <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">structure</span>, nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_equal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
+<span>    axis.text  <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    axis.ticks <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    axis.title <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure><p><img src="ppi_diagnostics_files/figure-html/unnamed-chunk-2-1.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Now we employ these patterns to evaluate key characteristics of PPIs.</p>
+</section><section class="level2"><h2 id="compare_smoothing">1) <code>compare_smoothing()</code>
+<a class="anchor" aria-label="anchor" href="#compare_smoothing"></a>
+</h2>
+<p>Projection pursuit indices evaluated along a tour path can be spiky due to small numerical changes in the projection or to point-level noise. <code><a href="../reference/compare_smoothing.html">compare_smoothing()</a></code> provides a principled way to smooth these traces by averaging the index over local perturbations, and to compare different smoothing strategies side-by-side.</p>
+<p>It supports two kinds of perturbations:</p>
+<ul>
+<li>
+<code>jitter_angle</code>: randomly jitter the projection plane by a small angle <code>alpha</code> via geodesic moves, then recompute the index.</li>
+<li>
+<code>jitter_points</code>: randomly jitter the projected points by a small amount (using <code><a href="https://rdrr.io/r/base/jitter.html" class="external-link">base::jitter()</a></code>), then recompute the index.</li>
+<li>
+<code>no_smoothing</code>: the original index with no perturbation.</li>
+</ul>
+<p>Averaging across multiple perturbations reduces high-frequency noise and reveals the underlying trend of the index along the tour.</p>
+<section class="level3"><h3 id="function-usage">Function Usage<a class="anchor" aria-label="anchor" href="#function-usage"></a>
+</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compare_smoothing</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  d,         <span class="co"># data matrix (n x p)</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  tPath,     <span class="co"># interpolated tour path: list of projection bases (p x 2)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  idx,       <span class="co"># index function</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">alphaV =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>),  jitter amounts to <span class="fu">compare</span> (<span class="cf">for</span> jittering angle or points)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">10</span>     <span class="co"># number of evaluations entering mean value calculation</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+</section><section class="level3"><h3 id="inputs">Inputs<a class="anchor" aria-label="anchor" href="#inputs"></a>
+</h3>
+<ul>
+<li>
+<code>d</code>, numeric data matrix with <code>p</code> columns. It will be projected as <code>d %*% basis</code> for each basis in <code>tPath</code>.</li>
+<li>
+<code>tPath</code>, list of (p × 2) projection bases. Typically built from a tour history using <code><a href="https://ggobi.github.io/tourr/reference/save_history.html" class="external-link">tourr::save_history()</a></code> and <code><a href="https://ggobi.github.io/tourr/reference/interpolate.html" class="external-link">tourr::interpolate()</a></code>.</li>
+<li>
+<code>idx</code>, index function accepting a two-column matrix and returning a single numeric value (e.g., <code>scag_index("stringy")</code>).</li>
+<li>
+<code>alphaV</code>, numeric vector of jitter magnitudes to compare.</li>
+<li>
+<code>n</code>, number of evaluations entering mean value calculation (larger <code>n</code> → smoother, slower).</li>
+</ul></section><section class="level3"><h3 id="example-usage">Example Usage<a class="anchor" aria-label="anchor" href="#example-usage"></a>
+</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/spiral_data.html">spiral_data</a></span><span class="op">(</span><span class="fl">30</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">tPath</span> <span class="op">&lt;-</span> <span class="fu">tourr</span><span class="fu">::</span><span class="fu"><a href="https://ggobi.github.io/tourr/reference/save_history.html" class="external-link">save_history</a></span><span class="op">(</span><span class="va">d</span>, max_bases<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="va">tPath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu">tourr</span><span class="fu">::</span><span class="fu"><a href="https://ggobi.github.io/tourr/reference/interpolate.html" class="external-link">interpolate</a></span><span class="op">(</span><span class="va">tPath</span>, <span class="fl">0.3</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">idx</span> <span class="op">&lt;-</span> <span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/scag_index.html">scag_index</a></span><span class="op">(</span><span class="st">"stringy"</span><span class="op">)</span></span>
+<span><span class="va">compS</span> <span class="op">&lt;-</span> <span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/compare_smoothing.html">compare_smoothing</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">tPath</span>, <span class="va">idx</span>, alphaV <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.05</span><span class="op">)</span>, n<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_smoothing_comparison.html">plot_smoothing_comparison</a></span><span class="op">(</span><span class="va">compS</span>, lPos <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="ppi_diagnostics_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section class="level3"><h3 id="interpretation">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation"></a>
+</h3>
+<ul>
+<li>
+<strong>no_smoothing (red, solid)</strong>: the raw index trace along the tour. Spiky traces indicate high sensitivity to tiny projection changes.</li>
+<li>
+<strong>jitter_angle (black, dashed)</strong>: averaging over nearby projection angles. Smooths out high‑frequency variability caused by small plane movements; preserves structure amplitude better when index is robust to minor orientation shifts.</li>
+<li>
+<strong>jitter_points (black, dotted)</strong>: averaging over point noise. Strong smoothing when the index is sensitive to local point perturbations.</li>
+</ul></section><section class="level3"><h3 id="return-value">Return value<a class="anchor" aria-label="anchor" href="#return-value"></a>
+</h3>
+<p>A tibble with columns:</p>
+<ul>
+<li>
+<code>index_mean</code>, mean index value at each frame (includes the original, unjittered value).</li>
+<li>
+<code>t</code>, integer frame index along the tour path.</li>
+<li>
+<code>method</code>, one of <code>"jitter_angle"</code>, <code>"jitter_points"</code>, <code>"no_smoothing"</code>.</li>
+<li>
+<code>alpha</code>, jitter magnitude used for that row.</li>
+</ul></section></section><section class="level2"><h2 id="squint_angle_estimate">2) <code>squint_angle_estimate()</code>
 <a class="anchor" aria-label="anchor" href="#squint_angle_estimate"></a>
 </h2>
 <p><em>From how far away (in projection space) does the pattern become visible under a chosen index?</em></p>
@@ -93,9 +202,9 @@
 <strong>Larger squint angles ⇒ easier to see</strong> (the index crosses the cutoff while still far from the optimal plane).</li>
 <li>
 <strong>Smaller squint angles ⇒ harder to see</strong> (the index only crosses when we are very close to the optimal plane).</li>
-</ul></section><section class="level2"><h2 id="function-usage">Function usage<a class="anchor" aria-label="anchor" href="#function-usage"></a>
+</ul></section><section class="level2"><h2 id="function-usage-1">Function usage<a class="anchor" aria-label="anchor" href="#function-usage-1"></a>
 </h2>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/squint_angle_estimate.html">squint_angle_estimate</a></span><span class="op">(</span></span>
 <span>  <span class="va">data</span>,            <span class="co"># numeric matrix/data frame (n x p)</span></span>
 <span>  <span class="va">indexF</span>,          <span class="co"># function: (n x 2) -&gt; numeric scalar</span></span>
@@ -104,28 +213,25 @@
 <span>  n <span class="op">=</span> <span class="fl">100</span>,         <span class="co"># number of random starts</span></span>
 <span>  step_size <span class="op">=</span> <span class="fl">0.01</span>  <span class="co"># interpolation step along the tour path</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-</section><section class="level2"><h2 id="example-usage">Example Usage<a class="anchor" aria-label="anchor" href="#example-usage"></a>
+</section><section class="level2"><h2 id="example-usage-1">Example Usage<a class="anchor" aria-label="anchor" href="#example-usage-1"></a>
 </h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">spinebil</span><span class="op">)</span></span>
-<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/spiral_data.html">spiral_data</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">4</span><span class="op">)</span></span>
-<span><span class="va">indexF</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scag_index.html">scag_index</a></span><span class="op">(</span><span class="st">"stringy"</span><span class="op">)</span></span>
+<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/spiral_data.html">spiral_data</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">indexF</span> <span class="op">&lt;-</span> <span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/scag_index.html">scag_index</a></span><span class="op">(</span><span class="st">"stringy"</span><span class="op">)</span></span>
 <span><span class="va">cutoff</span> <span class="op">&lt;-</span> <span class="fl">0.7</span></span>
-<span><span class="va">structure_plane</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/basis_matrix.html">basis_matrix</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">4</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/squint_angle_estimate.html">squint_angle_estimate</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">indexF</span>, <span class="va">cutoff</span>, <span class="va">structure_plane</span>, n<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] 0.9430527 0.7867653 0.4776343 1.7432774 1.4498709 1.5216263 0.8952990
- [8] 1.4592652 1.1990628 1.4899545</code></pre>
+<span><span class="va">structure_plane</span> <span class="op">&lt;-</span> <span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/basis_matrix.html">basis_matrix</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">4</span><span class="op">)</span></span>
+<span><span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/squint_angle_estimate.html">squint_angle_estimate</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">indexF</span>, <span class="va">cutoff</span>, <span class="va">structure_plane</span>, n<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] 1.397626 1.953940 1.376300 1.671046 1.472013 1.503123 1.810244 1.419349</span></span>
+<span><span class="co">#&gt;  [9] 1.613022 1.577809</span></span></code></pre></div>
 </div>
-</div>
-</section><section class="level2"><h2 id="inputs">Inputs<a class="anchor" aria-label="anchor" href="#inputs"></a>
+</section><section class="level2"><h2 id="inputs-1">Inputs<a class="anchor" aria-label="anchor" href="#inputs-1"></a>
 </h2>
 <section class="level3"><h3 id="indexf-what-kind-of-structure">
 <code>indexF</code> (what kind of structure?)<a class="anchor" aria-label="anchor" href="#indexf-what-kind-of-structure"></a>
 </h3>
 <p>Choose an index that matches the pattern you care about. With scagnostics-style indices, for example:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">indexF</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scag_index.html">scag_index</a></span><span class="op">(</span><span class="st">"stringy"</span><span class="op">)</span>   <span class="co"># sine-wave/spiral-like</span></span>
 <span><span class="va">indexF</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scag_index.html">scag_index</a></span><span class="op">(</span><span class="st">"skinny"</span><span class="op">)</span>  <span class="co"># elongated patterns</span></span></code></pre></div>
 </section><section class="level3"><h3 id="cutoff-when-do-we-call-it-visible">
@@ -148,12 +254,68 @@
 <code>n = 100</code> typically yields a stable distribution for summaries and plots.</li>
 <li>
 <code>step_size = 0.01</code> is a good accuracy/speed trade‑off. If the threshold crossing looks coarse (the index jumps over the cutoff), try <code>0.005</code>. If runtime is an issue, use something larger (e.g., <code>0.02</code>).</li>
-</ul></section></section><section class="level2"><h2 id="return-value">Return value<a class="anchor" aria-label="anchor" href="#return-value"></a>
+</ul></section></section><section class="level2"><h2 id="return-value-1">Return value<a class="anchor" aria-label="anchor" href="#return-value-1"></a>
 </h2>
 <ul>
 <li>
 <strong><code><a href="../reference/squint_angle_estimate.html">squint_angle_estimate()</a></code></strong> returns a numeric vector of length <code>n</code> containing the squint-angle estimates under the specified index and cutoff.</li>
-</ul></section><section class="level2"><h2 id="profile_rotation">2) <code>profile_rotation()</code>
+</ul></section><section class="level2"><h2 id="get_trace">3) <code>get_trace()</code>
+<a class="anchor" aria-label="anchor" href="#get_trace"></a>
+</h2>
+<p><code><a href="../reference/get_trace.html">get_trace()</a></code> evaluates one or more projection pursuit indices along an interpolated, planned tour path and returns their values at each frame. Plotting these traces reveals whether an index varies smoothly with small changes in the projection (desirable), or exhibits spikes (potentially unstable, overly sensitive, or under‑smoothed).</p>
+<p>A smooth trace indicates that small rotations of the view produce small changes in the index,an important property for guided tours and optimisation.</p>
+<p>In combination with <code><a href="../reference/plot_trace.html">plot_trace()</a></code>, you can quickly diagnose index behaviour across a path connecting user‑specified views.</p>
+</section><section class="level2"><h2 id="function-usage-2">Function Usage<a class="anchor" aria-label="anchor" href="#function-usage-2"></a>
+</h2>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_trace.html">get_trace</a></span><span class="op">(</span></span>
+<span>  <span class="va">d</span>,           <span class="co"># data: matrix/data frame (n x p)</span></span>
+<span>  <span class="va">m</span>,           <span class="co"># list of projection matrices for the planned tour</span></span>
+<span>  <span class="va">index_list</span>,   <span class="co"># list of index functions to calculate for each entry -&gt; numeric</span></span>
+<span>  <span class="va">index_labels</span>  <span class="co"># character vector of labels for the indices</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</section><section class="level2"><h2 id="inputs-2">Inputs<a class="anchor" aria-label="anchor" href="#inputs-2"></a>
+</h2>
+<ul>
+<li>
+<code>d</code>; numeric data with <code>p</code> columns.</li>
+<li>
+<code>m</code>; list of (p × 2) projection matrices for the planned tour.</li>
+<li>
+<code>index_list</code>; list of functions that take a two‑column matrix and return a numeric scalar (e.g., <code><a href="https://ggobi.github.io/tourr/reference/holes.html" class="external-link">tourr::holes()</a></code>, <code><a href="https://ggobi.github.io/tourr/reference/cmass.html" class="external-link">tourr::cmass()</a></code>, or <code>scag_index("stringy")</code>).</li>
+<li>
+<code>index_labels</code>; character vector of the same length and order as <code>index_list</code>; used as column names in the output.</li>
+</ul></section><section class="level2"><h2 id="example-usage-2">Example Usage<a class="anchor" aria-label="anchor" href="#example-usage-2"></a>
+</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/spiral_data.html">spiral_data</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/basis_matrix.html">basis_matrix</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">4</span><span class="op">)</span>, <span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/basis_matrix.html">basis_matrix</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">index_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu">tourr</span><span class="fu">::</span><span class="fu"><a href="https://ggobi.github.io/tourr/reference/holes.html" class="external-link">holes</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu">tourr</span><span class="fu">::</span><span class="fu"><a href="https://ggobi.github.io/tourr/reference/norm_bin.html" class="external-link">norm_kol</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">index_labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"holes"</span>, <span class="st">"norm kol"</span><span class="op">)</span></span>
+<span><span class="va">trace</span> <span class="op">&lt;-</span> <span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/get_trace.html">get_trace</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">m</span>, <span class="va">index_list</span>, <span class="va">index_labels</span><span class="op">)</span></span>
+<span><span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_trace.html">plot_trace</a></span><span class="op">(</span><span class="va">trace</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="ppi_diagnostics_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_trace.html">plot_trace</a></span><span class="op">(</span><span class="va">trace</span>, rescY <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="ppi_diagnostics_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section class="level2"><h2 id="return-value-2">Return value<a class="anchor" aria-label="anchor" href="#return-value-2"></a>
+</h2>
+<p>A numeric matrix with <code>length(index_labels) + 1</code> columns and as many rows as interpolation frames. Columns are the index values (named by <code>index_labels</code>) and <code>t</code> (the frame index).</p>
+</section><section class="level2"><h2 id="profile_rotation">4) <code>profile_rotation()</code>
 <a class="anchor" aria-label="anchor" href="#profile_rotation"></a>
 </h2>
 <p><em>Does the index value stay the same when the 2‑D data are rotated?</em></p>
@@ -165,16 +327,16 @@
 <li>
 <strong>Oscillating profile</strong> → orientation dependence.</li>
 </ul>
-<section class="level3"><h3 id="function-usage-1">Function Usage<a class="anchor" aria-label="anchor" href="#function-usage-1"></a>
+<section class="level3"><h3 id="function-usage-3">Function Usage<a class="anchor" aria-label="anchor" href="#function-usage-3"></a>
 </h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/profile_rotation.html">profile_rotation</a></span><span class="op">(</span></span>
 <span>  <span class="va">d</span>,            <span class="co"># 2-column numeric matrix (the data to rotate)</span></span>
 <span>  <span class="va">index_list</span>,    <span class="co"># list of functions: (n x 2) -&gt; numeric</span></span>
 <span>  <span class="va">index_labels</span>,  <span class="co"># character labels for columns</span></span>
 <span>  n <span class="op">=</span> <span class="fl">200</span>       <span class="co"># number of rotation steps across [0, 2*pi]</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-</section><section class="level3"><h3 id="inputs-1">Inputs<a class="anchor" aria-label="anchor" href="#inputs-1"></a>
+</section><section class="level3"><h3 id="inputs-3">Inputs<a class="anchor" aria-label="anchor" href="#inputs-3"></a>
 </h3>
 <ul>
 <li>
@@ -185,82 +347,18 @@
 <code>index_labels</code>: character vector of labels (one per index in <code>index_list</code>) used as column names in the result.</li>
 <li>
 <code>n</code> <em>(default = 200)</em>: integer number of rotation steps.</li>
-</ul></section><section class="level3"><h3 id="example-usage-1">Example Usage<a class="anchor" aria-label="anchor" href="#example-usage-1"></a>
+</ul></section><section class="level3"><h3 id="example-usage-3">Example Usage<a class="anchor" aria-label="anchor" href="#example-usage-3"></a>
 </h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="../reference/sin_data.html">sin_data</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">index_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu">tourr</span><span class="fu">::</span><span class="fu"><a href="https://ggobi.github.io/tourr/reference/holes.html" class="external-link">holes</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="../reference/scag_index.html">scag_index</a></span><span class="op">(</span><span class="st">"stringy"</span><span class="op">)</span>, <span class="fu"><a href="../reference/scag_index.html">mine_indexE</a></span><span class="op">(</span><span class="st">"MIC"</span><span class="op">)</span><span class="op">)</span></span>
+<div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/sin_data.html">sin_data</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">index_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu">tourr</span><span class="fu">::</span><span class="fu"><a href="https://ggobi.github.io/tourr/reference/holes.html" class="external-link">holes</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/scag_index.html">scag_index</a></span><span class="op">(</span><span class="st">"stringy"</span><span class="op">)</span>, <span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/scag_index.html">mine_indexE</a></span><span class="op">(</span><span class="st">"MIC"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">index_labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"holes"</span>, <span class="st">"stringy"</span>, <span class="st">"mic"</span><span class="op">)</span></span>
-<span><span class="va">pRot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/profile_rotation.html">profile_rotation</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">index_list</span>, <span class="va">index_labels</span>, n <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot_rotation.html">plot_rotation</a></span><span class="op">(</span><span class="va">pRot</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">pRot</span> <span class="op">&lt;-</span> <span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/profile_rotation.html">profile_rotation</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">index_list</span>, <span class="va">index_labels</span>, n <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
+<span><span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_rotation.html">plot_rotation</a></span><span class="op">(</span><span class="va">pRot</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div>
-<figure><p><img src="ppi_diagnostics_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section><section class="level3"><h3 id="interpretation">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation"></a>
-</h3>
-<ul>
-<li>Perfect circle (constant radius) → <em>rotation invariant</em>.</li>
-<li>Deformed/flower-like shape → <em>orientation dependence</em>.</li>
-</ul></section><section class="level3"><h3 id="return-value-1">Return value<a class="anchor" aria-label="anchor" href="#return-value-1"></a>
-</h3>
-<p>A numeric matrix with <code>n + 1</code> rows and <code>length(index_labels) + 1</code> columns:</p>
-<ul>
-<li>One column per index (named by <code>index_labels</code>) containing the index values at each angle.</li>
-<li>An additional column <code>alpha</code> giving the corresponding angles in radians.</li>
-</ul></section></section><section class="level2"><h2 id="compare_smoothing">3) <code>compare_smoothing()</code>
-<a class="anchor" aria-label="anchor" href="#compare_smoothing"></a>
-</h2>
-<p>Projection–pursuit indices evaluated along a tour path can be spiky due to small numerical changes in the projection or to point-level noise. <code><a href="../reference/compare_smoothing.html">compare_smoothing()</a></code> provides a principled way to smooth these traces by averaging the index over local perturbations, and to compare different smoothing strategies side-by-side.</p>
-<p>It supports two kinds of perturbations:</p>
-<ul>
-<li>
-<code>jitter_angle</code>: randomly jitter the projection plane by a small angle <code>alpha</code> via geodesic moves, then recompute the index.</li>
-<li>
-<code>jitter_points</code>: randomly jitter the projected points by a small amount (using <code><a href="https://rdrr.io/r/base/jitter.html" class="external-link">base::jitter()</a></code>), then recompute the index.</li>
-<li>
-<code>no_smoothing</code>: the original index with no perturbation.</li>
-</ul>
-<p>Averaging across multiple perturbations reduces high-frequency noise and reveals the underlying trend of the index along the tour.</p>
-<section class="level3"><h3 id="function-usage-2">Function Usage<a class="anchor" aria-label="anchor" href="#function-usage-2"></a>
-</h3>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compare_smoothing</span>(</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  d,         <span class="co"># data matrix (n x p)</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  tPath,     <span class="co"># interpolated tour path: list of projection bases (p x 2)</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  idx,       <span class="co"># index function</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">alphaV =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>),  jitter amounts to <span class="fu">compare</span> (<span class="cf">for</span> jittering angle or points)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">10</span>     <span class="co"># number of evaluations entering mean value calculation</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-</section><section class="level3"><h3 id="inputs-2">Inputs<a class="anchor" aria-label="anchor" href="#inputs-2"></a>
-</h3>
-<ul>
-<li>
-<code>d</code>, numeric data matrix with <code>p</code> columns. It will be projected as <code>d %*% basis</code> for each basis in <code>tPath</code>.</li>
-<li>
-<code>tPath</code>, list of (p × 2) projection bases. Typically built from a tour history using <code><a href="https://ggobi.github.io/tourr/reference/save_history.html" class="external-link">tourr::save_history()</a></code> and <code><a href="https://ggobi.github.io/tourr/reference/interpolate.html" class="external-link">tourr::interpolate()</a></code>.</li>
-<li>
-<code>idx</code>, index function accepting a two-column matrix and returning a single numeric value (e.g., <code>scag_index("stringy")</code>).</li>
-<li>
-<code>alphaV</code>, numeric vector of jitter magnitudes to compare.</li>
-<li>
-<code>n</code>, number of evaluations entering mean value calculation (larger <code>n</code> → smoother, slower).</li>
-</ul></section><section class="level3"><h3 id="example-usage-2">Example Usage<a class="anchor" aria-label="anchor" href="#example-usage-2"></a>
-</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/spiral_data.html">spiral_data</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="va">tPath</span> <span class="op">&lt;-</span> <span class="fu">tourr</span><span class="fu">::</span><span class="fu"><a href="https://ggobi.github.io/tourr/reference/save_history.html" class="external-link">save_history</a></span><span class="op">(</span><span class="va">d</span>, max_bases<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span><span class="va">tPath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu">tourr</span><span class="fu">::</span><span class="fu"><a href="https://ggobi.github.io/tourr/reference/interpolate.html" class="external-link">interpolate</a></span><span class="op">(</span><span class="va">tPath</span>, <span class="fl">0.3</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">idx</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scag_index.html">scag_index</a></span><span class="op">(</span><span class="st">"stringy"</span><span class="op">)</span></span>
-<span><span class="va">compS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compare_smoothing.html">compare_smoothing</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">tPath</span>, <span class="va">idx</span>, alphaV <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.05</span><span class="op">)</span>, n<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot_smoothing_comparison.html">plot_smoothing_comparison</a></span><span class="op">(</span><span class="va">compS</span>, lPos <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output-display">
-<div>
-<figure><p><img src="ppi_diagnostics_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
+<figure><p><img src="ppi_diagnostics_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 </figure>
 </div>
 </div>
@@ -268,38 +366,28 @@
 </section><section class="level3"><h3 id="interpretation-1">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation-1"></a>
 </h3>
 <ul>
-<li>
-<strong>no_smoothing (red, solid)</strong>: the raw index trace along the tour. Spiky traces indicate high sensitivity to tiny projection changes.</li>
-<li>
-<strong>jitter_angle (black, dashed)</strong>: averaging over nearby projection angles. Smooths out high‑frequency variability caused by small plane movements; preserves structure amplitude better when index is robust to minor orientation shifts.</li>
-<li>
-<strong>jitter_points (black, dotted)</strong>: averaging over point noise. Strong smoothing when the index is sensitive to local point perturbations.</li>
-</ul></section><section class="level3"><h3 id="return-value-2">Return value<a class="anchor" aria-label="anchor" href="#return-value-2"></a>
+<li>Perfect circle (constant radius) → <em>rotation invariant</em>.</li>
+<li>Deformed/flower-like shape → <em>orientation dependence</em>.</li>
+</ul></section><section class="level3"><h3 id="return-value-3">Return value<a class="anchor" aria-label="anchor" href="#return-value-3"></a>
 </h3>
-<p>A tibble with columns:</p>
+<p>A numeric matrix with <code>n + 1</code> rows and <code>length(index_labels) + 1</code> columns:</p>
 <ul>
-<li>
-<code>index_mean</code>, mean index value at each frame (includes the original, unjittered value).</li>
-<li>
-<code>t</code>, integer frame index along the tour path.</li>
-<li>
-<code>method</code>, one of <code>"jitter_angle"</code>, <code>"jitter_points"</code>, <code>"no_smoothing"</code>.</li>
-<li>
-<code>alpha</code>, jitter magnitude used for that row.</li>
-</ul></section></section><section class="level2"><h2 id="time_sequence">4) <code>time_sequence()</code>
+<li>One column per index (named by <code>index_labels</code>) containing the index values at each angle.</li>
+<li>An additional column <code>alpha</code> giving the corresponding angles in radians.</li>
+</ul></section></section><section class="level2"><h2 id="time_sequence">5) <code>time_sequence()</code>
 <a class="anchor" aria-label="anchor" href="#time_sequence"></a>
 </h2>
 <p>The cost of evaluating a projection pursuit index can vary with both the data distribution and the projection. <code><a href="../reference/time_sequence.html">time_sequence()</a></code> times the index on a sequence of projection bases and returns a simple table you can plot or summarise.</p>
-<section class="level3"><h3 id="function-usage-3">Function Usage<a class="anchor" aria-label="anchor" href="#function-usage-3"></a>
+<section class="level3"><h3 id="function-usage-4">Function Usage<a class="anchor" aria-label="anchor" href="#function-usage-4"></a>
 </h3>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/time_sequence.html">time_sequence</a></span><span class="op">(</span></span>
 <span>  <span class="va">d</span>,      <span class="co"># numeric data matrix (n x p)</span></span>
 <span>  <span class="va">t</span>,      <span class="co"># list of projection matrices (each p x 2); e.g., an interpolated tour path</span></span>
 <span>  <span class="va">idx</span>,    <span class="co"># index function: (n x 2) -&gt; numeric</span></span>
 <span>  <span class="va">pmax</span>    <span class="co"># maximum number of projections to evaluate (cut t if longer than pmax)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-</section><section class="level3"><h3 id="inputs-3">Inputs<a class="anchor" aria-label="anchor" href="#inputs-3"></a>
+</section><section class="level3"><h3 id="inputs-4">Inputs<a class="anchor" aria-label="anchor" href="#inputs-4"></a>
 </h3>
 <ul>
 <li>
@@ -310,29 +398,27 @@
 <code>idx</code>: index function mapping a two-column matrix to a single numeric value (e.g., <code>scag_index("stringy")</code>).</li>
 <li>
 <code>pmax</code>: integer limit; evaluation stops after <code>pmax</code> projections even if <code>t</code> is longer.</li>
-</ul></section><section class="level3"><h3 id="example-usage-3">Example Usage<a class="anchor" aria-label="anchor" href="#example-usage-3"></a>
+</ul></section><section class="level3"><h3 id="example-usage-4">Example Usage<a class="anchor" aria-label="anchor" href="#example-usage-4"></a>
 </h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/spiral_data.html">spiral_data</a></span><span class="op">(</span><span class="fl">500</span>, <span class="fl">4</span><span class="op">)</span></span>
+<div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/spiral_data.html">spiral_data</a></span><span class="op">(</span><span class="fl">500</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">t</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">~</span> <span class="fu">tourr</span><span class="fu">::</span><span class="fu"><a href="https://ggobi.github.io/tourr/reference/basis_random.html" class="external-link">basis_random</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">idx</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scag_index.html">scag_index</a></span><span class="op">(</span><span class="st">"stringy"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/time_sequence.html">time_sequence</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">t</span>, <span class="va">idx</span>, <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       t  i
-1  0.036  1
-2  0.041  2
-3  0.039  3
-4  0.038  4
-5  0.038  5
-6  0.041  6
-7  0.059  7
-8  0.040  8
-9  0.039  9
-10 0.041 10</code></pre>
+<span><span class="va">idx</span> <span class="op">&lt;-</span> <span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/scag_index.html">scag_index</a></span><span class="op">(</span><span class="st">"stringy"</span><span class="op">)</span></span>
+<span><span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/time_sequence.html">time_sequence</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">t</span>, <span class="va">idx</span>, <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="co">#&gt;        t  i</span></span>
+<span><span class="co">#&gt; 1  0.035  1</span></span>
+<span><span class="co">#&gt; 2  0.039  2</span></span>
+<span><span class="co">#&gt; 3  0.035  3</span></span>
+<span><span class="co">#&gt; 4  0.038  4</span></span>
+<span><span class="co">#&gt; 5  0.037  5</span></span>
+<span><span class="co">#&gt; 6  0.035  6</span></span>
+<span><span class="co">#&gt; 7  0.038  7</span></span>
+<span><span class="co">#&gt; 8  0.038  8</span></span>
+<span><span class="co">#&gt; 9  0.037  9</span></span>
+<span><span class="co">#&gt; 10 0.037 10</span></span></code></pre></div>
 </div>
-</div>
-</section><section class="level3"><h3 id="return-value-3">Return value<a class="anchor" aria-label="anchor" href="#return-value-3"></a>
+</section><section class="level3"><h3 id="return-value-4">Return value<a class="anchor" aria-label="anchor" href="#return-value-4"></a>
 </h3>
 <p>A data frame with two columns:</p>
 <ul>
@@ -340,63 +426,7 @@
 <code>t</code>: elapsed time in seconds for the index evaluation at that projection.</li>
 <li>
 <code>i</code>: the sequence index (1, 2, …) of the projection in <code>t</code>.</li>
-</ul></section></section><section class="level2"><h2 id="get_trace">5) <code>get_trace()</code>
-<a class="anchor" aria-label="anchor" href="#get_trace"></a>
-</h2>
-<p><code><a href="../reference/get_trace.html">get_trace()</a></code> evaluates one or more projection pursuit indices along an interpolated, planned tour path and returns their values at each frame. Plotting these traces reveals whether an index varies smoothly with small changes in the projection (desirable), or exhibits spikes (potentially unstable, overly sensitive, or under‑smoothed).</p>
-<p>A smooth trace indicates that small rotations of the view produce small changes in the index,an important property for guided tours and optimisation.</p>
-<p>In combination with <code><a href="../reference/plot_trace.html">plot_trace()</a></code>, you can quickly diagnose index behaviour across a path connecting user‑specified views.</p>
-</section><section class="level2"><h2 id="function-usage-4">Function Usage<a class="anchor" aria-label="anchor" href="#function-usage-4"></a>
-</h2>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_trace.html">get_trace</a></span><span class="op">(</span></span>
-<span>  <span class="va">d</span>,           <span class="co"># data: matrix/data frame (n x p)</span></span>
-<span>  <span class="va">m</span>,           <span class="co"># list of projection matrices for the planned tour</span></span>
-<span>  <span class="va">index_list</span>,   <span class="co"># list of index functions to calculate for each entry -&gt; numeric</span></span>
-<span>  <span class="va">index_labels</span>  <span class="co"># character vector of labels for the indices</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-</section><section class="level2"><h2 id="inputs-4">Inputs<a class="anchor" aria-label="anchor" href="#inputs-4"></a>
-</h2>
-<ul>
-<li>
-<code>d</code>; numeric data with <code>p</code> columns.</li>
-<li>
-<code>m</code>; list of (p × 2) projection matrices for the planned tour.</li>
-<li>
-<code>index_list</code>; list of functions that take a two‑column matrix and return a numeric scalar (e.g., <code><a href="https://ggobi.github.io/tourr/reference/holes.html" class="external-link">tourr::holes()</a></code>, <code><a href="https://ggobi.github.io/tourr/reference/cmass.html" class="external-link">tourr::cmass()</a></code>, or <code>scag_index("stringy")</code>).</li>
-<li>
-<code>index_labels</code>; character vector of the same length and order as <code>index_list</code>; used as column names in the output.</li>
-</ul></section><section class="level2"><h2 id="example-usage-4">Example Usage<a class="anchor" aria-label="anchor" href="#example-usage-4"></a>
-</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/spiral_data.html">spiral_data</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">4</span><span class="op">)</span></span>
-<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/basis_matrix.html">basis_matrix</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">4</span><span class="op">)</span>, <span class="fu"><a href="../reference/basis_matrix.html">basis_matrix</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">index_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu">tourr</span><span class="fu">::</span><span class="fu"><a href="https://ggobi.github.io/tourr/reference/holes.html" class="external-link">holes</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu">tourr</span><span class="fu">::</span><span class="fu"><a href="https://ggobi.github.io/tourr/reference/cmass.html" class="external-link">cmass</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">index_labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"holes"</span>, <span class="st">"cmass"</span><span class="op">)</span></span>
-<span><span class="va">trace</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_trace.html">get_trace</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">m</span>, <span class="va">index_list</span>, <span class="va">index_labels</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot_trace.html">plot_trace</a></span><span class="op">(</span><span class="va">trace</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output-display">
-<div>
-<figure><p><img src="ppi_diagnostics_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_trace.html">plot_trace</a></span><span class="op">(</span><span class="va">trace</span>, rescY <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output-display">
-<div>
-<figure><p><img src="ppi_diagnostics_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section><section class="level2"><h2 id="return-value-4">Return value<a class="anchor" aria-label="anchor" href="#return-value-4"></a>
-</h2>
-<p>A numeric matrix with <code>length(index_labels) + 1</code> columns and as many rows as interpolation frames. Columns are the index values (named by <code>index_labels</code>) and <code>t</code> (the frame index).</p>
-</section><script id="quarto-html-after-body" type="application/javascript">
+</ul></section></section><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
