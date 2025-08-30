@@ -1,3 +1,4 @@
+
 ---
 title: "Core Diagnostics for Projection Pursuit Indices"
 author: "Tina Rashid Jafari"
@@ -339,3 +340,4 @@ A data frame with two columns:
   
   * `t`: elapsed time in seconds for the index evaluation at that projection.
 * `i`: the sequence index (1, 2, …) of the projection in `t`.
+
