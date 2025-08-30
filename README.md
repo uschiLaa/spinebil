@@ -1,11 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# spinebil
-
-<!-- badges: start -->
-
-<!-- badges: end -->
+# spinebil <img src="man/figures/spinebil.png" align="right" width="150" />
 
 Studying Projection Pursuit INdex functions through Exploration Based on
 Interpolated tour paths and Line graphs. spinebil provides
@@ -38,66 +34,18 @@ nuisance and structured projection.
 ``` r
 library(spinebil)
 ## sample from the spiral distribution
-d <- spiralData(4, 100)
+d <- spiral_data(100, 4)
 ## the first two parameters are noise
 ## parameters 3 and 4 contain a spiral
 ## we write a list with the nuisance and structured plane
-m <- list(basisMatrix(1,2,4), basisMatrix(3,4,4))
+m <- list(basis_matrix(1,2,4), basis_matrix(3,4,4))
 ## the index functions to be evaluated should also be passed in a list
-indexList <- list(tourr::holes(), tourr::cmass())
-indexLabels <- c("holes", "cmass")
+index_list <- list(tourr::holes(), tourr::cmass())
+index_labels <- c("holes", "cmass")
 ## we can now compute the index traces and plot them
-trace <- getTrace(d, m, indexList, indexLabels)
-#> target_dist - cur_dist: 0 
-#> generation:  dist =   1.03966 
-#> target_dist - cur_dist: 1.03966 
-#> generation:  dist =   1.533671 
-#> target_dist - cur_dist: 0 
-#> generation:  dist =   2 
-#> target_dist - cur_dist: 0 
-#> target_dist - cur_dist: 0 
-#> generation:  dist =   2 
-#> target_dist - cur_dist: 2 
-#> target_dist - cur_dist: 1.95 
-#> target_dist - cur_dist: 1.9 
-#> target_dist - cur_dist: 1.85 
-#> target_dist - cur_dist: 1.8 
-#> target_dist - cur_dist: 1.75 
-#> target_dist - cur_dist: 1.7 
-#> target_dist - cur_dist: 1.65 
-#> target_dist - cur_dist: 1.6 
-#> target_dist - cur_dist: 1.55 
-#> target_dist - cur_dist: 1.5 
-#> target_dist - cur_dist: 1.45 
-#> target_dist - cur_dist: 1.4 
-#> target_dist - cur_dist: 1.35 
-#> target_dist - cur_dist: 1.3 
-#> target_dist - cur_dist: 1.25 
-#> target_dist - cur_dist: 1.2 
-#> target_dist - cur_dist: 1.15 
-#> target_dist - cur_dist: 1.1 
-#> target_dist - cur_dist: 1.05 
-#> target_dist - cur_dist: 1 
-#> target_dist - cur_dist: 0.95 
-#> target_dist - cur_dist: 0.9 
-#> target_dist - cur_dist: 0.85 
-#> target_dist - cur_dist: 0.8 
-#> target_dist - cur_dist: 0.75 
-#> target_dist - cur_dist: 0.7 
-#> target_dist - cur_dist: 0.65 
-#> target_dist - cur_dist: 0.6 
-#> target_dist - cur_dist: 0.55 
-#> target_dist - cur_dist: 0.5 
-#> target_dist - cur_dist: 0.45 
-#> target_dist - cur_dist: 0.4 
-#> target_dist - cur_dist: 0.35 
-#> target_dist - cur_dist: 0.3 
-#> target_dist - cur_dist: 0.25 
-#> target_dist - cur_dist: 0.2 
-#> target_dist - cur_dist: 0.15 
-#> target_dist - cur_dist: 0.1 
-#> target_dist - cur_dist: 0.05
-plotTrace(trace)
+trace <- get_trace(d, m, index_list, index_labels)
+#> Converting input data to the required matrix format.
+plot_trace(trace)
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />

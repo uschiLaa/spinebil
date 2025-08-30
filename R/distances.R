@@ -11,11 +11,11 @@
 #' @examples
 #' planes1 <- purrr::rerun(10, tourr::basis_random(5))
 #' planes2 <- purrr::rerun(10, tourr::basis_random(10))
-#' d1 <- distanceDist(planes1)
-#' d2 <- distanceDist(planes2)
+#' d1 <- distance_dist(planes1)
+#' d2 <- distance_dist(planes2)
 #' d <- tibble::tibble(dist=c(d1, d2), dim=c(rep(5,length(d1)),rep(10,length(d2))))
 #' ggplot2::ggplot(d) + ggplot2::geom_boxplot(ggplot2::aes(factor(dim), dist))
-distanceDist <- function(planes, nn=FALSE){
+distance_dist <- function(planes, nn=FALSE){
   #nn could be used to turn on only distance to nearest neighbour?
   planes <- as.list(planes)
   maxI <- length(planes)
@@ -41,20 +41,20 @@ distanceDist <- function(planes, nn=FALSE){
 #' and the optimal one as a proxy to diagnose the performance of the guided tour.
 #'
 #' @param planes Input planes (e.g. result of guided tour)
-#' @param specialPlane Plane defining the optimal view
+#' @param special_plane Plane defining the optimal view
 #' @return numeric vector containing all distances
 #' @export
 #' @examples
 #' planes <- purrr::rerun(10, tourr::basis_random(5))
-#' specialPlane <- basisMatrix(1,2,5)
-#' d <- distanceToSp(planes, specialPlane)
+#' special_plane <- basis_matrix(1,2,5)
+#' d <- distance_to_sp(planes, special_plane)
 #' plot(d)
-distanceToSp <- function(planes, specialPlane){
+distance_to_sp <- function(planes, special_plane){
   maxI <- length(planes)
   distL <- numeric(maxI)
   i <- 1
   while(i<maxI+1){
-    cDist <- tourr::proj_dist(planes[[i]], specialPlane)
+    cDist <- tourr::proj_dist(planes[[i]], special_plane)
     distL[i] <- cDist
     i <- i+1
   }
@@ -71,18 +71,18 @@ distanceToSp <- function(planes, specialPlane){
 #' @param data Input data
 #' @param indexF Index function
 #' @param cutoff Threshold index value above which we assume the structure to be visible
-#' @param structurePlane Plane defining the optimal view
+#' @param structure_plane Plane defining the optimal view
 #' @param n Number of random starting planes (default = 100)
-#' @param stepSize Interpolation step size fixing the accuracy (default = 0.01)
+#' @param step_size Interpolation step size fixing the accuracy (default = 0.01)
 #' @return numeric vector containing all squint angle estimates
 #' @export
 #' @examples
-#' data <- spiralData(4, 50)
-#' indexF <- scagIndex("stringy")
+#' data <- spiral_data(50, 4)
+#' indexF <- scag_index("stringy")
 #' cutoff <- 0.7
-#' structurePlane <- basisMatrix(3,4,4)
-#' squintAngleEstimate(data, indexF, cutoff, structurePlane, n=1)
-squintAngleEstimate <- function(data, indexF, cutoff, structurePlane, n = 100, stepSize = 0.01){
+#' structure_plane <- basis_matrix(3,4,4)
+#' squint_angle_estimate(data, indexF, cutoff, structure_plane, n=1)
+squint_angle_estimate <- function(data, indexF, cutoff, structure_plane, n = 100, step_size = 0.01){
   data <- as.matrix(data) # make sure data is in matrix format
   angles <- numeric(length = n) # collecting all individual estimates
   i <- 1
@@ -93,7 +93,7 @@ squintAngleEstimate <- function(data, indexF, cutoff, structurePlane, n = 100, s
     dist <- 0.
     while(dist < 0.1){
       rBasis <- tourr::basis_random(p)
-      dist <- tourr::proj_dist(rBasis, structurePlane)
+      dist <- tourr::proj_dist(rBasis, structure_plane)
     }
     # now interpolate from rBasis to structure plane with selected step size
     # since planned tour ignores first two entries
@@ -106,8 +106,8 @@ squintAngleEstimate <- function(data, indexF, cutoff, structurePlane, n = 100, s
                                         list(notUsed1,
                                              notUsed2,
                                              rBasis,
-                                             structurePlane)))
-    allBases <- as.list(tourr::interpolate(tourHist, angle = stepSize))
+                                             structure_plane)))
+    allBases <- as.list(tourr::interpolate(tourHist, angle = step_size))
     cIndex <- 0.
     j <- 1
     while(cIndex < cutoff && j <= length(allBases)) {
@@ -121,7 +121,7 @@ squintAngleEstimate <- function(data, indexF, cutoff, structurePlane, n = 100, s
       j <- length(allBases)
     }
     
-    cDist <- tourr::proj_dist(allBases[[j]], structurePlane)
+    cDist <- tourr::proj_dist(allBases[[j]], structure_plane)
     angles[i] <- cDist
     i <- i+1
   }

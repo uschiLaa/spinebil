@@ -11,12 +11,12 @@
 #' @return numeric vector containing all distances
 #' @export
 #' @examples 
-#' d <- spiralData(4, 500)
+#' d <- spiral_data(500, 4)
 #' t <- purrr::map(1:10, ~ tourr::basis_random(4))
-#' idx <- scagIndex("stringy")
-#' timeSequence(d, t, idx, 10)
+#' idx <- scag_index("stringy")
+#' time_sequence(d, t, idx, 10)
 
-timeSequence <- function(d, t, idx, pmax){
+time_sequence <- function(d, t, idx, pmax){
   i <- 1
   dfTimer <- data.frame(t= numeric(), i=numeric())
   for(pMatrix in t){

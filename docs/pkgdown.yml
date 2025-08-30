@@ -2,7 +2,7 @@ pandoc: '3.4'
 pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
-  diagnosePPI: diagnosePPI.html
-  ppiDiagnostics: ppiDiagnostics.html
+  more_descriptives: more_descriptives.html
+  ppi_diagnostics: ppi_diagnostics.html
   spinebil: spinebil.html
-last_built: 2025-08-26T02:18Z
+last_built: 2025-08-28T23:36Z

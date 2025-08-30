@@ -39,7 +39,8 @@ Suggests:
     purrr,
     furrr,
     future,
-    quarto
+    quarto,
+    knitr
 VignetteBuilder: 
     quarto
 RoxygenNote: 7.3.2

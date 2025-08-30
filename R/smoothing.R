@@ -6,7 +6,7 @@
 #' @param idx Index function
 #' @return New index value
 #' @export
-jitterAngle <-function(proj, d, alpha, idx){
+jitter_angle <-function(proj, d, alpha, idx){
   newProj <- basis_nearby(proj, alpha = alpha, method = "geodesic")
   newD <- d %*% newProj
   return(idx(newD))
@@ -14,13 +14,13 @@ jitterAngle <-function(proj, d, alpha, idx){
 
 #' Re-evaluate index after jittering all points by an amount alpha.
 #'
-#' @param projData Original projected data points
+#' @param proj_data Original projected data points
 #' @param alpha Jitter amount (passed into the jitter() function)
 #' @param idx Index function
 #' @return New index value
 #' @export
-jitterPoints <-function(projData, alpha, idx){
-  newD <- jitter(projData, amount=alpha)
+jitter_points <-function(proj_data, alpha, idx){
+  newD <- jitter(proj_data, amount=alpha)
   return(idx(newD))
 }
 
@@ -35,13 +35,13 @@ jitterPoints <-function(projData, alpha, idx){
 #' @param n Number of evaluations entering mean value calculation
 #' @return Mean index value
 #' @export
-getIndexMean <- function(proj, d, alpha, idx, method="jitterAngle", n=10){
+get_index_mean <- function(proj, d, alpha, idx, method="jitter_angle", n=10){
   dProj <- d %*% proj
   orig <- idx(dProj)
-  if(method == "jitterAngle"){
-    valVec <- replicate(n, jitterAngle(proj, d, alpha, idx))
-  } else if (method=="jitterPoints"){
-    valVec <- replicate(n, jitterPoints(dProj, alpha, idx))
+  if(method == "jitter_angle"){
+    valVec <- replicate(n, jitter_angle(proj, d, alpha, idx))
+  } else if (method=="jitter_points"){
+    valVec <- replicate(n, jitter_points(dProj, alpha, idx))
   }
   else { return(orig)}
   return(mean(c(orig, valVec)))
@@ -57,24 +57,24 @@ getIndexMean <- function(proj, d, alpha, idx, method="jitterAngle", n=10){
 #' @return Table of mean index values
 #' @export
 #' @examples
-#' d <- spiralData(3, 30)
+#' d <- spiral_data(30, 3)
 #' tPath <- tourr::save_history(d, max_bases=2)
 #' tPath <- as.list(tourr::interpolate(tPath, 0.3))
-#' idx <- scagIndex("stringy")
-#' compS <- compareSmoothing(d, tPath, idx, alphaV = c(0.01, 0.05), n=2)
-#' plotSmoothingComparison(compS)
-compareSmoothing <- function(d, tPath, idx, alphaV=c(0.01, 0.05, 0.1), n=10){
+#' idx <- scag_index("stringy")
+#' compS <- compare_smoothing(d, tPath, idx, alphaV = c(0.01, 0.05), n=2)
+#' plot_smoothing_comparison(compS)
+compare_smoothing <- function(d, tPath, idx, alphaV=c(0.01, 0.05, 0.1), n=10){
   sc <- tibble::tibble(
-    indexMean=numeric(),
+    index_mean= numeric(),
     t=numeric(),
     method=character(),
     alpha=numeric())
-  for (method in c("jitterAngle", "jitterPoints", "noSmoothing")){
+  for (method in c("jitter_angle", "jitter_points", "no_smoothing")){
     for (alpha in alphaV){
       for (i in seq_along(tPath)) {
-        idM <- getIndexMean(tPath[[i]], d, alpha, idx, method, n)
+        idM <- get_index_mean(tPath[[i]], d, alpha, idx, method, n)
         sc <- sc |>
-          tibble::add_row(indexMean=idM, t=i, method=method, alpha=alpha)
+          tibble::add_row(index_mean=idM, t=i, method=method, alpha=alpha)
       }
     }
   }
@@ -85,22 +85,22 @@ compareSmoothing <- function(d, tPath, idx, alphaV=c(0.01, 0.05, 0.1), n=10){
 #'
 #' Plotting method for the results of compareSmoothing.
 #' The results are mapped by facetting over values of alpha and
-#' mapping the method (jitterAngle, jitterPoints, noSmoothing) to
+#' mapping the method (jitter_angle, jitter_points, no_smoothing) to
 #' linestyle and color (black dashed, black dotted, red solid). By
 #' default legend drawing is turned off, but can be turned on via
 #' the lPos argument, e.g. setting to "bottom" for legend below the plot.
 #'
-#' @param smMat Result from compareSmoothing
+#' @param sm_mat Result from compare_smoothing
 #' @param lPos Legend position passed to ggplot2 (default is none for no legend shown)
 #' @return ggplot visualisation of the comparison
 #' @export
-plotSmoothingComparison <- function(smMat, lPos="none"){
-  smMat <- smMat |>
+plot_smoothing_comparison <- function(sm_mat, lPos="none"){
+  sm_mat <- sm_mat |>
     dplyr::mutate(method = factor(
-      method, levels = c("jitterAngle", "jitterPoints", "noSmoothing")
+      method, levels = c("jitter_angle", "jitter_points", "no_smoothing")
       )) |>
     ggplot2::ggplot(
-      ggplot2::aes(x=t, y=indexMean, color=method, linetype=method)
+      ggplot2::aes(x=t, y=index_mean, color=method, linetype=method)
       ) +
     ggplot2::geom_line() +
     ggplot2::scale_color_manual(values = c("black", "black", "red")) +
@@ -110,6 +110,6 @@ plotSmoothingComparison <- function(smMat, lPos="none"){
     ggplot2::facet_grid(alpha~.) +
     ggplot2::xlab("Sequence of projections (t)") +
     ggplot2::ylab("PPI value")
-  smMat
+  sm_mat
 }
 

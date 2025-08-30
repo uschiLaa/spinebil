@@ -5,21 +5,21 @@
 #' distribution.
 #'
 #' @param d data (2 column matrix containing distribution to be rotated)
-#' @param indexList list of index functions to calculate for each entry
-#' @param indexLabels labels used in the output
+#' @param index_list list of index functions to calculate for each entry
+#' @param index_labels labels used in the output
 #' @param n number of steps in the rotation (default = 200)
 #' @return index values for each rotation step
 #' @export
 #' @examples 
-#' d <- as.matrix(sinData(2, 30))
-#' indexList <- list(tourr::holes(), scagIndex("stringy"), mineIndexE("MIC"))
-#' indexLabels <- c("holes", "stringy", "mic")
-#' pRot <- profileRotation(d, indexList, indexLabels, n = 50)
-#' plotRotation(pRot)
-profileRotation <- function(d, indexList, indexLabels, n=200){
+#' d <- as.matrix(sin_data(30, 2))
+#' index_list <- list(tourr::holes(), scag_index("stringy"), mine_indexE("MIC"))
+#' index_labels <- c("holes", "stringy", "mic")
+#' pRot <- profile_rotation(d, index_list, index_labels, n = 50)
+#' plot_rotation(pRot)
+profile_rotation <- function(d, index_list, index_labels, n=200){
   # initialise results storage
-  resMat <- matrix(ncol = length(indexLabels)+1, nrow = n+1)
-  colnames(resMat) <- c(indexLabels, "alpha")
+  res_mat <- matrix(ncol = length(index_labels)+1, nrow = n+1)
+  colnames(res_mat) <- c(index_labels, "alpha")
 
   # loop over rotation angles
   i <- 1
@@ -27,24 +27,24 @@ profileRotation <- function(d, indexList, indexLabels, n=200){
     rotM <- matrix(c(cos(a), sin(a), -sin(a), cos(a)), ncol = 2)
     dprj <- d %*% rotM
     res <- c()
-    for (idx in indexList){
+    for (idx in index_list){
       res <- c(res, idx(dprj))
     }
-    resMat[i,] <- c(res, a)
+    res_mat[i,] <- c(res, a)
     i <- i+1
   }
-  resMat
+  res_mat
 }
 
 #' Plot rotation traces of indexes obtained with profileRotation.
 #'
-#' @param resMat data (result of profileRotation)
+#' @param res_mat data (result of profileRotation)
 #' @return ggplot visualisation of the tracing data
 #' @export
-plotRotation <- function(resMat){
-  PPI <- colnames(resMat)
+plot_rotation <- function(res_mat){
+  PPI <- colnames(res_mat)
   PPI <- PPI[PPI != "alpha"] # columns are index names or angle alpha
-  resMelt <- tibble::as_tibble(resMat) |>
+  res_melt <- tibble::as_tibble(res_mat) |>
     dplyr::mutate(angle=alpha*360/(2*pi)) |>
     dplyr::select(-alpha) |>
     tidyr::gather(PPI, value, -angle) |>
@@ -55,5 +55,5 @@ plotRotation <- function(resMat){
     ggplot2::ylab("") +
     ggplot2::geom_line() +
     ggplot2::ylim(c(-1,1.1))
-  resMelt
+  res_melt
 }

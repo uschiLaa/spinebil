@@ -8,18 +8,18 @@
 #'
 #' @param d data
 #' @param m list of projection matrices for the planned tour
-#' @param indexList list of index functions to calculate for each entry
-#' @param indexLabels labels used in the output
+#' @param index_list list of index functions to calculate for each entry
+#' @param index_labels labels used in the output
 #' @return index values for each interpolation step
 #' @export
 #' @examples
-#' d <- spiralData(4, 100)
-#' m <- list(basisMatrix(1,2,4), basisMatrix(3,4,4))
-#' indexList <- list(tourr::holes(), tourr::cmass())
-#' indexLabels <- c("holes", "cmass")
-#' trace <- getTrace(d, m, indexList, indexLabels)
-#' plotTrace(trace)
-getTrace <- function(d, m, indexList, indexLabels){
+#' d <- spiral_data(100, 4)
+#' m <- list(basis_matrix(1,2,4), basis_matrix(3,4,4))
+#' index_list <- list(tourr::holes(), tourr::cmass())
+#' index_labels <- c("holes", "cmass")
+#' trace <- get_trace(d, m, index_list, index_labels)
+#' plot_trace(trace)
+get_trace <- function(d, m, index_list, index_labels){
   mX <- m[[1]]
   if(ncol(mX) != 2){
     warning("Each projection matrix must have exactly two columns!")
@@ -36,31 +36,31 @@ getTrace <- function(d, m, indexList, indexLabels){
   tFullPath <- as.list(tourr::interpolate(tPath))
 
   # initialise results storage
-  resMat <- matrix(ncol = length(indexLabels)+1, nrow = length(tFullPath))
-  colnames(resMat) <- c(indexLabels, "t")
+  res_mat <- matrix(ncol = length(index_labels)+1, nrow = length(tFullPath))
+  colnames(res_mat) <- c(index_labels, "t")
 
   # loop over path and index functions
   for (i in seq_along(tFullPath)){
     dprj <- as.matrix(d) %*% tFullPath[[i]]
     res <- c()
-    for (idx in indexList){
+    for (idx in index_list){
       res <- c(res, idx(dprj))
     }
-    resMat[i,] <- c(res, i)
+    res_mat[i,] <- c(res, i)
   }
-  resMat
+  res_mat
 }
 
-#' Plot traces of indexes obtained with \code{\link{getTrace}}.
+#' Plot traces of indexes obtained with \code{\link{get_trace}}.
 #'
-#' @param resMat data (result of getTrace)
+#' @param res_mat data (result of get_trace)
 #' @param rescY bool to fix y axis range to \[0,1\]
 #' @return ggplot visualisation of the tracing data
 #' @export
-plotTrace <- function(resMat, rescY=TRUE){
-  PPI <- colnames(resMat)
+plot_trace <- function(res_mat, rescY=TRUE){
+  PPI <- colnames(res_mat)
   PPI <- PPI[PPI != "t"] # columns are index names or time counter
-  resMelt <- tibble::as_tibble(resMat) |>
+  res_melt <- tibble::as_tibble(res_mat) |>
     tidyr::gather(PPI, value, -t) |>
     ggplot2::ggplot(ggplot2::aes(x=t, y=value)) +
     ggplot2::geom_line() +
@@ -68,13 +68,13 @@ plotTrace <- function(resMat, rescY=TRUE){
     ggplot2::xlab("Sequence of projections (t)") +
     ggplot2::ylab("PPI value")
   if (rescY) {
-    resMelt <- resMelt +
+    res_melt <- res_melt +
       ggplot2::facet_grid(PPI~.) +
       ggplot2::ylim(c(0,1)) # usually we want index values between 0 and 1
   }
   else {
-    resMelt <- resMelt +
+    res_melt <- res_melt +
       ggplot2::facet_grid(PPI~., scales = "free_y")
   }
-  resMelt
+  res_melt
 }

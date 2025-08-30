@@ -4,7 +4,7 @@
 #' @param n number of dimensions
 #' @return basis vector
 #' @export
-basisVector <- function(i, n){
+basis_vector <- function(i, n){
   v <- rep(0,n)
   v[i] <- 1
   v
@@ -17,6 +17,6 @@ basisVector <- function(i, n){
 #' @param n number of dimensions
 #' @return basis matrix
 #' @export
-basisMatrix <- function(i, j, n){
-  matrix(c(basisVector(i,n), basisVector(j,n)), ncol=2)
+basis_matrix <- function(i, j, n){
+  matrix(c(basis_vector(i,n), basis_vector(j,n)), ncol=2)
 }
