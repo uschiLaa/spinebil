@@ -1,5 +1,5 @@
 ---
-title: "More Descriptive Analysis of Projection Pursuit Indices"
+title: "Exploring Potential of Functions to be used for Projection Pursuit"
 author: "Tina Rashid Jafari"
 vignette: >
   %\VignetteIndexEntry{More Descriptive Analysis of Projection Pursuit Indices}
@@ -79,6 +79,7 @@ ggplot2::ggplot(df_all, ggplot2::aes(x, y)) +
   ggplot2::xlim(-1.5, 1.5) +
   ggplot2::ylim(-1.5, 1.5) +
   ggplot2::theme(
+    aspect.ratio = 1,
     axis.text = ggplot2::element_blank(),
     axis.title = ggplot2::element_blank(),
     axis.ticks = ggplot2::element_blank()

@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Core Diagnostics for Projection Pursuit Indices • spinebil</title>
+<title>Studying the Behaviour of Projection Pursuit Indices • spinebil</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="ppi_diagnostics_files/libs/quarto-html/popper.min.js"></script><script src="ppi_diagnostics_files/libs/quarto-html/tippy.umd.min.js"></script><link href="ppi_diagnostics_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="ppi_diagnostics_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Core Diagnostics for Projection Pursuit Indices">
+<!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Studying the Behaviour of Projection Pursuit Indices">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -36,8 +36,8 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/ppi_diagnostics.html">Core Diagnostics for Projection Pursuit Indices</a></li>
-    <li><a class="dropdown-item" href="../articles/more_descriptives.html">More Descriptive Analysis of Projection Pursuit Indices</a></li>
+<li><a class="dropdown-item" href="../articles/ppi_diagnostics.html">Studying the Behaviour of Projection Pursuit Indices</a></li>
+    <li><a class="dropdown-item" href="../articles/more_descriptives.html">Exploring Potential of Functions to be used for Projection Pursuit</a></li>
   </ul>
 </li>
       </ul>
@@ -54,7 +54,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Core Diagnostics for Projection Pursuit Indices</h1>
+      <h1>Studying the Behaviour of Projection Pursuit Indices</h1>
 
       <p class="author">Tina Rashid Jafari</p>
 
@@ -102,9 +102,9 @@
 <span></span>
 <span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">df_all</span>, <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.6</span>, size <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">structure</span>, nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_equal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">structure</span>, nrow <span class="op">=</span> <span class="fl">1</span>, scales<span class="op">=</span><span class="st">"free"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
+<span>    aspect.ratio <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>    axis.text  <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    axis.ticks <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    axis.title <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -222,8 +222,8 @@
 <span><span class="va">cutoff</span> <span class="op">&lt;-</span> <span class="fl">0.7</span></span>
 <span><span class="va">structure_plane</span> <span class="op">&lt;-</span> <span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/basis_matrix.html">basis_matrix</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">4</span><span class="op">)</span></span>
 <span><span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/squint_angle_estimate.html">squint_angle_estimate</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">indexF</span>, <span class="va">cutoff</span>, <span class="va">structure_plane</span>, n<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] 1.278895 1.517389 1.415894 1.649694 1.390649 1.146645 1.005732 1.497377</span></span>
-<span><span class="co">#&gt;  [9] 1.066281 1.755652</span></span></code></pre></div>
+<span><span class="co">#&gt;  [1] 0.9539643 1.4172710 1.0504801 1.2003548 1.4036393 1.4239164 1.6173852</span></span>
+<span><span class="co">#&gt;  [8] 1.0675589 1.3543386 0.9873721</span></span></code></pre></div>
 </div>
 </section><section class="level2"><h2 id="inputs-1">Inputs<a class="anchor" aria-label="anchor" href="#inputs-1"></a>
 </h2>
@@ -358,7 +358,7 @@
 <span><span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_rotation.html">plot_rotation</a></span><span class="op">(</span><span class="va">pRot</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div>
-<figure><p><img src="ppi_diagnostics_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
+<figure><p><img src="ppi_diagnostics_files/figure-html/unnamed-chunk-7-1.png" width="864"></p>
 </figure>
 </div>
 </div>
@@ -407,16 +407,16 @@
 <span><span class="va">idx</span> <span class="op">&lt;-</span> <span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/scag_index.html">scag_index</a></span><span class="op">(</span><span class="st">"stringy"</span><span class="op">)</span></span>
 <span><span class="fu">spinebil</span><span class="fu">::</span><span class="fu"><a href="../reference/time_sequence.html">time_sequence</a></span><span class="op">(</span><span class="va">d</span>, <span class="va">t</span>, <span class="va">idx</span>, <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        t  i</span></span>
-<span><span class="co">#&gt; 1  0.035  1</span></span>
-<span><span class="co">#&gt; 2  0.037  2</span></span>
-<span><span class="co">#&gt; 3  0.034  3</span></span>
-<span><span class="co">#&gt; 4  0.040  4</span></span>
-<span><span class="co">#&gt; 5  0.039  5</span></span>
-<span><span class="co">#&gt; 6  0.035  6</span></span>
-<span><span class="co">#&gt; 7  0.038  7</span></span>
-<span><span class="co">#&gt; 8  0.037  8</span></span>
-<span><span class="co">#&gt; 9  0.039  9</span></span>
-<span><span class="co">#&gt; 10 0.040 10</span></span></code></pre></div>
+<span><span class="co">#&gt; 1  0.045  1</span></span>
+<span><span class="co">#&gt; 2  0.050  2</span></span>
+<span><span class="co">#&gt; 3  0.044  3</span></span>
+<span><span class="co">#&gt; 4  0.048  4</span></span>
+<span><span class="co">#&gt; 5  0.053  5</span></span>
+<span><span class="co">#&gt; 6  0.048  6</span></span>
+<span><span class="co">#&gt; 7  0.044  7</span></span>
+<span><span class="co">#&gt; 8  0.048  8</span></span>
+<span><span class="co">#&gt; 9  0.047  9</span></span>
+<span><span class="co">#&gt; 10 0.048 10</span></span></code></pre></div>
 </div>
 </section><section class="level3"><h3 id="return-value-4">Return value<a class="anchor" aria-label="anchor" href="#return-value-4"></a>
 </h3>
@@ -427,107 +427,89 @@
 <li>
 <code>i</code>: the sequence index (1, 2, …) of the projection in <code>t</code>.</li>
 </ul></section></section><script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
         }
       }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'light-border',
-      placement: 'bottom-start',
-    };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config);
-  }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'light-border',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
       }
-    } else {
-      return undefined;
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config);
     }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
         });
-        return popup.innerHTML;
-      });
+      }
     }
-  }
-});
-</script></main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+  });
+  </script></main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
 
@@ -537,7 +519,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>

@@ -1,6 +1,5 @@
-
 ---
-title: "Core Diagnostics for Projection Pursuit Indices"
+title: "Studying the Behaviour of Projection Pursuit Indices"
 author: "Tina Rashid Jafari"
 vignette: >
   %\VignetteIndexEntry{Core Diagnostics for Projection Pursuit Indices}
@@ -54,9 +53,9 @@ df_all <- do.call(rbind, lapply(names(lst), function(lbl) {
 
 ggplot2::ggplot(df_all, ggplot2::aes(x, y)) +
   ggplot2::geom_point(alpha = 0.6, size = 0.6) +
-  ggplot2::facet_wrap(~ structure, nrow = 1) +
-  ggplot2::coord_equal() +
+  ggplot2::facet_wrap(~ structure, nrow = 1, scales="free") +
   ggplot2::theme(
+    aspect.ratio = 1,
     axis.text  = ggplot2::element_blank(),
     axis.ticks = ggplot2::element_blank(),
     axis.title = ggplot2::element_blank()
@@ -279,6 +278,8 @@ Examples: `list(tourr::holes(), scag_index("stringy"), mine_indexE("MIC"))`.
 ### Example Usage
 
 ```{r}
+#| fig-width: 9
+#| fig-height: 3
 d <- as.matrix(spinebil::sin_data(30, 2))
 index_list <- list(tourr::holes(), spinebil::scag_index("stringy"), spinebil::mine_indexE("MIC"))
 index_labels <- c("holes", "stringy", "mic")
@@ -289,7 +290,7 @@ spinebil::plot_rotation(pRot)
 
 ### Interpretation
   
-  *  Perfect circle (constant radius) → *rotation invariant*.
+* Perfect circle (constant radius) → *rotation invariant*.
 * Deformed/flower-like shape → *orientation dependence*.
 
 
