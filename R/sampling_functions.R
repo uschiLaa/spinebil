@@ -23,7 +23,7 @@ pipe_data <- function(n, p, t=0.1){
     }
   }
   colnames(dRet) <- paste0("V", seq_len(p))
-  dRet[,1:2] <- apply(dRet[,1:2], 2, function(x) (x-mean(x)/sd(x)))
+  dRet[,1:2] <- apply(dRet[,1:2], 2, function(x) (x-mean(x)/stats::sd(x)))
   return(tibble::as_tibble(dRet, .name_repair = "universal"))
 }
 
@@ -46,7 +46,7 @@ sin_data <- function(n, p, f=1){
   m <- matrix(stats::rnorm((n)*p), ncol=(p))
   m[,p] <- jitter(sin(m[,p-1]), factor = f)
   colnames(m) <- paste0("V", seq_len(p))
-  m[,1:2] <- apply(m[,1:2], 2, function(x) (x-mean(x)/sd(x)))
+  m[,1:2] <- apply(m[,1:2], 2, function(x) (x-mean(x)/stats::sd(x)))
   dRet <- tibble::as_tibble(m) #generate normal distributed n-1 dim data
   return(dRet)
 }
@@ -80,6 +80,6 @@ spiral_data <- function(n , p){
     i <- i+1
   }
   colnames(dRet) <- paste0("V", seq_len(p))
-  dRet[,1:2] <- apply(dRet[,1:2], 2, function(x) (x-mean(x)/sd(x)))
+  dRet[,1:2] <- apply(dRet[,1:2], 2, function(x) (x-mean(x)/stats::sd(x)))
   tibble::as_tibble(dRet)
 }

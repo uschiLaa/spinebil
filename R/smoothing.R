@@ -57,7 +57,7 @@ get_index_mean <- function(proj, d, alpha, idx, method="jitter_angle", n=10){
 #' @return Table of mean index values
 #' @export
 #' @examples
-#' d <- spiral_data(30, 3)
+#' d <- as.matrix(spiral_data(30, 3))
 #' tPath <- tourr::save_history(d, max_bases=2)
 #' tPath <- as.list(tourr::interpolate(tPath, 0.3))
 #' idx <- scag_index("stringy")

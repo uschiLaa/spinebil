@@ -24,7 +24,7 @@ evaluate the computing time for a set of different projections to
 get an overview of the distribution of computing times.
 }
 \examples{
-d <- spiral_data(500, 4)
+d <- as.matrix(spiral_data(500, 4))
 t <- purrr::map(1:10, ~ tourr::basis_random(4))
 idx <- scag_index("stringy")
 time_sequence(d, t, idx, 10)

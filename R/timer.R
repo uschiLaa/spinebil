@@ -11,7 +11,7 @@
 #' @return numeric vector containing all distances
 #' @export
 #' @examples 
-#' d <- spiral_data(500, 4)
+#' d <- as.matrix(spiral_data(500, 4))
 #' t <- purrr::map(1:10, ~ tourr::basis_random(4))
 #' idx <- scag_index("stringy")
 #' time_sequence(d, t, idx, 10)

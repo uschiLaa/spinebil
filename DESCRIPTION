@@ -23,7 +23,7 @@ Description: Projection pursuit is used to find interesting low-dimensional
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 3.5.0)
+Depends: R (>= 4.0.0)
 Imports:
     tourr,
     ggplot2,

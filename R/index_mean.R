@@ -9,7 +9,6 @@
 #' - `var_i`, `var_j`: Names of variable pairs
 #' - `mean_index`: Mean index value over simulations
 #'
-#' 
 #' @export
 #' @examples
 #' data <- as.data.frame(data_gen(type = "polynomial", degree = 2))
@@ -49,7 +48,7 @@ ppi_mean <- function(data,
       )
     })
   }, .options = furrr::furrr_options(seed = TRUE), .progress = TRUE)
-  
+
   # Aggregate mean value for each pair
   all_results |>
     dplyr::group_by(var_i, var_j) |>
