@@ -77,15 +77,13 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="spiral_data.html">spiral_data</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">3</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="spiral_data.html">spiral_data</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">tPath</span> <span class="op">&lt;-</span> <span class="fu">tourr</span><span class="fu">::</span><span class="fu"><a href="https://ggobi.github.io/tourr/reference/save_history.html" class="external-link">save_history</a></span><span class="op">(</span><span class="va">d</span>, max_bases<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Converting input data to the required matrix format.</span>
 <span class="r-in"><span><span class="va">tPath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu">tourr</span><span class="fu">::</span><span class="fu"><a href="https://ggobi.github.io/tourr/reference/interpolate.html" class="external-link">interpolate</a></span><span class="op">(</span><span class="va">tPath</span>, <span class="fl">0.3</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">idx</span> <span class="op">&lt;-</span> <span class="fu"><a href="scag_index.html">scag_index</a></span><span class="op">(</span><span class="st">"stringy"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">compS</span> <span class="op">&lt;-</span> <span class="fu">compare_smoothing</span><span class="op">(</span><span class="va">d</span>, <span class="va">tPath</span>, <span class="va">idx</span>, alphaV <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.05</span><span class="op">)</span>, n<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in d %*% proj:</span> requires numeric/complex matrix/vector arguments</span>
 <span class="r-in"><span><span class="fu"><a href="plot_smoothing_comparison.html">plot_smoothing_comparison</a></span><span class="op">(</span><span class="va">compS</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'compS' not found</span>
+<span class="r-plt img"><img src="compare_smoothing-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -97,7 +95,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>
