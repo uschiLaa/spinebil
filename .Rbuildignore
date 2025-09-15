@@ -14,3 +14,5 @@ examples.R
 ^vignettes/.quarto$
 ^vignettes/.*/_freeze$
 ^vignettes/.*/_freeze/.*
+^doc$
+^Meta$
