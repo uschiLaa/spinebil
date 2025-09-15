@@ -32,7 +32,8 @@ Imports:
     dplyr,
     tidyr,
     tictoc,
-    cassowaryr
+    cassowaryr,
+    rlang
 Suggests:
     minerva,
     testthat,

@@ -1,6 +1,5 @@
 ---
 title: "Studying the Behaviour of Projection Pursuit Indices"
-author: "Tina Rashid Jafari"
 vignette: >
   %\VignetteIndexEntry{Core Diagnostics for Projection Pursuit Indices}
   %\VignetteEngine{quarto::html}

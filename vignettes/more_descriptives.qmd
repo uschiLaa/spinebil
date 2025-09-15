@@ -1,6 +1,5 @@
 ---
 title: "Exploring Potential of Functions to be used for Projection Pursuit"
-author: "Tina Rashid Jafari"
 vignette: >
   %\VignetteIndexEntry{More Descriptive Analysis of Projection Pursuit Indices}
   %\VignetteEngine{quarto::html}

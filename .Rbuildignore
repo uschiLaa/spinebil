@@ -11,3 +11,6 @@
 examples.R
 .spinebil.Rcheck/
 ^pkgdown$
+^vignettes/.quarto$
+^vignettes/.*/_freeze$
+^vignettes/.*/_freeze/.*
