@@ -1,3 +1,9 @@
+Version 0.2.0
+ * Several existing functions have been renamed for consistency.
+ * Added multiple new functions expanding the package’s functionality.
+ * Introduced Quarto vignettes to demonstrate usage and workflows.
+ * Added a hex sticker for the package.
+
 Version 0.1.6
  * Corrected DOI formatting in DESCRIPTION to meet CRAN requirements.
 
