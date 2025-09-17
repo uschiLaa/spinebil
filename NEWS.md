@@ -1,3 +1,7 @@
+# Version 1.0.2
+
+- Wrapped the example for `ppi_samplesize_effect()` in `\donttest{}` to comply with CRAN’s runtime policy (<5 seconds).  
+
 # Version 1.0.1
 
 - All tested examples run in <10 seconds.
