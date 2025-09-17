@@ -1,4 +1,4 @@
-# Version 0.2.0
+# Version 1.0.0
 
 - Several existing functions have been renamed for consistency.
 - Added multiple new functions expanding the package’s functionality.

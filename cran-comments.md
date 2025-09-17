@@ -1,14 +1,10 @@
 ## R CMD check results
 
-── R CMD check results ──────────────────────── spinebil 0.2.0 ────
-Duration: 1m 38.1s
+── R CMD check results ──────────────────── spinebil 1.0.0 ────
+Duration: 1m 37.8s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
-## Test environments
-
-- Local: R 4.5.1 on macOS
-  
 
 ## Release summary
 - Several existing functions have been renamed for consistency.
