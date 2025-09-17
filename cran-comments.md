@@ -13,7 +13,3 @@ Duration: 1m 37.8s
 - Added a hex sticker for the package.
 
 
-* One example (ppi_samplesize_effect) takes >10s to run.
-  This is expected, as the function demonstrates sample size
-  effects and requires a larger computation. Other examples
-  run quickly.
