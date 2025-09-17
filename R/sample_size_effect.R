@@ -11,7 +11,7 @@
 #' - `percentile95`: 95th percentile of the index values over simulations
 #'
 #' @examples
-#' ppi_samplesize_effect(scag_index("stringy"), n_sim = 10)
+#' ppi_samplesize_effect(scag_index("stringy"), n_sim =1)
 #'
 #' @export
 ppi_samplesize_effect <- function(index_fun,

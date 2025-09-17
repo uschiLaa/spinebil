@@ -1,3 +1,7 @@
+# Version 1.0.1
+
+- All tested examples run in <10 seconds.
+
 # Version 1.0.0
 
 - Several existing functions have been renamed for consistency.
