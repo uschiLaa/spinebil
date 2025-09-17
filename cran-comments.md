@@ -13,3 +13,5 @@ Duration: 1m 37.8s
 - Added a hex sticker for the package.
 
 
+* The full example for `ppi_samplesize_effect()` is wrapped in \dontrun{}
+  because it takes >5s. A working demonstration is provided in the vignette.

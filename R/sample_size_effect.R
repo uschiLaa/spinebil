@@ -11,7 +11,7 @@
 #' - `percentile95`: 95th percentile of the index values over simulations
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' ppi_samplesize_effect(scag_index("stringy"), n_sim = 3)
 #'}
 #' @export

@@ -18,7 +18,7 @@
 #' - `index`: index value returned by `index_fun`
 #'
 #' @examples
-#' ppi_scale(data_gen("polynomial", degree = 3), scag_index("stringy"), n_sim = 4)
+#' ppi_scale(data_gen("polynomial", degree = 3), scag_index("stringy"), n_sim = 2)
 #' 
 #' @export
 ppi_scale <- function(data,

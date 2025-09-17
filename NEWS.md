@@ -1,3 +1,8 @@
+# Version 1.0.3
+
+- The full example for `ppi_samplesize_effect()` is wrapped in \dontrun{}
+  because it takes >5s. A working demonstration is provided in the vignette.
+
 # Version 1.0.2
 
 - Wrapped the example for `ppi_samplesize_effect()` in `\donttest{}` to comply with CRAN’s runtime policy (<5 seconds).  

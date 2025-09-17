@@ -23,6 +23,7 @@ For a given index function, simulates how the index behaves across a range
 of sample sizes when applied to pairs of standard normal noise.
 }
 \examples{
-ppi_samplesize_effect(scag_index("stringy"), n_sim =1)
-
+\dontrun{
+ppi_samplesize_effect(scag_index("stringy"), n_sim = 3)
+}
 }

@@ -32,6 +32,6 @@ Performs simulations to compute a projection pursuit index on structured
 (sampled) data and on random noise, allowing a comparison of index scale across contexts.
 }
 \examples{
-ppi_scale(data_gen("polynomial", degree = 3), scag_index("stringy"), n_sim = 10)
+ppi_scale(data_gen("polynomial", degree = 3), scag_index("stringy"), n_sim = 2)
 
 }
