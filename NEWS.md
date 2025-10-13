@@ -1,3 +1,8 @@
+# Version 1.0.4
+
+- Wrapped the example for `ppi_samplesize_effect()` in `\dontrun{}`.
+- All other examples remain tested and run quickly.
+
 # Version 1.0.3
 
 - The full example for `ppi_samplesize_effect()` is wrapped in \dontrun{}

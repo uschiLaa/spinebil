@@ -32,7 +32,8 @@ ppi_scale <- function(data,
   if (!is.null(seed)) set.seed(seed)
   
   col_pairs <- utils::combn(seq_along(data), 2, simplify = FALSE)
-  future::plan(future::multisession, workers = max(1, parallel::detectCores() - 1))
+  
+  with(future::plan(future::multisession), local = TRUE)
   
   results <- furrr::future_map_dfr(seq_len(n_sim), function(sim) {
     

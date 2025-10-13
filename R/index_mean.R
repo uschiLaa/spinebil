@@ -24,10 +24,7 @@ ppi_mean <- function(data,
   
   col_pairs <- utils::combn(seq_along(data), 2, simplify = FALSE)
   
-  old_plan <- future::plan()                  
-  on.exit(future::plan(old_plan), add = TRUE)
-  future::plan(future::multisession, workers = max(1, parallel::detectCores() - 1))
-  
+  with(future::plan(future::multisession), local = TRUE)
   
   # Simulate and compute index values across all variable pairs
   all_results <- furrr::future_map_dfr(seq_len(n_sim), function(sim) {

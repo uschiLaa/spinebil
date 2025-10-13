@@ -25,7 +25,7 @@ ppi_samplesize_effect <- function(index_fun,
   sample_sizes <- unique(c(low_sample_sizes, middle_sample_sizes, big_sample_sizes))
   
   # Set up parallel processing
-  future::plan(future::multisession, workers = max(1, parallel::detectCores() - 1))
+  with(future::plan(future::multisession), local = TRUE)
   
   results <- furrr::future_map_dfr(sample_sizes, function(sample_size) {
     
