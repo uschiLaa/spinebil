@@ -1,17 +1,14 @@
 ## R CMD check results
 
-── R CMD check results ──────────────────── spinebil 1.0.0 ────
-Duration: 1m 37.8s
+── R CMD check results ──────────────── spinebil 1.0.5 ────
+Duration: 1m 11.2s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
 
-## Release summary
-- Several existing functions have been renamed for consistency.
-- Multiple new functions added, expanding the package’s functionality.
-- Introduced Quarto vignettes to demonstrate usage and workflows.
-- Added a hex sticker for the package.
-
-
-* The full example for `ppi_samplesize_effect()` is wrapped in \dontrun{}
-  because it takes >5s. A working demonstration is provided in the vignette.
+## Resubmission
+This update fixes reverse dependency check issues:
+- Replaced `detectCores()` with the available cores
+- Made `future::plan()` calls temporary
+- Added BugReports field
+No functional changes.

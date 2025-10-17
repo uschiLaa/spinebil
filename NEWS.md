@@ -1,3 +1,8 @@
+# Version 1.0.5
+
+- Added `BugReports` field and improved parallel handling.
+- Made all `future::plan()` calls temporary to ensure safer parallel execution.
+
 # Version 1.0.4
 
 - Wrapped the example for `ppi_samplesize_effect()` in `\dontrun{}`.
