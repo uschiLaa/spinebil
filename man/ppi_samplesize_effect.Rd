@@ -4,12 +4,23 @@
 \alias{ppi_samplesize_effect}
 \title{Simulate Effect of Sample Size on Projection Pursuit Index Under Gaussian Noise}
 \usage{
-ppi_samplesize_effect(index_fun, n_sim = 100)
+ppi_samplesize_effect(
+  index_fun,
+  sample_sizes = NULL,
+  n_sim = 100,
+  csv_file = NULL
+)
 }
 \arguments{
-\item{index_fun}{A function taking two numeric vectors (\code{x}, \code{y}) and returning a scalar index.}
+\item{index_fun}{A function taking a 2-column numeric matrix (x, y) and returning a scalar index.}
 
-\item{n_sim}{Integer. Number of simulations per sample size. Default is 100.}
+\item{sample_sizes}{Numeric vector (e.g., 100, c(50,100,200), seq(30,200,5)),
+or a function with no arguments returning a numeric vector.
+If NULL, uses the original default grid.}
+
+\item{n_sim}{Integer. Number of simulations per sample size.}
+
+\item{csv_file}{Optional file path. If provided, saves the summary tibble to CSV.}
 }
 \value{
 A tibble with:
@@ -24,6 +35,6 @@ of sample sizes when applied to pairs of standard normal noise.
 }
 \examples{
 \dontrun{
-ppi_samplesize_effect(scag_index("stringy"), n_sim = 3)
+ppi_samplesize_effect(scag_index("stringy"), sample_sizes = c(100,300), n_sim = 3)
 }
 }
