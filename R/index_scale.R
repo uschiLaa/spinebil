@@ -3,12 +3,14 @@
 #' Performs simulations to compute a projection pursuit index on structured
 #' (sampled) data and on random noise, allowing a comparison of index scale across contexts.
 #'
-#' 
 #' @param data A data frame or tibble with at least two numeric columns.
-#' @param index_fun A function that takes two numeric vectors (`x`, `y`) and returns a numeric scalar index.
+#' @param index_fun A function returning a numeric scalar index. It may accept
+#' either a 2-column matrix/data frame, or two numeric vectors (`x`, `y`).
 #' @param n_sim Integer. Number of simulations. Default is 100.
 #' @param n_obs Integer. Number of observations per simulation. Default is 500.
 #' @param seed Optional integer seed for reproducibility.
+#' @param index_args A named list of additional arguments passed to `index_fun`.
+#' @param workers Integer. Number of parallel workers to use. Default is 1.
 #'
 #' @return A tibble with columns:
 #' - `simulation`: simulation number
@@ -18,39 +20,72 @@
 #' - `index`: index value returned by `index_fun`
 #'
 #' @examples
-#' ppi_scale(data_gen("polynomial", degree = 3), scag_index("stringy"), n_sim = 2)
+#' ppi_scale(
+#'   data_gen("polynomial", degree = 3),
+#'   cassowaryr::sc_stringy,
+#'   n_sim = 2,
+#'   index_args = list(binner = "hex"),
+#'   workers = 2
+#' )
+#'
+#' ppi_scale(
+#'   data_gen("polynomial", degree = 3),
+#'   scag_index("stringy"),
+#'   n_sim = 2
+#' )
 #' 
 #' @export
 ppi_scale <- function(data,
-                       index_fun,
-                       n_sim = 100,
-                       n_obs = 500,
-                       seed = NULL) {
+                      index_fun,
+                      n_sim = 100,
+                      n_obs = 500,
+                      seed = NULL,
+                      index_args = list(),
+                      workers = 1) {
   
   if (!is.data.frame(data)) data <- as.data.frame(data)
-  stopifnot(ncol(data) >= 2, nrow(data) >= 2)
+  
+  stopifnot(
+    ncol(data) >= 2, nrow(data) >= 2,
+    is.function(index_fun),
+    is.list(index_args),
+    is.numeric(workers), workers >= 1
+  )
+  
+  workers <- as.integer(workers)
   if (!is.null(seed)) set.seed(seed)
+  
+  call_index_fun <- function(mat) {
+    mat <- as.matrix(mat)
+    
+    for (args in list(list(mat), list(mat[, 1], mat[, 2]))) {
+      out <- tryCatch(do.call(index_fun, c(args, index_args)),
+                      error = function(e) NULL)
+      if (is.numeric(out) && length(out) == 1) return(out)
+    }
+    
+    NA_real_
+  }
   
   col_pairs <- utils::combn(seq_along(data), 2, simplify = FALSE)
   
-  with(future::plan(future::multisession), local = TRUE)
+  with(future::plan(future::multisession, workers = workers), local = TRUE)
   
   results <- furrr::future_map_dfr(seq_len(n_sim), function(sim) {
     
     purrr::map_dfr(col_pairs, function(pair) {
       i <- pair[1]
       j <- pair[2]
+      
       x_struct <- data[[i]]
       y_struct <- data[[j]]
       mat1 <- cbind(x_struct, y_struct)
+      index_0 <- call_index_fun(mat1)
       
-      index_0 <- tryCatch(index_fun(mat1), error = function(e) NA_real_)
-          
       x_noise <- scale(stats::rnorm(n_obs))[, 1]
       y_noise <- scale(stats::rnorm(n_obs))[, 1]
       mat2 <- cbind(x_noise, y_noise)
-        
-      index_1 <- tryCatch(index_fun(mat2), error = function(e) NA_real_)
+      index_1 <- call_index_fun(mat2)
       
       var_names <- names(data)[pair]
       
@@ -65,7 +100,5 @@ ppi_scale <- function(data,
     })
   }, .options = furrr::furrr_options(seed = TRUE), .progress = TRUE)
   
-  future::plan(future::sequential)
-  return(results)
+  results
 }
-

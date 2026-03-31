@@ -326,7 +326,13 @@ ppi_samplesize_effect(index_fun, n_sim = 100)
 Let’s evaluate the `stringy` index from the `cassowaryr` package to see how its values change under noise as the sample size increases.
 
 ```{r}
-result <- spinebil::ppi_samplesize_effect(spinebil::scag_index("stringy"), n_sim = 4)
+#| echo: true
+#| output: false
+result <- spinebil::ppi_samplesize_effect(spinebil::scag_index("stringy"), n_sim = 4, sample_sizes = seq(30, 2000, by = 25))
+
+```
+
+```{r}
 head(result)
 tail(result)
 ```

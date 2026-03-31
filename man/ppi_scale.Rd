@@ -4,18 +4,31 @@
 \alias{ppi_scale}
 \title{Simulate and Compare Index Scale on Structured vs Noisy Data}
 \usage{
-ppi_scale(data, index_fun, n_sim = 100, n_obs = 500, seed = NULL)
+ppi_scale(
+  data,
+  index_fun,
+  n_sim = 100,
+  n_obs = 500,
+  seed = NULL,
+  index_args = list(),
+  workers = 1
+)
 }
 \arguments{
 \item{data}{A data frame or tibble with at least two numeric columns.}
 
-\item{index_fun}{A function that takes two numeric vectors (\code{x}, \code{y}) and returns a numeric scalar index.}
+\item{index_fun}{A function returning a numeric scalar index. It may accept
+either a 2-column matrix/data frame, or two numeric vectors (\code{x}, \code{y}).}
 
 \item{n_sim}{Integer. Number of simulations. Default is 100.}
 
 \item{n_obs}{Integer. Number of observations per simulation. Default is 500.}
 
 \item{seed}{Optional integer seed for reproducibility.}
+
+\item{index_args}{A named list of additional arguments passed to \code{index_fun}.}
+
+\item{workers}{Integer. Number of parallel workers to use. Default is 1.}
 }
 \value{
 A tibble with columns:
@@ -32,6 +45,18 @@ Performs simulations to compute a projection pursuit index on structured
 (sampled) data and on random noise, allowing a comparison of index scale across contexts.
 }
 \examples{
-ppi_scale(data_gen("polynomial", degree = 3), scag_index("stringy"), n_sim = 2)
+ppi_scale(
+  data_gen("polynomial", degree = 3),
+  cassowaryr::sc_stringy,
+  n_sim = 2,
+  index_args = list(binner = "hex"),
+  workers = 2
+)
+
+ppi_scale(
+  data_gen("polynomial", degree = 3),
+  scag_index("stringy"),
+  n_sim = 2
+)
 
 }
