@@ -7,10 +7,11 @@
 ppi_scale(
   data,
   index_fun,
+  noise_fun = NULL,
   n_sim = 100,
   n_obs = 500,
-  seed = NULL,
   index_args = list(),
+  seed = NULL,
   workers = 1
 )
 }
@@ -20,13 +21,17 @@ ppi_scale(
 \item{index_fun}{A function returning a numeric scalar index. It may accept
 either a 2-column matrix/data frame, or two numeric vectors (\code{x}, \code{y}).}
 
+\item{noise_fun}{Optional function for generating noise data. It should take
+\code{n_obs} as input and return a 2-column matrix or data frame. By default,
+standard bivariate Gaussian noise is used.}
+
 \item{n_sim}{Integer. Number of simulations. Default is 100.}
 
 \item{n_obs}{Integer. Number of observations per simulation. Default is 500.}
 
-\item{seed}{Optional integer seed for reproducibility.}
-
 \item{index_args}{A named list of additional arguments passed to \code{index_fun}.}
+
+\item{seed}{Optional integer seed for reproducibility.}
 
 \item{workers}{Integer. Number of parallel workers to use. Default is 1.}
 }
@@ -36,7 +41,7 @@ A tibble with columns:
 \item \code{simulation}: simulation number
 \item \code{var_i}, \code{var_j}: variable names
 \item \code{var_pair}: pair name as a string
-\item \code{sigma}: 0 for structured data, 1 for noisy data
+\item \code{sigma}: \code{"structure"} for structured data, \code{"noise"} for noisy data
 \item \code{index}: index value returned by \code{index_fun}
 }
 }

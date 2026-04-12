@@ -6,17 +6,20 @@
 #' @param data A data frame or tibble with at least two numeric columns.
 #' @param index_fun A function returning a numeric scalar index. It may accept
 #' either a 2-column matrix/data frame, or two numeric vectors (`x`, `y`).
+#' @param noise_fun Optional function for generating noise data. It should take
+#' `n_obs` as input and return a 2-column matrix or data frame. By default,
+#' standard bivariate Gaussian noise is used.
 #' @param n_sim Integer. Number of simulations. Default is 100.
 #' @param n_obs Integer. Number of observations per simulation. Default is 500.
-#' @param seed Optional integer seed for reproducibility.
 #' @param index_args A named list of additional arguments passed to `index_fun`.
+#' @param seed Optional integer seed for reproducibility.
 #' @param workers Integer. Number of parallel workers to use. Default is 1.
 #'
 #' @return A tibble with columns:
 #' - `simulation`: simulation number
 #' - `var_i`, `var_j`: variable names
 #' - `var_pair`: pair name as a string
-#' - `sigma`: 0 for structured data, 1 for noisy data
+#' - `sigma`: `"structure"` for structured data, `"noise"` for noisy data
 #' - `index`: index value returned by `index_fun`
 #'
 #' @examples
@@ -37,10 +40,11 @@
 #' @export
 ppi_scale <- function(data,
                       index_fun,
+                      noise_fun = NULL,
                       n_sim = 100,
                       n_obs = 500,
-                      seed = NULL,
                       index_args = list(),
+                      seed = NULL,
                       workers = 1) {
   
   if (!is.data.frame(data)) data <- as.data.frame(data)
@@ -51,6 +55,17 @@ ppi_scale <- function(data,
     is.list(index_args),
     is.numeric(workers), workers >= 1
   )
+  
+  if (is.null(noise_fun)) {
+    noise_fun <- function(n_obs) {
+      cbind(
+        scale(stats::rnorm(n_obs))[, 1],
+        scale(stats::rnorm(n_obs))[, 1]
+      )
+    }
+  }
+  
+  stopifnot(is.function(noise_fun))
   
   workers <- as.integer(workers)
   if (!is.null(seed)) set.seed(seed)
@@ -82,9 +97,7 @@ ppi_scale <- function(data,
       mat1 <- cbind(x_struct, y_struct)
       index_0 <- call_index_fun(mat1)
       
-      x_noise <- scale(stats::rnorm(n_obs))[, 1]
-      y_noise <- scale(stats::rnorm(n_obs))[, 1]
-      mat2 <- cbind(x_noise, y_noise)
+      mat2 <- as.matrix(noise_fun(n_obs))
       index_1 <- call_index_fun(mat2)
       
       var_names <- names(data)[pair]
@@ -94,7 +107,7 @@ ppi_scale <- function(data,
         var_i = var_names[1],
         var_j = var_names[2],
         var_pair = paste0(var_names[1], "-", var_names[2]),
-        sigma = c(0, 1),
+        sigma = c("structure", "noise"),
         index = c(index_0, index_1)
       )
     })
