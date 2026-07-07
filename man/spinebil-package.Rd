@@ -24,6 +24,7 @@ The main functions are:
 
 Authors:
 \itemize{
+  \item Tina Rashid Jafari \email{tina.rashidjafari@gmail.com} (\href{https://orcid.org/0009-0008-3605-5341}{ORCID})
   \item Ursula Laa \email{ursula.laa@boku.ac.at} (\href{https://orcid.org/0000-0002-0249-6439}{ORCID})
   \item Dianne Cook \email{dicook@monash.edu} (\href{https://orcid.org/0000-0002-3813-7155}{ORCID})
 }
