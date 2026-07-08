@@ -1,12 +1,12 @@
-#' Estimate the 95th percentile of an index under noise
+#' Estimate Noise Thresholds Across Sample Sizes
 #'
 #' Simulates two-dimensional noise data over a sequence of sample sizes and
 #' estimates the 95th percentile of one or more projection pursuit index
 #' functions under the noise distribution.
-#'
-#' @param index_funs A named list of index functions. Each function should take
-#'   two numeric vectors as its first two arguments, for example
-#'   `function(x, y) ...`.
+#' 
+#' @param index_funs An index function or a list of index functions. Each index
+#'   function should take two numeric vectors as its first two arguments, for
+#'   example `function(x, y) ...`.
 #' @param n_sim Number of noise simulations to run for each sample size.
 #' @param n_start Smallest sample size.
 #' @param n_end Largest sample size.
@@ -21,14 +21,14 @@
 #' @param index_args Optional named list of index-specific arguments. Each element
 #'   should have the same name as an index in `index_funs`.
 #' @param noise_fun Optional function for generating noise data. The function
-#'   should take `n_obs` as input and return a numeric object with at least two
-#'   columns. If `NULL`, independent Gaussian noise is used.
+#'   should take the current sample size as input and return a numeric object
+#'   with at least two columns. If `NULL`, independent Gaussian noise is used.
 #' @param save_raw Logical. If `TRUE`, saves the raw simulated index values before
 #'   calculating the 95th percentile. Default is `FALSE`.
 #' @param raw_output_file File path for saving raw simulated values when
 #'   `save_raw = TRUE`. Default is `"raw_noise_values.csv"`.
 #' @param ... Additional arguments passed to all index functions.
-#'
+#' 
 #' @return A tibble with one row for each sample size, setting, and index. The
 #'   output contains:
 #'   \describe{
@@ -54,18 +54,30 @@
 #' \dontrun{
 #' # Estimate the 95th percentile for stringy05 under Gaussian noise
 #' res <- ppi_noise_grid(
-#'   index_funs = list(stringy05 = cassowaryr::sc_stringy05),
+#'   index_funs = cassowaryr::sc_stringy05,
 #'   n_sim = 100,
 #'   n_start = 50,
 #'   n_end = 150,
 #'   step = 25
 #' )
 #'
-#' # Use a custom uniform noise distribution
-#' uniform_noise <- function(n_obs) {
+#'  Named list of index functions
+#' res_named <- ppi_noise_grid(
+#'   index_funs = list(
+#'     stringy05 = cassowaryr::sc_stringy05,
+#'     skinny = cassowaryr::sc_skinny
+#'   ),
+#'   n_sim = 100,
+#'   n_start = 50,
+#'   n_end = 150,
+#'   step = 25
+#' )
+#' 
+#' Custom uniform noise
+#' uniform_noise <- function(n) {
 #'   cbind(
-#'     runif(n_obs, -1, 1),
-#'     runif(n_obs, -1, 1)
+#'     runif(n, -1, 1),
+#'     runif(n, -1, 1)
 #'   )
 #' }
 #'
@@ -98,9 +110,18 @@ ppi_noise_grid <- function(
   
   extra_args <- list(...)
   
-  if (!is.list(index_funs)) {
-    stop("index_funs should be a named list.")
+  if (is.function(index_funs)) {
+    index_funs <- list(index = index_funs)
   }
+  
+  if (!is.list(index_funs)) {
+    stop("index_funs should be a function or a list of functions.")
+  }
+  
+  if (is.null(names(index_funs))) {
+    names(index_funs) <- paste0("index", seq_along(index_funs))
+  }
+  
   
   if (is.null(noise_fun)) {
     noise_fun <- function(n_obs) {

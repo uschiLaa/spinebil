@@ -2,7 +2,7 @@
 % Please edit documentation in R/ppi_noise_grid.R
 \name{ppi_noise_grid}
 \alias{ppi_noise_grid}
-\title{Estimate the 95th percentile of an index under noise}
+\title{Estimate Noise Thresholds Across Sample Sizes}
 \usage{
 ppi_noise_grid(
   index_funs,
@@ -22,9 +22,9 @@ ppi_noise_grid(
 )
 }
 \arguments{
-\item{index_funs}{A named list of index functions. Each function should take
-two numeric vectors as its first two arguments, for example
-\code{function(x, y) ...}.}
+\item{index_funs}{An index function or a list of index functions. Each index
+function should take two numeric vectors as its first two arguments, for
+example \code{function(x, y) ...}.}
 
 \item{n_sim}{Number of noise simulations to run for each sample size.}
 
@@ -49,8 +49,8 @@ results as a CSV file. If \code{NULL}, results are not written to disk.}
 should have the same name as an index in \code{index_funs}.}
 
 \item{noise_fun}{Optional function for generating noise data. The function
-should take \code{n_obs} as input and return a numeric object with at least two
-columns. If \code{NULL}, independent Gaussian noise is used.}
+should take the current sample size as input and return a numeric object
+with at least two columns. If \code{NULL}, independent Gaussian noise is used.}
 
 \item{save_raw}{Logical. If \code{TRUE}, saves the raw simulated index values before
 calculating the 95th percentile. Default is \code{FALSE}.}
@@ -91,18 +91,30 @@ before summarisation.
 \dontrun{
 # Estimate the 95th percentile for stringy05 under Gaussian noise
 res <- ppi_noise_grid(
-  index_funs = list(stringy05 = cassowaryr::sc_stringy05),
+  index_funs = cassowaryr::sc_stringy05,
   n_sim = 100,
   n_start = 50,
   n_end = 150,
   step = 25
 )
 
-# Use a custom uniform noise distribution
-uniform_noise <- function(n_obs) {
+ Named list of index functions
+res_named <- ppi_noise_grid(
+  index_funs = list(
+    stringy05 = cassowaryr::sc_stringy05,
+    skinny = cassowaryr::sc_skinny
+  ),
+  n_sim = 100,
+  n_start = 50,
+  n_end = 150,
+  step = 25
+)
+
+Custom uniform noise
+uniform_noise <- function(n) {
   cbind(
-    runif(n_obs, -1, 1),
-    runif(n_obs, -1, 1)
+    runif(n, -1, 1),
+    runif(n, -1, 1)
   )
 }
 

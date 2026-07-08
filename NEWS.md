@@ -1,6 +1,12 @@
+# Version 1.0.7
+
+- Updated `ppi_noise_grid()` to support custom noise generators, optional saving of raw simulation values, and flexible input for one or more index functions.
+
 # Version 1.0.6
+
 - Added `ppi_noise_grid()` to estimate 95th percentile noise thresholds across sample sizes, indices, and settings.
 _ Modified multiple functions.
+
 
 # Version 1.0.5
 
