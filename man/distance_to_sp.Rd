@@ -19,7 +19,7 @@ If the optimal view is known, we can use the distance between a given plane
 and the optimal one as a proxy to diagnose the performance of the guided tour.
 }
 \examples{
-planes <- purrr::rerun(10, tourr::basis_random(5))
+planes <- purrr::map(seq_len(10), function(i) tourr::basis_random(5))
 special_plane <- basis_matrix(1,2,5)
 d <- distance_to_sp(planes, special_plane)
 plot(d)

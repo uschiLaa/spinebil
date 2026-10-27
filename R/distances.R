@@ -9,8 +9,8 @@
 #' @return numeric vector containing all distances
 #' @export
 #' @examples
-#' planes1 <- purrr::rerun(10, tourr::basis_random(5))
-#' planes2 <- purrr::rerun(10, tourr::basis_random(10))
+#' planes1 <- purrr::map(seq_len(10), function(i) tourr::basis_random(5))
+#' planes2 <- purrr::map(seq_len(10), function(i) tourr::basis_random(10))
 #' d1 <- distance_dist(planes1)
 #' d2 <- distance_dist(planes2)
 #' d <- tibble::tibble(dist=c(d1, d2), dim=c(rep(5,length(d1)),rep(10,length(d2))))
@@ -45,7 +45,7 @@ distance_dist <- function(planes, nn=FALSE){
 #' @return numeric vector containing all distances
 #' @export
 #' @examples
-#' planes <- purrr::rerun(10, tourr::basis_random(5))
+#' planes <- purrr::map(seq_len(10), function(i) tourr::basis_random(5))
 #' special_plane <- basis_matrix(1,2,5)
 #' d <- distance_to_sp(planes, special_plane)
 #' plot(d)
