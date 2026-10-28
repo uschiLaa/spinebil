@@ -1,11 +1,12 @@
-# Version 1.0.7
-
-- Updated `ppi_noise_grid()` to support custom noise generators, optional saving of raw simulation values, and flexible input for one or more index functions.
-
 # Version 1.0.6
 
-- Added `ppi_noise_grid()` to estimate 95th percentile noise thresholds across sample sizes, indices, and settings.
-_ Modified multiple functions.
+- Added `ppi_noise_grid()` to estimate 95th percentile noise thresholds across sample sizes, indices, and settings, with support for custom noise generators, parallel computation, and CSV export.
+- Enhanced `ppi_samplesize_effect()` with flexible sample sizes, optional input data, additional index arguments, and CSV export.
+- Improved `ppi_scale()` to support custom noise generators, additional index arguments, and configurable parallel workers.
+- Added support for index functions accepting either a two-column matrix or two numeric vectors.
+- Updated the `sigma` column in `ppi_scale()` to use `"structure"` and `"noise"` labels instead of `0` and `1`.
+- Updated documentation, vignettes, and package dependencies.
+- Fixed the vignette rebuilding issue reported in the CRAN MKL check.
 
 
 # Version 1.0.5

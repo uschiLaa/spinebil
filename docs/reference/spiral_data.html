@@ -13,7 +13,7 @@ by samping the angle from a normal distribution with mean=0, sd=2*pi
 
     <a class="navbar-brand me-2" href="../index.html">spinebil</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,6 +31,7 @@ by samping the angle from a normal distribution with mean=0, sd=2*pi
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/uschiLaa/spinebil/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
 
 
@@ -40,7 +41,7 @@ by samping the angle from a normal distribution with mean=0, sd=2*pi
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Generating spiral sample</h1>
-
+      <small class="dont-index">Source: <a href="https://github.com/uschiLaa/spinebil/blob/HEAD/R/sampling_functions.R" class="external-link"><code>R/sampling_functions.R</code></a></small>
       <div class="d-none name"><code>spiral_data.Rd</code></div>
     </div>
 
@@ -77,18 +78,18 @@ by samping the angle from a normal distribution with mean=0, sd=2*pi
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">spiral_data</span><span class="op">(</span><span class="fl">100</span>, <span class="fl">4</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 100 × 4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         V1      V2      V3     V4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>  0.868   0.161   0.043<span style="text-decoration: underline;">7</span>  0.879</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>  0.044<span style="text-decoration: underline;">4</span>  0.625  -<span style="color: #BB0000;">0.111</span>  -<span style="color: #BB0000;">0.540</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> -<span style="color: #BB0000;">1.24</span>    1.31   -<span style="color: #BB0000;">0.958</span>   0.320</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> -<span style="color: #BB0000;">0.383</span>  -<span style="color: #BB0000;">0.363</span>   1.26   -<span style="color: #BB0000;">0.417</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>  1.67   -<span style="color: #BB0000;">0.494</span>   0.689  -<span style="color: #BB0000;">0.154</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>  0.215  -<span style="color: #BB0000;">0.571</span>  -<span style="color: #BB0000;">0.393</span>  -<span style="color: #BB0000;">0.264</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> -<span style="color: #BB0000;">0.828</span>  -<span style="color: #BB0000;">0.381</span>  -<span style="color: #BB0000;">1.12</span>    1.13 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> -<span style="color: #BB0000;">0.743</span>  -<span style="color: #BB0000;">1.03</span>   -<span style="color: #BB0000;">0.027</span><span style="color: #BB0000; text-decoration: underline;">2</span>  0.888</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> -<span style="color: #BB0000;">0.285</span>  -<span style="color: #BB0000;">3.43</span>   -<span style="color: #BB0000;">0.364</span>   0.118</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">1.37</span>    0.025<span style="text-decoration: underline;">0</span> -<span style="color: #BB0000;">0.688</span>  -<span style="color: #BB0000;">0.902</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         V1      V2      V3      V4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> -<span style="color: #BB0000;">0.830</span>   0.032<span style="text-decoration: underline;">7</span> -<span style="color: #BB0000;">0.024</span><span style="color: #BB0000; text-decoration: underline;">8</span> -<span style="color: #BB0000;">0.566</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> -<span style="color: #BB0000;">1.48</span>   -<span style="color: #BB0000;">0.017</span><span style="color: #BB0000; text-decoration: underline;">4</span>  0.124   0.037<span style="text-decoration: underline;">7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> -<span style="color: #BB0000;">1.59</span>    1.86   -<span style="color: #BB0000;">0.530</span>   0.782 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>  0.619  -<span style="color: #BB0000;">1.78</span>    0.470  -<span style="color: #BB0000;">0.452</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>  0.900   0.962   0.455   0.691 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>  0.672  -<span style="color: #BB0000;">0.476</span>  -<span style="color: #BB0000;">0.208</span>   0.251 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>  0.058<span style="text-decoration: underline;">5</span>  0.029<span style="text-decoration: underline;">9</span>  0.464   0.683 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>  1.33    0.096<span style="text-decoration: underline;">1</span>  0.628   0.487 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>  0.807   1.97    0.126   0.127 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">0.335</span>  -<span style="color: #BB0000;">1.35</span>   -<span style="color: #BB0000;">0.277</span>  -<span style="color: #BB0000;">0.434</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 90 more rows</span></span>
 </code></pre></div>
     </div>
@@ -101,7 +102,7 @@ by samping the angle from a normal distribution with mean=0, sd=2*pi
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

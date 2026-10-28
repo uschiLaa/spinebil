@@ -16,3 +16,5 @@ examples.R
 ^vignettes/.*/_freeze/.*
 ^doc$
 ^Meta$
+^\.positai$
+^\.claude$

@@ -90,6 +90,7 @@
 #' )
 #' }
 #'
+#' @importFrom rlang .data
 #' @export
 ppi_noise_grid <- function(
     index_funs,
@@ -209,7 +210,7 @@ ppi_noise_grid <- function(
               error = function(e) NA
             )
             
-            tibble(
+            tibble::tibble(
               sample_size = n_obs,
               simulation = i,
               seed = seed_i,
@@ -229,10 +230,16 @@ ppi_noise_grid <- function(
     }
     
     p95_results <- raw_results |>
-      dplyr::group_by(sample_size, setting, index) |>
-      summarise(
-        p95 = as.numeric(stats::quantile(value, 0.95, na.rm = TRUE)),
-        n_valid = sum(!is.na(value)),
+      dplyr::group_by(
+        .data$sample_size,
+        .data$setting,
+        .data$index
+      ) |>
+      dplyr::summarise(
+        p95 = as.numeric(
+          stats::quantile(.data$value, 0.95, na.rm = TRUE)
+        ),
+        n_valid = sum(!is.na(.data$value)),
         n_sim = n_sim,
         .groups = "drop"
       )

@@ -85,10 +85,12 @@ ppi_samplesize_effect <- function(index_fun,
     )
   }, .options = furrr::furrr_options(seed = TRUE), .progress = TRUE)
   
-  results <- sim_results |> 
-    dplyr::group_by(sample_size) |>
+  results <- sim_results |>
+    dplyr::group_by(.data$sample_size) |>
     dplyr::summarise(
-      percentile95 = stats::quantile(index, 0.95, na.rm = TRUE),
+      percentile95 = stats::quantile(
+        .data$index, 0.95, na.rm = TRUE
+      ),
       .groups = "drop"
     )
   
